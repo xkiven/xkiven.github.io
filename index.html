@@ -178,7 +178,134 @@
             <h2 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h2><p>​	选择Web框架，我用gin，go get -u github.com&#x2F;gin-gonic&#x2F;gin</p>
 <p>​	数据库的安装，安装mysql</p>
 <p>​	然后就是配置各种环境。</p>
+<p><em>2025-1-24</em></p>
+<h2 id="user模块"><a href="#user模块" class="headerlink" title="user模块"></a>user模块</h2><h3 id="注册与登录"><a href="#注册与登录" class="headerlink" title="注册与登录"></a>注册与登录</h3><p><code>go</code></p>
+<pre><code>package user
 
+import (
+    &quot;database/sql&quot;
+    &quot;github.com/gin-gonic/gin&quot;
+    _ &quot;github.com/go-sql-driver/mysql&quot;
+)
+
+func Register(c *gin.Context) &#123;
+    var user struct &#123;
+        Username string `json:&quot;username&quot;`
+        Password string `json:&quot;password&quot;`
+    &#125;
+    //绑定请求参数
+    if err := c.ShouldBind(&amp;user); err != nil &#123;
+        c.JSON(400, gin.H&#123;
+            &quot;status&quot;: 10001,
+            &quot;info&quot;:   &quot;参数绑定错误&quot;,
+        &#125;)
+        return
+    &#125;
+    //连接数据库
+    db, err := sql.Open(&quot;mysql&quot;, &quot;root:xkw510724@tcp(127.0.0.1:3306)/redrock_ecommerce?charset=utf8&quot;)
+    if err != nil &#123;
+        c.JSON(500, gin.H&#123;
+            &quot;status&quot;: 10002,
+            &quot;info&quot;:   &quot;数据库连接错误&quot;,
+        &#125;)
+        return
+    &#125;
+    defer db.Close()
+    //检查用户名是否存在
+    var count int
+
+    err = db.QueryRow(&quot;select count(*) from user where username = ?&quot;, user.Username).Scan(&amp;count)
+    if err != nil &#123;
+        c.JSON(500, gin.H&#123;
+            &quot;status&quot;: 10003,
+            &quot;info&quot;:   &quot;查询数据库错误&quot;,
+        &#125;)
+        return
+    &#125;
+    if count &gt; 0 &#123;
+        c.JSON(400, gin.H&#123;
+            &quot;status&quot;: 10004,
+            &quot;info&quot;:   &quot;用户名已存在&quot;,
+        &#125;)
+        return
+    &#125;
+    //插入新用户
+    _, err = db.Exec(&quot;insert into user(username,password) values(?,?)&quot;, user.Username, user.Password)
+    if err != nil &#123;
+        c.JSON(500, gin.H&#123;
+            &quot;status&quot;: 10005,
+            &quot;info&quot;:   &quot;插入数据库失败&quot;,
+        &#125;)
+        return
+    &#125;
+    c.JSON(200, gin.H&#123;
+        &quot;status&quot;: 10000,
+        &quot;info&quot;:   &quot;success&quot;,
+    &#125;)
+&#125;
+
+func Login(c *gin.Context) &#123;
+    // 绑定请求参数
+    username := c.Query(&quot;username&quot;)
+    password := c.Query(&quot;password&quot;)
+    if username == &quot;&quot; || password == &quot;&quot; &#123;
+        c.JSON(400, gin.H&#123;
+            &quot;status&quot;: 10001,
+            &quot;info&quot;:   &quot;参数不完整&quot;,
+        &#125;)
+        return
+    &#125;
+
+    // 连接数据库
+    db, err := sql.Open(&quot;mysql&quot;, &quot;root:xkw510724@tcp(127.0.0.1:3306)/redrock_ecommerce?charset=utf8&quot;)
+    if err != nil &#123;
+        c.JSON(500, gin.H&#123;
+            &quot;status&quot;: 10002,
+            &quot;info&quot;:   &quot;数据库连接错误&quot;,
+        &#125;)
+        return
+    &#125;
+    defer db.Close()
+    // 检查用户名和密码
+    var id int
+    var storedPassword string
+    err = db.QueryRow(&quot;SELECT id, password FROM user WHERE username =?&quot;, username).Scan(&amp;id, &amp;storedPassword)
+    if err != nil &#123;
+        c.JSON(400, gin.H&#123;
+            &quot;status&quot;: 10006,
+            &quot;info&quot;:   &quot;用户名不存在&quot;,
+        &#125;)
+        return
+    &#125;
+    if storedPassword != password &#123;
+        c.JSON(400, gin.H&#123;
+            &quot;status&quot;: 10007,
+            &quot;info&quot;:   &quot;密码错误&quot;,
+        &#125;)
+        return
+    &#125;
+    // 生成token（这里简单示例用用户名和时间戳拼接）
+    token := fmt.Sprintf(&quot;user_%s_%d&quot;, username, time.Now().Unix())
+    refreshToken := fmt.Sprintf(&quot;%s_refresh_%d&quot;, username, time.Now().Unix())
+    // 更新数据库中的token和refresh_token
+    _, err = db.Exec(&quot;UPDATE user SET token =?,refresh_token=? WHERE id =?&quot;, token, refreshToken, id)
+    if err != nil &#123;
+        c.JSON(500, gin.H&#123;
+            &quot;status&quot;: 10008,
+            &quot;info&quot;:   &quot;更新token错误&quot;,
+        &#125;)
+        return
+    &#125;
+    c.JSON(200, gin.H&#123;
+        &quot;status&quot;:        10000,
+        &quot;info&quot;:          &quot;success&quot;,
+        &quot;token&quot;:         token,
+        &quot;refresh_token&quot;: refreshToken,
+    &#125;)
+&#125;
+</code></pre>
+<h3 id="刷新tokenn"><a href="#刷新tokenn" class="headerlink" title="刷新tokenn"></a>刷新tokenn</h3><p>由于代码过长，之后的代码都不再这里展示</p>
+<h3 id="更新个人信息"><a href="#更新个人信息" class="headerlink" title="更新个人信息"></a>更新个人信息</h3>
             
         </div>
     </div>

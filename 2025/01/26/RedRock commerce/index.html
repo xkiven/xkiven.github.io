@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <title>xkiven の 小屋</title>
+    <title> | xkiven の 小屋</title>
     <meta name="author" content="xkiven" />
     <meta name="description" content="" />
     <meta name="keywords" content="" />
@@ -47,7 +47,9 @@
 
 
 
-<script src="/js/lib/home.js"></script>
+
+
+
 
 <link rel="stylesheet" href="/css/main.css" />
 
@@ -129,40 +131,11 @@
 </transition>
 
         <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
-            <div id="home-head">
-    <div
-        id="home-background"
-        ref="homeBackground"
-        data-images="/images/background2.jpg"
-    ></div>
-    <div id="home-info" @click="homeClick">
-        <span class="loop"></span>
-        <span class="loop"></span>
-        <span class="loop"></span>
-        <span class="loop"></span>
-        <span class="info">
-            <div class="wrap">
-                <h1>xkiven の 小屋</h1>
-                <h3>here is xkiven...</h3>
-                <h5></h5>
-            </div>
-        </span>
+            <div class="article">
+    <div>
+        <h1></h1>
     </div>
-</div>
-<div
-    id="home-posts-wrap"
-    ref="homePostsWrap"
-    true
->
-    <div id="home-posts">
-        
-
-<div class="post">
-    <a href="/2025/01/26/RedRock%20commerce/">
-        <h2 class="post-title"></h2>
-    </a>
-    <div class="category-and-date">
-        
+    <div class="info">
         <span class="date">
             <span class="icon">
                 <i class="fa-solid fa-calendar fa-fw"></i>
@@ -172,10 +145,9 @@
         
         
     </div>
-    <div class="description">
-        <div class="content" v-pre>
-            
-            <h1 id="RedRock-commerce"><a href="#RedRock-commerce" class="headerlink" title="RedRock commerce"></a><strong>RedRock commerce</strong></h1><h2 id="项目简介"><a href="#项目简介" class="headerlink" title="**项目简介 **"></a>**项目简介 **</h2><p>本项目是一个基于 Go 语言和 Gin 框架开发,借助go-cache库实现缓存机制的电商 API 系统，提供了用户管理、商品查询、商品评论、购物车等功能。通过这些 API，开发者可以构建电商应用的后端服务，实现用户与商品的交互操作。</p>
+    
+    <div class="content" v-pre>
+        <h1 id="RedRock-commerce"><a href="#RedRock-commerce" class="headerlink" title="RedRock commerce"></a><strong>RedRock commerce</strong></h1><h2 id="项目简介"><a href="#项目简介" class="headerlink" title="**项目简介 **"></a>**项目简介 **</h2><p>本项目是一个基于 Go 语言和 Gin 框架开发,借助go-cache库实现缓存机制的电商 API 系统，提供了用户管理、商品查询、商品评论、购物车等功能。通过这些 API，开发者可以构建电商应用的后端服务，实现用户与商品的交互操作。</p>
 <p><em><strong>项目地址</strong></em>：<a target="_blank" rel="noopener" href="https://github.com/xkiven/redrock-commerce/tree/master">xkiven&#x2F;redrock-commerce at master</a></p>
 <h2 id="技术栈"><a href="#技术栈" class="headerlink" title="技术栈"></a><strong>技术栈</strong></h2><ul>
 <li><p>编程语言：Go 语言</p>
@@ -543,77 +515,13 @@
 <h2 id="特别说明"><a href="#特别说明" class="headerlink" title="特别说明"></a>特别说明</h2><p>​	项目是从零开始一个人没日没夜赶在过年前完成的，缓存是做完后再加的实在是不想改了，只在搜索商品端口加了，这个时候才发现商品的is_addedCart在有无token时有变化，于是可以看到我搜索商品端口写了有token和没有token的方法，根据token得到两个结果，同理商品相关的端口都要改，但是我实在不想改了，就这样了，也还是能行</p>
 <p>服务启动后，默认监听在  <a target="_blank" rel="noopener" href="http://localhost:8080/">http://localhost:8080</a> 。</p>
 
-            
-        </div>
     </div>
-    <div class="post-tags">
-        
-        
-        
-    </div>
-    <a href="/2025/01/26/RedRock%20commerce/" class="go-post">阅读全文</a>
-</div>
-
-<div class="post">
-    <a href="/2025/01/22/my%20first%20blog/">
-        <h2 class="post-title">my first blog</h2>
-    </a>
-    <div class="category-and-date">
-        
-        <span class="date">
-            <span class="icon">
-                <i class="fa-solid fa-calendar fa-fw"></i>
-            </span>
-            2025/1/22
-        </span>
-        
-        
-    </div>
-    <div class="description">
-        <div class="content" v-pre>
-            
-            <p>😊😊😊<br>搞了一整天，终于搭好了，本来打算搭在gitee上，结果那边的一个服务突然停了，只有付费的，没办法只能用GitHub了。<br>写这个东西现在还有点麻烦，Markdown还一点都不会，总之才刚刚建好，慢慢找个好一点的markdown编辑器，我还在用记事本，这东西还是不行。</p>
-
-            
-        </div>
-    </div>
-    <div class="post-tags">
-        
-        
-        
-    </div>
-    <a href="/2025/01/22/my%20first%20blog/" class="go-post">阅读全文</a>
-</div>
-
-
-        <div class="page-current">
     
-    <span class="current">1</span>
     
     
     
     
-</div>
-
-    </div>
     
-    <div id="home-card">
-        <div id="card-style">
-    <div id="card-div">
-        <div class="avatar">
-            <img src="/images/ly.jpg" alt="avatar" />
-        </div>
-        <div class="name">xkiven</div>
-        <div class="description">
-            <p>here is kiven…<br>…</p>
-
-        </div>
-        
-        
-    </div>
-</div>
-
-    </div>
     
 </div>
 
@@ -645,6 +553,12 @@
         
     </div>
     <script src="/js/main.js"></script>
+    
+    
+
+
+
+
     
 </body>
 </html>

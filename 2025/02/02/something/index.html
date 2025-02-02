@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <title>Archives | xkiven の 小屋</title>
+    <title>something | xkiven の 小屋</title>
     <meta name="author" content="xkiven" />
     <meta name="description" content="" />
     <meta name="keywords" content="" />
@@ -45,7 +45,9 @@
 
 
 
-<script src="/js/lib/search.js"></script>
+
+
+
 
 
 
@@ -129,56 +131,36 @@
 </transition>
 
         <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
-            
-<div id="archives">
-    
-    <input id="search-bar" class="input" placeholder="搜索" v-model="rawSearch" />
-    
-    <div id="timeline-wrap" ref="timeline">
+            <div class="article">
+    <div>
+        <h1>something</h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2025/2/2
+        </span>
         
-        <div class="timeline" data-title="myfirstblog">
-            <div class="timeline-tail"></div>
-            <div class="timeline-content">
-                <div class="item-time">2025/1/22</div>
-                <a href="/2025/01/22/my%20first%20blog/">
-                    <h3>my first blog</h3>
-                </a>
-                <div class="info">
-                    
-                    
-                </div>
-            </div>
-        </div>
-        
-        <div class="timeline" data-title="'redrockcommerce'">
-            <div class="timeline-tail"></div>
-            <div class="timeline-content">
-                <div class="item-time">2025/1/26</div>
-                <a href="/2025/01/26/RedRock_commerce/">
-                    <h3>&#39;RedRock commerce&#39;</h3>
-                </a>
-                <div class="info">
-                    
-                    
-                </div>
-            </div>
-        </div>
-        
-        <div class="timeline" data-title="something">
-            <div class="timeline-tail"></div>
-            <div class="timeline-content">
-                <div class="item-time">2025/2/2</div>
-                <a href="/2025/02/02/something/">
-                    <h3>something</h3>
-                </a>
-                <div class="info">
-                    
-                    
-                </div>
-            </div>
-        </div>
         
     </div>
+    
+    <div class="content" v-pre>
+        <ol>
+<li>安装Gin：在项目目录下的终端中运行  go get -u github.com&#x2F;gin-gonic&#x2F;gin 。 -u  标志用于更新到最新版本。</li>
+<li>安装MySQL驱动：执行  go get -u github.com&#x2F;go - sql - driver&#x2F;mysql 。这会下载MySQL驱动到你的本地 $GOPATH 下。</li>
+<li>安装WebSocket库：若使用  gorilla&#x2F;websocket （比  golang.org&#x2F;x&#x2F;net&#x2F;websocket  更常用 ），运行  go get -u github.com&#x2F;gorilla&#x2F;websocket 。</li>
+</ol>
+
+    </div>
+    
+    
+    
+    
+    
+    
+    
 </div>
 
             <footer id="footer">
@@ -209,6 +191,12 @@
         
     </div>
     <script src="/js/main.js"></script>
+    
+    
+
+
+
+
     
 </body>
 </html>

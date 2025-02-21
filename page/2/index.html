@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <title>something | xkiven の 小屋</title>
+    <title>xkiven の 小屋</title>
     <meta name="author" content="xkiven" />
     <meta name="description" content="" />
     <meta name="keywords" content="" />
@@ -47,9 +47,7 @@
 
 
 
-
-
-
+<script src="/js/lib/home.js"></script>
 
 <link rel="stylesheet" href="/css/main.css" />
 
@@ -131,39 +129,100 @@
 </transition>
 
         <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
-            <div class="article">
-    <div>
-        <h1>something</h1>
+            <div id="home-head">
+    <div
+        id="home-background"
+        ref="homeBackground"
+        data-images="/images/background2.jpg"
+    ></div>
+    <div id="home-info" @click="homeClick">
+        <span class="loop"></span>
+        <span class="loop"></span>
+        <span class="loop"></span>
+        <span class="loop"></span>
+        <span class="info">
+            <div class="wrap">
+                <h1>xkiven の 小屋</h1>
+                <h3>here is xkiven...</h3>
+                <h5></h5>
+            </div>
+        </span>
     </div>
-    <div class="info">
+</div>
+<div
+    id="home-posts-wrap"
+    ref="homePostsWrap"
+    true
+>
+    <div id="home-posts">
+        
+
+<div class="post">
+    <a href="/2025/01/22/my%20first%20blog/">
+        <h2 class="post-title">my first blog</h2>
+    </a>
+    <div class="category-and-date">
+        
         <span class="date">
             <span class="icon">
                 <i class="fa-solid fa-calendar fa-fw"></i>
             </span>
-            2025/2/2
+            2025/1/22
         </span>
         
         
     </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <p>😊😊😊<br>搞了一整天，终于搭好了，本来打算搭在gitee上，结果那边的一个服务突然停了，只有付费的，没办法只能用GitHub了。<br>写这个东西现在还有点麻烦，Markdown还一点都不会，总之才刚刚建好，慢慢找个好一点的markdown编辑器，我还在用记事本，这东西还是不行。</p>
+
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        
+        
+    </div>
+    <a href="/2025/01/22/my%20first%20blog/" class="go-post">阅读全文</a>
+</div>
+
+
+        <div class="page-current">
     
-    <div class="content" v-pre>
-        <ol>
-<li>安装Gin：在项目目录下的终端中运行  go get -u github.com&#x2F;gin-gonic&#x2F;gin 。 -u  标志用于更新到最新版本。</li>
-<li>安装MySQL驱动：执行  go get -u github.com&#x2F;go-sql-driver&#x2F;mysql 。这会下载MySQL驱动到你的本地 $GOPATH 下。</li>
-<li>安装WebSocket库：若使用  gorilla&#x2F;websocket （比  golang.org&#x2F;x&#x2F;net&#x2F;websocket  更常用 ），运行  go get -u github.com&#x2F;gorilla&#x2F;websocket 。</li>
-<li>安装gorm:     执行go get -u gorm.io&#x2F;gorm， go get -u gorm.io&#x2F;driver&#x2F;mysql</li>
-<li>ssh密钥：ssh-keygen -t rsa -b 4096 -C”<a href="mailto:&#x32;&#x36;&#55;&#x34;&#x33;&#x30;&#50;&#x34;&#51;&#51;&#x40;&#x71;&#113;&#46;&#x63;&#111;&#x6d;">&#x32;&#x36;&#55;&#x34;&#x33;&#x30;&#50;&#x34;&#51;&#51;&#x40;&#x71;&#113;&#46;&#x63;&#111;&#x6d;</a>“</li>
-<li>sshkmftymkzpecee</li>
-<li>安装 Go - zero 代码生成工具 goctl：go install github.com&#x2F;zeromicro&#x2F;go-zero&#x2F;tools&#x2F;goctl@latest</li>
-</ol>
+    <a class="page-num" href="/">
+        <i class="fa-solid fa-caret-left fa-fw"></i>
+    </a>
+    <a class="page-num" href="/">1</a>
+    <span class="page-omit">...</span>
+    
+    <span class="current">2</span>
+    
+    
+    
+    
+</div>
 
     </div>
     
-    
-    
-    
-    
-    
+    <div id="home-card">
+        <div id="card-style">
+    <div id="card-div">
+        <div class="avatar">
+            <img src="/images/ly.jpg" alt="avatar" />
+        </div>
+        <div class="name">xkiven</div>
+        <div class="description">
+            <p>here is kiven…<br>…</p>
+
+        </div>
+        
+        
+    </div>
+</div>
+
+    </div>
     
 </div>
 
@@ -195,12 +254,6 @@
         
     </div>
     <script src="/js/main.js"></script>
-    
-    
-
-
-
-
     
 </body>
 </html>

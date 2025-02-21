@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <title>something | xkiven の 小屋</title>
+    <title>Jaeger | xkiven の 小屋</title>
     <meta name="author" content="xkiven" />
     <meta name="description" content="" />
     <meta name="keywords" content="" />
@@ -133,29 +133,42 @@
         <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
             <div class="article">
     <div>
-        <h1>something</h1>
+        <h1>Jaeger</h1>
     </div>
     <div class="info">
         <span class="date">
             <span class="icon">
                 <i class="fa-solid fa-calendar fa-fw"></i>
             </span>
-            2025/2/2
+            2025/2/21
         </span>
         
         
     </div>
     
     <div class="content" v-pre>
-        <ol>
-<li>安装Gin：在项目目录下的终端中运行  go get -u github.com&#x2F;gin-gonic&#x2F;gin 。 -u  标志用于更新到最新版本。</li>
-<li>安装MySQL驱动：执行  go get -u github.com&#x2F;go-sql-driver&#x2F;mysql 。这会下载MySQL驱动到你的本地 $GOPATH 下。</li>
-<li>安装WebSocket库：若使用  gorilla&#x2F;websocket （比  golang.org&#x2F;x&#x2F;net&#x2F;websocket  更常用 ），运行  go get -u github.com&#x2F;gorilla&#x2F;websocket 。</li>
-<li>安装gorm:     执行go get -u gorm.io&#x2F;gorm， go get -u gorm.io&#x2F;driver&#x2F;mysql</li>
-<li>ssh密钥：ssh-keygen -t rsa -b 4096 -C”<a href="mailto:&#x32;&#x36;&#55;&#x34;&#x33;&#x30;&#50;&#x34;&#51;&#51;&#x40;&#x71;&#113;&#46;&#x63;&#111;&#x6d;">&#x32;&#x36;&#55;&#x34;&#x33;&#x30;&#50;&#x34;&#51;&#51;&#x40;&#x71;&#113;&#46;&#x63;&#111;&#x6d;</a>“</li>
-<li>sshkmftymkzpecee</li>
-<li>安装 Go - zero 代码生成工具 goctl：go install github.com&#x2F;zeromicro&#x2F;go-zero&#x2F;tools&#x2F;goctl@latest</li>
-</ol>
+        <p>Jaeger 是一个开源的分布式追踪系统，用于监控和排查分布式系统中的问题。</p>
+<h2 id="安装和启动-Jaeger"><a href="#安装和启动-Jaeger" class="headerlink" title="安装和启动 Jaeger"></a>安装和启动 Jaeger</h2><p>Jaeger 提供了多种部署方式，最常用的是使用 Docker 进行快速部署。以下是使用 Docker 启动 Jaeger 的步骤：</p>
+<h3 id="拉取镜像"><a href="#拉取镜像" class="headerlink" title="拉取镜像"></a>拉取镜像</h3><pre><code class="bash">docker pull jaegertracing/all-in-one:latest
+</code></pre>
+<h3 id="启动容器"><a href="#启动容器" class="headerlink" title="启动容器"></a>启动容器</h3><pre><code class="bash">docker run -d --name jaeger \
+  -e COLLECTOR_ZIPKIN_HOST_PORT=:9411 \
+  -p 5775:5775/udp \
+  -p 6831:6831/udp \
+  -p 6832:6832/udp \
+  -p 5778:5778 \
+  -p 16686:16686 \
+  -p 14268:14268 \
+  -p 9411:9411 \
+  jaegertracing/all-in-one:latest
+</code></pre>
+<h3 id="2-集成-Jaeger-到应用程序"><a href="#2-集成-Jaeger-到应用程序" class="headerlink" title="2. 集成 Jaeger 到应用程序"></a>2. 集成 Jaeger 到应用程序</h3><p>要使用 Jaeger 进行分布式追踪，需要在应用程序中集成 Jaeger 的客户端库。以下是几种常见编程语言的集成示例：</p>
+<h4 id="Go-语言"><a href="#Go-语言" class="headerlink" title="Go 语言"></a>Go 语言</h4><p>首先，安装 Jaeger 的 Go 客户端库：</p>
+<pre><code class="bash">go get -u github.com/jaegertracing/jaeger-client-go
+</code></pre>
+<h2 id="查看-Jaeger-UI"><a href="#查看-Jaeger-UI" class="headerlink" title="查看 Jaeger UI"></a>查看 Jaeger UI</h2><p>启动应用程序并发送一些请求后，就可以打开 Jaeger 的 UI 界面（<a target="_blank" rel="noopener" href="http://localhost:16686/">http://localhost:16686</a>）查看追踪数据了。</p>
+<h3 id="首页概览"><a href="#首页概览" class="headerlink" title="首页概览"></a>首页概览</h3><p>打开 Jaeger UI 后，会看到一个首页概览页面，展示了一些基本信息，如最近的追踪数据摘要、服务列表、操作列表等。</p>
+<h3 id="选择服务"><a href="#选择服务" class="headerlink" title="选择服务"></a>选择服务</h3><p>在页面左侧会有一个服务列表，点击你想要查看追踪数据的服务名称，Jaeger 会过滤出与该服务相关的追踪信息。</p>
 
     </div>
     

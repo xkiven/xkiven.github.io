@@ -158,6 +158,364 @@
         
 
 <div class="post">
+    <a href="/2025/02/21/%E7%86%94%E6%96%AD%E9%99%8D%E7%BA%A7/">
+        <h2 class="post-title">熔断降级</h2>
+    </a>
+    <div class="category-and-date">
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2025/2/21
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        
+        
+    </div>
+    <a href="/2025/02/21/%E7%86%94%E6%96%AD%E9%99%8D%E7%BA%A7/" class="go-post">阅读全文</a>
+</div>
+
+<div class="post">
+    <a href="/2025/02/21/%E5%88%86%E5%B8%83%E5%BC%8F%E7%AE%97%E6%B3%95%EF%BC%88%E4%BB%A4%E7%89%8C%E6%A1%B6%EF%BC%89/">
+        <h2 class="post-title">分布式算法（令牌桶）</h2>
+    </a>
+    <div class="category-and-date">
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2025/2/21
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <h2 id="令牌桶算法基本原理"><a href="#令牌桶算法基本原理" class="headerlink" title="令牌桶算法基本原理"></a>令牌桶算法基本原理</h2><ul>
+<li>令牌桶算法是一种常用的限流算法，其核心思想是系统以固定的速率向一个虚拟的 “桶” 中放入令牌，每个请求在处理前需要从桶中获取一个令牌，若桶中没有令牌，则请求被限流。</li>
+</ul>
+<h2 id="代码实现及解释"><a href="#代码实现及解释" class="headerlink" title="代码实现及解释"></a>代码实现及解释</h2><h3 id="结构体定义"><a href="#结构体定义" class="headerlink" title="结构体定义"></a>结构体定义</h3><p>首先定义了 <code>RateLimiter</code> 结构体：</p>
+<ul>
+<li><code>client</code>：是 Redis 客户端的指针，用于与 Redis 进行交互，实现分布式限流的核心在于利用 Redis 存储令牌桶的信息，这样多个实例可以共享这些信息。</li>
+<li><code>rate</code>：表示每秒允许的请求数，即令牌生成的速率。</li>
+<li><code>capacity</code>：令牌桶的容量，即桶中最多能存放的令牌数量。</li>
+</ul>
+<h3 id="创建限流器实例"><a href="#创建限流器实例" class="headerlink" title="创建限流器实例"></a>创建限流器实例</h3><pre><code class="go">// NewRateLimiter 创建一个新的分布式限流器
+func NewRateLimiter(client *redis.RedisClient, rate, capacity int) *RateLimiter &#123;
+    //log.Printf(&quot;初始化令牌桶&quot;)
+    limiter := &amp;RateLimiter&#123;
+        client:   client,
+        rate:     rate,
+        capacity: capacity,
+    &#125;
+    // 初始化令牌桶信息
+    ctx := context.Background()
+    key := &quot;global_rate_limit&quot;
+    now := time.Now().Unix()
+    err := client.Client.HSet(ctx, key, &quot;tokens&quot;, capacity).Err()
+    if err != nil &#123;
+        log.Printf(&quot;初始化令牌桶信息失败: %v&quot;, err)
+    &#125;
+    err = client.Client.HSet(ctx, key, &quot;last_refill&quot;, now).Err()
+    if err != nil &#123;
+        log.Printf(&quot;初始化令牌桶信息失败: %v&quot;, err)
+    &#125;
+
+    return limiter
+&#125;
+</code></pre>
+<p><code>NewRateLimiter</code> 函数用于创建一个新的 <code>RateLimiter</code> 实例，需要传入 Redis 客户端、令牌生成速率和令牌桶容量。</p>
+<h3 id="中间件函数"><a href="#中间件函数" class="headerlink" title="中间件函数"></a>中间件函数</h3><pre><code class="go">// RateLimitMiddleware 限流器中间件
+func RateLimitMiddleware(limiter *RateLimiter, next http.HandlerFunc) http.HandlerFunc &#123;
+    return func(w http.ResponseWriter, r *http.Request) &#123;
+        // 固定的限流key，表示全局令牌桶
+        key := &quot;global_rate_limit&quot;
+
+        // 调用 RateLimiter 的 Allow 方法判断是否允许请求通过
+        allowed, err := limiter.Allow(r.Context(), key)
+        if err != nil &#123;
+            http.Error(w, &quot;限流判断出错&quot;, http.StatusInternalServerError)
+            return
+        &#125;
+        if !allowed &#123;
+            http.Error(w, &quot;请求过于频繁，请稍后再试&quot;, http.StatusTooManyRequests)
+            return
+        &#125;
+
+        // 允许请求通过，继续处理
+        next(w, r)
+    &#125;
+&#125;
+</code></pre>
+<ul>
+<li><code>RateLimitMiddleware</code> 是一个中间件函数，用于在处理 HTTP 请求时进行限流。</li>
+<li>它首先从请求中获取客户端的 IP 地址，并生成一个唯一的限流 key。</li>
+<li>然后调用 <code>RateLimiter</code> 的 <code>Allow</code> 方法判断是否允许该请求通过。如果出现错误，返回内部服务器错误；如果不允许通过，返回请求过于频繁的错误；如果允许通过，则继续处理请求。</li>
+</ul>
+<h3 id="核心限流逻辑"><a href="#核心限流逻辑" class="headerlink" title="核心限流逻辑"></a>核心限流逻辑</h3><pre><code class="go">// Allow 判断是否允许请求通过
+func (l *RateLimiter) Allow(ctx context.Context, key string) (bool, error) &#123;
+    if ctx.Err() != nil &#123;
+        log.Printf(&quot;上下文已经取消或超时: %v&quot;, ctx.Err())
+        return false, ctx.Err()
+    &#125;
+    // 获取当前时间戳
+    now := time.Now().Unix()
+
+    // 定义 Redis 事务
+    tx := l.client.Client.TxPipeline()
+    defer tx.Close()
+
+    // 从 Redis 中获取令牌桶的信息
+    //log.Printf(&quot;开始获取令牌桶信息，key: %s&quot;, key)
+    resp, err := l.client.Client.HGetAll(ctx, key).Result()
+    if err != nil &#123;
+        if errors.Is(err, redis2.Nil) &#123;
+            log.Printf(&quot;令牌桶信息不存在，初始化令牌桶&quot;)
+            // 令牌桶信息不存在，初始化令牌桶
+            tokens := l.capacity
+            lastRefill := now
+            // 保存初始化信息到 Redis
+            err := l.client.Client.HSet(ctx, key, &quot;tokens&quot;, tokens, &quot;last_refill&quot;, lastRefill).Err()
+            if err != nil &#123;
+                log.Printf(&quot;保存令牌桶信息失败: %v&quot;, err)
+                return false, err
+            &#125;
+            resp = map[string]string&#123;
+                &quot;tokens&quot;:      strconv.Itoa(tokens),
+                &quot;last_refill&quot;: strconv.FormatInt(lastRefill, 10),
+            &#125;
+        &#125; else &#123;
+            log.Printf(&quot;获取令牌桶信息失败: %v&quot;, err)
+            return false, err
+        &#125;
+    &#125;
+    var tokens int
+    var lastRefill int64
+
+    // 解析令牌桶信息
+    tokens, _ = strconv.Atoi(resp[&quot;tokens&quot;])
+    lastRefill, _ = strconv.ParseInt(resp[&quot;last_refill&quot;], 10, 64)
+
+    // 计算需要补充的令牌数
+    elapsed := now - lastRefill
+    newTokens := int(elapsed) * l.rate
+    tokens = tokens + newTokens
+    if tokens &gt; l.capacity &#123;
+        tokens = l.capacity
+    &#125;
+
+    // 判断是否有足够的令牌
+    if tokens &lt; 1 &#123;
+        return false, nil
+    &#125;
+
+    // 消耗一个令牌
+    tokens--
+
+    // 开始事务操作
+    tx.HSet(ctx, key, &quot;tokens&quot;, tokens)
+    tx.HSet(ctx, key, &quot;last_refill&quot;, now)
+
+    // 执行 Redis 事务
+    _, err = tx.Exec(ctx)
+    if err != nil &#123;
+        log.Printf(&quot;事务执行失败: %v&quot;, err)
+        return false, err
+    &#125;
+
+    return true, nil
+&#125;
+</code></pre>
+<ul>
+<li><strong>获取当前时间戳</strong>：通过 <code>time.Now().Unix()</code> 获取当前的 Unix 时间戳。</li>
+<li><strong>定义 Redis 事务</strong>：使用 <code>TxPipeline</code> 开启一个 Redis 事务，确保后续的多个 Redis 操作原子性执行。</li>
+<li><strong>获取令牌桶信息</strong>：通过 <code>HGetAll</code> 从 Redis 中获取令牌桶的信息，包括令牌数量 <code>tokens</code> 和上次填充时间 <code>lastRefill</code>。</li>
+<li><strong>初始化令牌桶</strong>：如果令牌桶信息不存在，将令牌数量初始化为令牌桶容量，上次填充时间初始化为当前时间。</li>
+<li><strong>计算补充令牌数</strong>：根据当前时间和上次填充时间的差值，计算需要补充的令牌数，并更新令牌数量。如果超过令牌桶容量，则将令牌数量设置为容量值。</li>
+<li><strong>判断令牌是否足够</strong>：如果令牌数量小于 1，说明没有可用令牌，返回 <code>false</code> 表示不允许请求通过。</li>
+<li><strong>消耗令牌</strong>：如果有可用令牌，将令牌数量减 1。</li>
+<li><strong>更新令牌桶信息</strong>：使用 <code>HSet</code> 更新 Redis 中令牌桶的信息，包括更新后的令牌数量和上次填充时间。</li>
+<li><strong>执行 Redis 事务</strong>：调用 <code>Exec</code> 执行 Redis 事务，如果出现错误则返回 <code>false</code>。</li>
+</ul>
+<h2 id="分布式限流的实现"><a href="#分布式限流的实现" class="headerlink" title="分布式限流的实现"></a>分布式限流的实现</h2><p>通过使用 Redis 存储令牌桶的信息，多个实例可以共享这些信息，从而实现分布式限流。每个实例在处理请求时，都从 Redis 中获取和更新令牌桶的信息，保证了限流的一致性。</p>
+<h2 id="优点和局限性"><a href="#优点和局限性" class="headerlink" title="优点和局限性"></a>优点和局限性</h2><ol>
+<li>优点</li>
+</ol>
+<ul>
+<li>可以有效控制请求的速率，防止系统被过多请求压垮。</li>
+<li>分布式实现可以在多个实例之间共享限流信息，适用于分布式系统。</li>
+</ul>
+<ol start="2">
+<li>局限性</li>
+</ol>
+<ul>
+<li>引入了 Redis 作为外部依赖，增加了系统的复杂性。</li>
+<li>由于需要与 Redis 进行交互，会有一定的性能开销。</li>
+</ul>
+
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        
+        
+    </div>
+    <a href="/2025/02/21/%E5%88%86%E5%B8%83%E5%BC%8F%E7%AE%97%E6%B3%95%EF%BC%88%E4%BB%A4%E7%89%8C%E6%A1%B6%EF%BC%89/" class="go-post">阅读全文</a>
+</div>
+
+<div class="post">
+    <a href="/2025/02/21/Jaeger/">
+        <h2 class="post-title">Jaeger</h2>
+    </a>
+    <div class="category-and-date">
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2025/2/21
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <p>Jaeger 是一个开源的分布式追踪系统，用于监控和排查分布式系统中的问题。</p>
+<h2 id="安装和启动-Jaeger"><a href="#安装和启动-Jaeger" class="headerlink" title="安装和启动 Jaeger"></a>安装和启动 Jaeger</h2><p>Jaeger 提供了多种部署方式，最常用的是使用 Docker 进行快速部署。以下是使用 Docker 启动 Jaeger 的步骤：</p>
+<h3 id="拉取镜像"><a href="#拉取镜像" class="headerlink" title="拉取镜像"></a>拉取镜像</h3><pre><code class="bash">docker pull jaegertracing/all-in-one:latest
+</code></pre>
+<h3 id="启动容器"><a href="#启动容器" class="headerlink" title="启动容器"></a>启动容器</h3><pre><code class="bash">docker run -d --name jaeger \
+  -e COLLECTOR_ZIPKIN_HOST_PORT=:9411 \
+  -p 5775:5775/udp \
+  -p 6831:6831/udp \
+  -p 6832:6832/udp \
+  -p 5778:5778 \
+  -p 16686:16686 \
+  -p 14268:14268 \
+  -p 9411:9411 \
+  jaegertracing/all-in-one:latest
+</code></pre>
+<h3 id="2-集成-Jaeger-到应用程序"><a href="#2-集成-Jaeger-到应用程序" class="headerlink" title="2. 集成 Jaeger 到应用程序"></a>2. 集成 Jaeger 到应用程序</h3><p>要使用 Jaeger 进行分布式追踪，需要在应用程序中集成 Jaeger 的客户端库。以下是几种常见编程语言的集成示例：</p>
+<h4 id="Go-语言"><a href="#Go-语言" class="headerlink" title="Go 语言"></a>Go 语言</h4><p>首先，安装 Jaeger 的 Go 客户端库：</p>
+<pre><code class="bash">go get -u github.com/jaegertracing/jaeger-client-go
+</code></pre>
+<h2 id="查看-Jaeger-UI"><a href="#查看-Jaeger-UI" class="headerlink" title="查看 Jaeger UI"></a>查看 Jaeger UI</h2><p>启动应用程序并发送一些请求后，就可以打开 Jaeger 的 UI 界面（<a target="_blank" rel="noopener" href="http://localhost:16686/">http://localhost:16686</a>）查看追踪数据了。</p>
+<h3 id="首页概览"><a href="#首页概览" class="headerlink" title="首页概览"></a>首页概览</h3><p>打开 Jaeger UI 后，会看到一个首页概览页面，展示了一些基本信息，如最近的追踪数据摘要、服务列表、操作列表等。</p>
+<h3 id="选择服务"><a href="#选择服务" class="headerlink" title="选择服务"></a>选择服务</h3><p>在页面左侧会有一个服务列表，点击你想要查看追踪数据的服务名称，Jaeger 会过滤出与该服务相关的追踪信息。</p>
+
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        
+        
+    </div>
+    <a href="/2025/02/21/Jaeger/" class="go-post">阅读全文</a>
+</div>
+
+<div class="post">
+    <a href="/2025/02/20/P2C/">
+        <h2 class="post-title">P2C</h2>
+    </a>
+    <div class="category-and-date">
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2025/2/20
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <h3 id="算法原理"><a href="#算法原理" class="headerlink" title="算法原理"></a>算法原理</h3><ol>
+<li><strong>基本原理</strong>：<ul>
+<li><code>P2C</code> 算法的核心思想是在多个可选的服务实例中，随机选择两个实例，然后比较它们的负载情况，选择负载较低的那个实例。这种方法可以有效地平衡负载，避免请求总是集中在某个特定的实例上。为了避免某些节点一直得不到选择导致不平衡，会在超过一定的时间后强制选择一次。</li>
+</ul>
+</li>
+</ol>
+<h3 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h3><ul>
+<li><strong>负载均衡</strong>：通过随机选择和比较，避免了请求总是集中在某个特定的服务实例上，从而实现了负载的均衡分布。</li>
+<li><strong>简单高效</strong>：算法实现简单，不需要复杂的计算和状态维护，执行效率较高。</li>
+</ul>
+<h3 id="局限性"><a href="#局限性" class="headerlink" title="局限性"></a>局限性</h3><ul>
+<li><strong>随机性</strong>：由于随机选择的特性，可能会在某些情况下选择到并非最优的服务实例。</li>
+<li><strong>只考虑两个实例</strong>：只比较两个随机选择的实例，可能会忽略其他负载更低的实例。</li>
+</ul>
+
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        
+        
+    </div>
+    <a href="/2025/02/20/P2C/" class="go-post">阅读全文</a>
+</div>
+
+<div class="post">
+    <a href="/2025/02/18/%E5%90%AF%E5%8A%A8Kafka/">
+        <h2 class="post-title">启动Kafka</h2>
+    </a>
+    <div class="category-and-date">
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2025/2/18
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <p>因为Kafka依赖Zookeeper，所以先启动zookeeper</p>
+<h2 id="启动zookeeper："><a href="#启动zookeeper：" class="headerlink" title="启动zookeeper："></a>启动zookeeper：</h2><pre><code>bin\windows\zookeeper-server-start.bat config\zookeeper.properties
+</code></pre>
+<p>不要关闭当前窗口，重新打开新的窗口进入文件目录</p>
+<h2 id="启动kafka："><a href="#启动kafka：" class="headerlink" title="启动kafka："></a>启动kafka：</h2><pre><code>bin\windows\kafka-server-start.bat config\server.properties
+</code></pre>
+<h2 id="关闭zookeeper服务器"><a href="#关闭zookeeper服务器" class="headerlink" title="关闭zookeeper服务器"></a>关闭zookeeper服务器</h2><pre><code>zookeeper-server-stop.bat	
+</code></pre>
+<h2 id="关闭kafka服务器"><a href="#关闭kafka服务器" class="headerlink" title="关闭kafka服务器"></a>关闭kafka服务器</h2><pre><code>kafka-server-stop.bat
+</code></pre>
+<h4 id="注意！关闭时不能直接关闭窗口，否则很可能会导致kafka无法完成对日志文件的解锁。届时，再次启动kafka的时候，就会提示日志文件被锁，无法成功启动"><a href="#注意！关闭时不能直接关闭窗口，否则很可能会导致kafka无法完成对日志文件的解锁。届时，再次启动kafka的时候，就会提示日志文件被锁，无法成功启动" class="headerlink" title="注意！关闭时不能直接关闭窗口，否则很可能会导致kafka无法完成对日志文件的解锁。届时，再次启动kafka的时候，就会提示日志文件被锁，无法成功启动"></a>注意！关闭时不能直接关闭窗口，否则很可能会导致kafka无法完成对日志文件的解锁。届时，再次启动kafka的时候，就会提示日志文件被锁，无法成功启动</h4><p>！！！千万不要手动暴力关闭，用下面的命令关闭（如果暴力关闭了，解决方案：方案：将kafka的日志文件全部删除，再次启动即可。）</p>
+
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        
+        
+    </div>
+    <a href="/2025/02/18/%E5%90%AF%E5%8A%A8Kafka/" class="go-post">阅读全文</a>
+</div>
+
+<div class="post">
     <a href="/2025/02/17/git%E7%9A%84%E4%BD%BF%E7%94%A8/">
         <h2 class="post-title">git的使用</h2>
     </a>
@@ -517,7 +875,7 @@ func main() &#123;
 <li>安装MySQL驱动：执行  go get -u github.com&#x2F;go-sql-driver&#x2F;mysql 。这会下载MySQL驱动到你的本地 $GOPATH 下。</li>
 <li>安装WebSocket库：若使用  gorilla&#x2F;websocket （比  golang.org&#x2F;x&#x2F;net&#x2F;websocket  更常用 ），运行  go get -u github.com&#x2F;gorilla&#x2F;websocket 。</li>
 <li>安装gorm:     执行go get -u gorm.io&#x2F;gorm， go get -u gorm.io&#x2F;driver&#x2F;mysql</li>
-<li>ssh密钥：ssh-keygen -t rsa -b 4096 -C”<a href="mailto:&#x32;&#54;&#55;&#52;&#x33;&#x30;&#x32;&#52;&#51;&#x33;&#x40;&#x71;&#x71;&#46;&#99;&#x6f;&#x6d;">&#x32;&#54;&#55;&#52;&#x33;&#x30;&#x32;&#52;&#51;&#x33;&#x40;&#x71;&#x71;&#46;&#99;&#x6f;&#x6d;</a>“</li>
+<li>ssh密钥：ssh-keygen -t rsa -b 4096 -C”<a href="mailto:&#x32;&#x36;&#55;&#x34;&#x33;&#x30;&#50;&#x34;&#51;&#51;&#x40;&#x71;&#113;&#46;&#x63;&#111;&#x6d;">&#x32;&#x36;&#55;&#x34;&#x33;&#x30;&#50;&#x34;&#51;&#51;&#x40;&#x71;&#113;&#46;&#x63;&#111;&#x6d;</a>“</li>
 <li>sshkmftymkzpecee</li>
 <li>安装 Go - zero 代码生成工具 goctl：go install github.com&#x2F;zeromicro&#x2F;go-zero&#x2F;tools&#x2F;goctl@latest</li>
 </ol>
@@ -603,44 +961,21 @@ func main() &#123;
     <a href="/2025/01/26/RedRock_commerce/" class="go-post">阅读全文</a>
 </div>
 
-<div class="post">
-    <a href="/2025/01/22/my%20first%20blog/">
-        <h2 class="post-title">my first blog</h2>
-    </a>
-    <div class="category-and-date">
-        
-        <span class="date">
-            <span class="icon">
-                <i class="fa-solid fa-calendar fa-fw"></i>
-            </span>
-            2025/1/22
-        </span>
-        
-        
-    </div>
-    <div class="description">
-        <div class="content" v-pre>
-            
-            <p>😊😊😊<br>搞了一整天，终于搭好了，本来打算搭在gitee上，结果那边的一个服务突然停了，只有付费的，没办法只能用GitHub了。<br>写这个东西现在还有点麻烦，Markdown还一点都不会，总之才刚刚建好，慢慢找个好一点的markdown编辑器，我还在用记事本，这东西还是不行。</p>
-
-            
-        </div>
-    </div>
-    <div class="post-tags">
-        
-        
-        
-    </div>
-    <a href="/2025/01/22/my%20first%20blog/" class="go-post">阅读全文</a>
-</div>
-
 
         <div class="page-current">
     
     <span class="current">1</span>
     
+    <a class="page-num" href="/page/2">
+        2
+    </a>
     
     
+    
+    
+    <a class="page-num" href="/page/2/">
+        <i class="fa-solid fa-caret-right fa-fw"></i>
+    </a>
     
 </div>
 

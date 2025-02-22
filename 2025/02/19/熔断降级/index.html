@@ -140,14 +140,75 @@
             <span class="icon">
                 <i class="fa-solid fa-calendar fa-fw"></i>
             </span>
-            2025/2/21
+            2025/2/19
         </span>
         
         
     </div>
     
     <div class="content" v-pre>
-        
+        <p>熔断降级是一种在系统出现故障或异常情况时，为了避免故障蔓延，对系统进行保护的机制。通常当某个服务或操作频繁失败时，会触发熔断，后续的请求会直接走降级逻辑，而不是继续尝试可能失败的操作。</p>
+<h2 id="熔断降级的基本概念"><a href="#熔断降级的基本概念" class="headerlink" title="熔断降级的基本概念"></a>熔断降级的基本概念</h2><ul>
+<li><strong>熔断</strong>：当系统检测到某个服务或操作的错误率超过一定阈值，或者在一定时间内出现过多的错误时，会触发熔断。熔断后，对该服务或操作的请求会直接被拦截，不再尝试调用实际的逻辑。</li>
+<li><strong>降级</strong>：在熔断触发后，会执行一个预先定义好的降级逻辑，返回一个默认值或者执行一些简单的处理，以避免长时间等待或者系统崩溃。</li>
+<li><strong>恢复</strong>：在熔断一段时间后（通常称为休眠窗口），系统会尝试恢复正常，重新允许部分请求调用实际的逻辑，根据调用结果来判断是否继续熔断。</li>
+</ul>
+<h2 id="实现熔断降级"><a href="#实现熔断降级" class="headerlink" title="实现熔断降级"></a>实现熔断降级</h2><h3 id="选择熔断降级库"><a href="#选择熔断降级库" class="headerlink" title="选择熔断降级库"></a>选择熔断降级库</h3><p>在 Go 语言中，有一些常用的熔断降级库，比如 <code>hystrix-go</code>、<code>go-kit/circuitbreaker</code> 等,我用 <code>hystrix-go</code></p>
+<h3 id="配置熔断参数"><a href="#配置熔断参数" class="headerlink" title="配置熔断参数"></a>配置熔断参数</h3><p>在使用 <code>hystrix-go</code> 时，需要配置一些熔断的参数，这些参数决定了熔断的触发条件和恢复机制。例如：</p>
+<pre><code class="go">package main
+
+import (
+    &quot;github.com/afex/hystrix-go/hystrix&quot;
+)
+
+func init() &#123;
+    // 配置熔断命令
+    hystrix.ConfigureCommand(&quot;myCommand&quot;, hystrix.CommandConfig&#123;
+        Timeout:               1000, // 超时时间，单位毫秒
+        MaxConcurrentRequests: 100,  // 最大并发请求数
+        ErrorPercentThreshold: 25,   // 错误率阈值，超过该阈值会触发熔断
+        SleepWindow:           5000, // 熔断后的休眠窗口时间，单位毫秒
+    &#125;)
+&#125;
+</code></pre>
+<ul>
+<li><code>Timeout</code>：表示请求的超时时间，如果一个请求的处理时间超过这个时间，就会被认为是超时，会触发熔断。</li>
+<li><code>MaxConcurrentRequests</code>：表示最大并发请求数，当并发请求数超过这个值时，新的请求可能会被拒绝。</li>
+<li><code>ErrorPercentThreshold</code>：表示错误率阈值，当错误率超过这个值时，会触发熔断。</li>
+<li><code>SleepWindow</code>：表示熔断后的休眠窗口时间，在熔断触发后，会进入休眠窗口，在这个时间段内，所有请求都会直接走熔断降级逻辑，休眠窗口结束后，会尝试恢复正常。</li>
+</ul>
+<h3 id="编写正常逻辑和降级逻辑"><a href="#编写正常逻辑和降级逻辑" class="headerlink" title="编写正常逻辑和降级逻辑"></a>编写正常逻辑和降级逻辑</h3><p>在使用 <code>hystrix-go</code> 时，需要编写正常逻辑和降级逻辑。正常逻辑是在系统正常情况下执行的逻辑，降级逻辑是在熔断触发后执行的逻辑。</p>
+<pre><code class="go">package main
+
+import (
+    &quot;fmt&quot;
+    &quot;github.com/afex/hystrix-go/hystrix&quot;
+)
+
+func main() &#123;
+    err := hystrix.Do(&quot;myCommand&quot;, func() error &#123;
+        // 正常逻辑
+        fmt.Println(&quot;执行正常逻辑&quot;)
+        // 模拟错误
+        return fmt.Errorf(&quot;发生错误&quot;)
+    &#125;, func(err error) error &#123;
+        // 降级逻辑
+        fmt.Println(&quot;执行降级逻辑&quot;)
+        return nil
+    &#125;)
+
+    if err != nil &#123;
+        fmt.Println(&quot;操作失败:&quot;, err)
+    &#125;
+&#125;
+</code></pre>
+<p>hystrix.Do 函数接受三个参数：</p>
+<ul>
+<li>第一个参数是熔断命令的名称，需要和配置时的名称一致。</li>
+<li>第二个参数是一个匿名函数，用于执行正常逻辑。</li>
+<li>第三个参数是一个匿名函数，用于执行降级逻辑。当正常逻辑出现错误（包括超时、错误率超过阈值等情况）时，会执行这个降级函数。</li>
+</ul>
+
     </div>
     
     

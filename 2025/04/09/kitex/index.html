@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <title>something | xkiven の 小屋</title>
+    <title>kitex | xkiven の 小屋</title>
     <meta name="author" content="xkiven" />
     <meta name="description" content="" />
     <meta name="keywords" content="" />
@@ -133,30 +133,70 @@
         <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
             <div class="article">
     <div>
-        <h1>something</h1>
+        <h1>kitex</h1>
     </div>
     <div class="info">
         <span class="date">
             <span class="icon">
                 <i class="fa-solid fa-calendar fa-fw"></i>
             </span>
-            2025/2/2
+            2025/4/9
         </span>
         
         
     </div>
     
     <div class="content" v-pre>
-        <ol>
-<li>安装Gin：在项目目录下的终端中运行  go get -u github.com&#x2F;gin-gonic&#x2F;gin 。 -u  标志用于更新到最新版本。</li>
-<li>安装MySQL驱动：执行  go get -u github.com&#x2F;go-sql-driver&#x2F;mysql 。这会下载MySQL驱动到你的本地 $GOPATH 下。</li>
-<li>安装WebSocket库：若使用  gorilla&#x2F;websocket （比  golang.org&#x2F;x&#x2F;net&#x2F;websocket  更常用 ），运行  go get -u github.com&#x2F;gorilla&#x2F;websocket 。</li>
-<li>安装gorm:     执行go get -u gorm.io&#x2F;gorm， go get -u gorm.io&#x2F;driver&#x2F;mysql</li>
-<li>ssh密钥：ssh-keygen -t rsa -b 4096 -C”<a href="mailto:&#x32;&#x36;&#55;&#52;&#51;&#x30;&#50;&#x34;&#51;&#x33;&#64;&#113;&#x71;&#x2e;&#x63;&#x6f;&#109;">&#x32;&#x36;&#55;&#52;&#51;&#x30;&#50;&#x34;&#51;&#x33;&#64;&#113;&#x71;&#x2e;&#x63;&#x6f;&#109;</a>“</li>
-<li>sshkmftymkzpecee</li>
-<li>安装 Go - zero 代码生成工具 goctl：go install github.com&#x2F;zeromicro&#x2F;go-zero&#x2F;tools&#x2F;goctl@latest</li>
-<li>安装redis：go get github.com&#x2F;go-redis&#x2F;redis&#x2F;v8</li>
-</ol>
+        <h1 id="kitex的使用方法"><a href="#kitex的使用方法" class="headerlink" title="kitex的使用方法"></a>kitex的使用方法</h1><h2 id="环境配置"><a href="#环境配置" class="headerlink" title="环境配置"></a>环境配置</h2><p>执行以下命令：</p>
+<pre><code class="bash">go install github.com/cloudwego/kitex/tool/cmd/kitex@latest
+</code></pre>
+<p>安装成功后，执行 <code>kitex --version</code> 可以看到具体版本号的输出（版本号有差异，以 x.x.x 示例）：</p>
+<pre><code class="bash">$ kitex --version
+vx.x.x
+</code></pre>
+<h2 id="编写-IDL"><a href="#编写-IDL" class="headerlink" title="编写 IDL"></a>编写 IDL</h2><p>按照开发流程，我们首先需要编写 IDL，这里以 thrift IDL 为例子。</p>
+<p>创建 <code>idl</code> 目录用于存放项目 <code>idl</code> 文件</p>
+<p>一般不同的服务都会使用不同的 IDL</p>
+<p>item.thrift</p>
+<pre><code class="thrift">namespace go example.shop.item
+
+include &quot;base.thrift&quot;
+
+struct Item &#123;
+    1: i64 id
+    2: string title
+    3: string description
+    4: i64 stock
+&#125;
+
+struct GetItemReq &#123;
+    1: required i64 id
+&#125;
+
+struct GetItemResp &#123;
+    1: Item item
+
+    255: base.BaseResp baseResp
+&#125;
+
+service ItemService&#123;
+    GetItemResp GetItem(1: GetItemReq req)
+&#125;
+</code></pre>
+<h2 id="代码生成"><a href="#代码生成" class="headerlink" title="代码生成"></a>代码生成</h2><p>有了 IDL 以后我们便可以通过 kitex 工具生成项目代码了</p>
+<pre><code class="shell">kitex -module example_shop idl/item.thrift
+</code></pre>
+<p>生成的代码分两部分，一部分是结构体的编解码序列化代码，由 IDL 编译器生成；另一部分由 kitex 工具在前者产物上叠加，生成用于创建和发起 RPC 调用的桩代码。它们默认都在 <code>kitex_gen</code> 目录下。</p>
+<p>kitex 命令行工具提供了 <code>-service</code> 参数能直接生成带有脚手架的代码，接下来让我们为商品服务和库存服务分别生成脚手架。</p>
+<p>首先为两个 RPC 服务分别单独创建目录。</p>
+<pre><code class="shell">mkdir -p rpc/item rpc/stock
+</code></pre>
+<p>再分别进入各自的目录中，执行如下命令生成代码：</p>
+<pre><code class="shell">// item 目录下执行
+kitex -module example_shop -service example.shop.item -use example_shop/kitex_gen ../../idl/item.
+</code></pre>
+<h2 id="拉取依赖"><a href="#拉取依赖" class="headerlink" title="拉取依赖"></a>拉取依赖</h2><p>完成代码生成后，我们回到项目根目录，使用<code> go mod tidy</code> 命令拉取项目依赖</p>
+<h2 id="编写商品服务逻辑"><a href="#编写商品服务逻辑" class="headerlink" title="编写商品服务逻辑"></a>编写商品服务逻辑</h2><p>我们需要编写的服务端逻辑都在 <code>handler.go</code> 这个文件中</p>
 
     </div>
     

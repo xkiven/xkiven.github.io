@@ -189,12 +189,14 @@
     <div class="description">
         <div class="content" v-pre>
             
-            <ol>
+            <span id="more"></span>
+
+<ol>
 <li>安装Gin：在项目目录下的终端中运行  go get -u github.com&#x2F;gin-gonic&#x2F;gin 。 -u  标志用于更新到最新版本。</li>
 <li>安装MySQL驱动：执行  go get -u github.com&#x2F;go-sql-driver&#x2F;mysql 。这会下载MySQL驱动到你的本地 $GOPATH 下。</li>
 <li>安装WebSocket库：若使用  gorilla&#x2F;websocket （比  golang.org&#x2F;x&#x2F;net&#x2F;websocket  更常用 ），运行  go get -u github.com&#x2F;gorilla&#x2F;websocket 。</li>
 <li>安装gorm:     执行go get -u gorm.io&#x2F;gorm， go get -u gorm.io&#x2F;driver&#x2F;mysql</li>
-<li>ssh密钥：ssh-keygen -t rsa -b 4096 -C”<a href="mailto:&#50;&#x36;&#x37;&#x34;&#x33;&#48;&#x32;&#x34;&#51;&#x33;&#64;&#113;&#x71;&#x2e;&#x63;&#111;&#109;">&#50;&#x36;&#x37;&#x34;&#x33;&#48;&#x32;&#x34;&#51;&#x33;&#64;&#113;&#x71;&#x2e;&#x63;&#111;&#109;</a>“</li>
+<li>ssh密钥：ssh-keygen -t rsa -b 4096 -C”<a href="mailto:&#50;&#54;&#55;&#52;&#51;&#48;&#x32;&#52;&#x33;&#51;&#64;&#x71;&#113;&#x2e;&#99;&#x6f;&#x6d;">&#50;&#54;&#55;&#52;&#51;&#48;&#x32;&#52;&#x33;&#51;&#64;&#x71;&#113;&#x2e;&#99;&#x6f;&#x6d;</a>“</li>
 <li>sshkmftymkzpecee</li>
 <li>安装 Go - zero 代码生成工具 goctl：go install github.com&#x2F;zeromicro&#x2F;go-zero&#x2F;tools&#x2F;goctl@latest</li>
 <li>安装redis：go get github.com&#x2F;go-redis&#x2F;redis&#x2F;v8</li>
@@ -241,45 +243,6 @@
             
             <h2 id="项目简介"><a href="#项目简介" class="headerlink" title="项目简介"></a><strong>项目简介</strong></h2><p>本项目是一个基于 Go 语言和 Gin 框架开发,借助go-cache库实现缓存机制的电商 API 系统，提供了用户管理、商品查询、商品评论、购物车等功能。通过这些 API，开发者可以构建电商应用的后端服务，实现用户与商品的交互操作。</p>
 <p><em><strong>项目地址</strong></em>：<a target="_blank" rel="noopener" href="https://github.com/xkiven/redrock-commerce/tree/master">xkiven&#x2F;redrock-commerce at master</a></p>
-<h2 id="技术栈"><a href="#技术栈" class="headerlink" title="技术栈"></a><strong>技术栈</strong></h2><ul>
-<li><p>编程语言：Go 语言</p>
-</li>
-<li><p>Web 框架：Gin</p>
-</li>
-<li><p>数据库：MySQL</p>
-</li>
-<li><p>缓存：go - cache</p>
-</li>
-</ul>
-<h2 id="接口说明"><a href="#接口说明" class="headerlink" title="接口说明"></a><strong>接口说明</strong></h2><h3 id="用户相关"><a href="#用户相关" class="headerlink" title="用户相关"></a>用户相关</h3><h4 id="修改用户信息："><a href="#修改用户信息：" class="headerlink" title="修改用户信息："></a>修改用户信息：</h4><p>- </p>
-<h4 id="登录获取-token："><a href="#登录获取-token：" class="headerlink" title="登录获取 token："></a>登录获取 token：</h4><p>- </p>
-<h4 id="注册新用户："><a href="#注册新用户：" class="headerlink" title="注册新用户："></a>注册新用户：</h4><p>- </p>
-<h4 id="更新token"><a href="#更新token" class="headerlink" title="更新token:"></a>更新token:</h4><p>- </p>
-<h3 id="商品相关"><a href="#商品相关" class="headerlink" title="商品相关"></a>商品相关</h3><h4 id="搜索商品："><a href="#搜索商品：" class="headerlink" title="搜索商品："></a>搜索商品：</h4><p>- </p>
-<h4 id="获取商品列表："><a href="#获取商品列表：" class="headerlink" title="获取商品列表："></a>获取商品列表：</h4><p>- </p>
-<h4 id="查看分类下的商品："><a href="#查看分类下的商品：" class="headerlink" title="查看分类下的商品："></a>查看分类下的商品：</h4><p>- </p>
-<h3 id="评论相关"><a href="#评论相关" class="headerlink" title="评论相关"></a>评论相关</h3><h4 id="添加评论："><a href="#添加评论：" class="headerlink" title="添加评论："></a>添加评论：</h4><p>- </p>
-<h4 id="获取商品评论"><a href="#获取商品评论" class="headerlink" title="获取商品评论"></a>获取商品评论</h4><p>- </p>
-<h4 id="删除评论（会同时删除点赞或点踩记录）："><a href="#删除评论（会同时删除点赞或点踩记录）：" class="headerlink" title="删除评论（会同时删除点赞或点踩记录）："></a>删除评论（会同时删除点赞或点踩记录）：</h4><p>- </p>
-<h4 id="点赞与点踩（对评论）："><a href="#点赞与点踩（对评论）：" class="headerlink" title="点赞与点踩（对评论）："></a>点赞与点踩（对评论）：</h4><p>- </p>
-<h3 id="购物车相关"><a href="#购物车相关" class="headerlink" title="购物车相关"></a>购物车相关</h3><h4 id="商品加入购物车："><a href="#商品加入购物车：" class="headerlink" title="商品加入购物车："></a>商品加入购物车：</h4><p>- </p>
-<h4 id="从购物车删除"><a href="#从购物车删除" class="headerlink" title="从购物车删除"></a>从购物车删除</h4><p>- </p>
-<h3 id="订单相关"><a href="#订单相关" class="headerlink" title="订单相关"></a>订单相关</h3><h4 id="下单"><a href="#下单" class="headerlink" title="下单"></a>下单</h4><p>- </p>
-<h4 id="删除订单"><a href="#删除订单" class="headerlink" title="删除订单"></a>删除订单</h4><p>- </p>
-<h4 id="查看订单详情"><a href="#查看订单详情" class="headerlink" title="查看订单详情"></a>查看订单详情</h4><p>- </p>
-<h2 id="项目部署"><a href="#项目部署" class="headerlink" title="项目部署"></a>项目部署</h2><ul>
-<li><p>确保已安装Go环境、MySQL数据库</p>
-</li>
-<li><p>通过 go get命令获取go-cache库及依赖</p>
-</li>
-<li><p>在项目根目录下执行以下命令启动服务：</p>
-</li>
-</ul>
-<pre><code class="bash">go run cmd.go
-</code></pre>
-<h2 id="特别说明"><a href="#特别说明" class="headerlink" title="特别说明"></a>特别说明</h2><p>​	项目是从零开始一个人没日没夜赶在过年前完成的，缓存是做完后再加的实在是不想改了，只在搜索商品端口加了，这个时候才发现商品的is_addedCart在有无token时有变化，于是可以看到我搜索商品端口写了有token和没有token的方法，根据token得到两个结果，同理商品相关的端口都要改，但是我实在不想改了，就这样了，也还是能行</p>
-<p>服务启动后，默认监听在  <a target="_blank" rel="noopener" href="http://localhost:8080/">http://localhost:8080</a> 。</p>
-
             
         </div>
     </div>
@@ -318,7 +281,9 @@
     <div class="description">
         <div class="content" v-pre>
             
-            <p>😊😊😊<br>搞了一整天，终于搭好了，本来打算搭在gitee上，结果那边的一个服务突然停了，只有付费的，没办法只能用GitHub了。<br>写这个东西现在还有点麻烦，Markdown还一点都不会，总之才刚刚建好，慢慢找个好一点的markdown编辑器，我还在用记事本，这东西还是不行。</p>
+            <span id="more"></span>
+
+<p>😊😊😊<br>搞了一整天，终于搭好了，本来打算搭在gitee上，结果那边的一个服务突然停了，只有付费的，没办法只能用GitHub了。<br>写这个东西现在还有点麻烦，Markdown还一点都不会，总之才刚刚建好，慢慢找个好一点的markdown编辑器，我还在用记事本，这东西还是不行。</p>
 
             
         </div>

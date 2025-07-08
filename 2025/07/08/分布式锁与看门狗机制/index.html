@@ -166,7 +166,7 @@
             
             <span class="tag">
                 
-                <a href="/tags/%E7%AE%97%E6%B3%95/" style="color: #ff7d73">
+                <a href="/tags/%E7%AE%97%E6%B3%95/" style="color: #00a596">
                     算法
                 </a>
             </span>
@@ -180,7 +180,7 @@
 <li><p>分布式锁是一种在分布式环境下协调多个节点共享资源访问的机制。它的目的是在分布式系统中实现对共享资源的互斥访问，确保在任何时候只有一个节点能够获得锁并对资源进行操作。</p>
 </li>
 <li><p>在分布式系统中，看门狗机制通常用于检测和恢复系统的异常状态。对于分布式锁而言，它可以用于监控持有锁的线程或进程是否正常工作。例如，如果持有锁的线程在一段时间内没有响应或未能释放锁，看门狗会认为该线程可能已经失效，这时会强制释放锁以避免死锁。</p>
-</li>
+<span id="more"></span></li>
 </ul>
 <h2 id="代码分析"><a href="#代码分析" class="headerlink" title="代码分析"></a>代码分析</h2><h3 id="数据结构设计"><a href="#数据结构设计" class="headerlink" title="数据结构设计"></a>数据结构设计</h3><pre><code class="go">type RedisLock struct &#123;
     client      *redis.Client

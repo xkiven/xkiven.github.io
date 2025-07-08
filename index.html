@@ -158,6 +158,217 @@
         
 
 <div class="post">
+    <a href="/2025/07/08/%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%E4%B8%8E%E7%9C%8B%E9%97%A8%E7%8B%97%E6%9C%BA%E5%88%B6/">
+        <h2 class="post-title">分布式锁与看门狗机制</h2>
+    </a>
+    <div class="category-and-date">
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2025/7/8
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <h2 id="分布式锁与看门狗机制"><a href="#分布式锁与看门狗机制" class="headerlink" title="分布式锁与看门狗机制"></a><strong>分布式锁与看门狗机制</strong></h2><ul>
+<li><p>分布式锁是一种在分布式环境下协调多个节点共享资源访问的机制。它的目的是在分布式系统中实现对共享资源的互斥访问，确保在任何时候只有一个节点能够获得锁并对资源进行操作。</p>
+</li>
+<li><p>在分布式系统中，看门狗机制通常用于检测和恢复系统的异常状态。对于分布式锁而言，它可以用于监控持有锁的线程或进程是否正常工作。例如，如果持有锁的线程在一段时间内没有响应或未能释放锁，看门狗会认为该线程可能已经失效，这时会强制释放锁以避免死锁。</p>
+</li>
+</ul>
+<h2 id="代码分析"><a href="#代码分析" class="headerlink" title="代码分析"></a>代码分析</h2><h3 id="数据结构设计"><a href="#数据结构设计" class="headerlink" title="数据结构设计"></a>数据结构设计</h3><pre><code class="go">type RedisLock struct &#123;
+    client      *redis.Client
+    key         string
+    value       string
+    expiration  time.Duration // 锁的过期时间
+    renewPeriod time.Duration // 看门狗续期周期
+    ctx         context.Context
+    cancelFunc  context.CancelFunc
+&#125;
+</code></pre>
+<ul>
+<li><strong>client</strong>：Redis 客户端，用于与 Redis 服务器通信</li>
+<li><strong>key</strong>：锁的键名，在 Redis 中作为键存在</li>
+<li><strong>value</strong>：锁的值，使用 UUID 生成的唯一标识，确保只有锁的持有者才能释放锁</li>
+<li><strong>expiration</strong>：锁的过期时间，防止死锁</li>
+<li><strong>renewPeriod</strong>：看门狗续期的时间间隔，通常设置为过期时间的 1&#x2F;3</li>
+<li><strong>ctx <strong>和</strong>cancelFunc</strong>：用于控制看门狗协程的生命周期</li>
+</ul>
+<h3 id="锁的获取（Acquire-方法）"><a href="#锁的获取（Acquire-方法）" class="headerlink" title="锁的获取（Acquire 方法）"></a>锁的获取（Acquire 方法）</h3><pre><code class="go">func (l *RedisLock) Acquire(blocking bool, timeout time.Duration) (bool, error) &#123;
+    ctx, cancel := context.WithTimeout(l.ctx, timeout)
+    defer cancel()
+
+    startTime := time.Now()
+
+    for &#123;
+        // 使用SET命令原子性地获取锁
+        set, err := l.client.SetNX(ctx, l.key, l.value, l.expiration).Result()
+        if err != nil &#123;
+            return false, err
+        &#125;
+
+        if set &#123;
+            // 获取锁成功，启动看门狗
+            l.startWatchdog()
+            return true, nil
+        &#125;
+
+        if !blocking &#123;
+            return false, nil
+        &#125;
+
+        if timeout &gt; 0 &amp;&amp; time.Since(startTime) &gt;= timeout &#123;
+            return false, nil
+        &#125;
+
+        // 短暂休眠避免频繁重试
+        time.Sleep(100 * time.Millisecond)
+    &#125;
+&#125;
+</code></pre>
+<p>关键技术点：</p>
+<ol>
+<li><strong>原子操作</strong>：使用 Redis 的<code>SetNX</code>命令原子性地设置锁，等效于<code>SET key value NX EX timeout</code></li>
+<li><strong>阻塞模式</strong>：通过循环尝试获取锁实现阻塞模式</li>
+<li><strong>超时控制</strong>：使用<code>context.WithTimeout</code>控制获取锁的最长时间</li>
+<li><strong>看门狗启动</strong>：获取锁成功后启动看门狗协程，自动续期锁</li>
+</ol>
+<h3 id="锁的释放（Release-方法）"><a href="#锁的释放（Release-方法）" class="headerlink" title="锁的释放（Release 方法）"></a>锁的释放（Release 方法）</h3><pre><code class="go">func (l *RedisLock) Release() (bool, error) &#123;
+    // 停止看门狗
+    if l.cancelFunc != nil &#123;
+        l.cancelFunc()
+    &#125;
+
+    // 使用Lua脚本原子性地验证并释放锁
+    luaScript := `
+    if redis.call(&quot;GET&quot;, KEYS[1]) == ARGV[1] then
+        return redis.call(&quot;DEL&quot;, KEYS[1])
+    else
+        return 0
+    end
+    `
+
+    result, err := l.client.Eval(l.ctx, luaScript, []string&#123;l.key&#125;, l.value).Result()
+    if err != nil &#123;
+        return false, err
+    &#125;
+
+    return result.(int64) == 1, nil
+&#125;
+</code></pre>
+<p>关键技术点：</p>
+<ol>
+<li><strong>原子性验证与释放</strong>：使用 Lua 脚本确保验证锁持有者和释放锁的操作是原子性的</li>
+<li><strong>防止误释放</strong>：只有锁的持有者（value 匹配）才能释放锁</li>
+<li><strong>停止看门狗</strong>：释放锁前先停止看门狗协程，避免不必要的续期操作</li>
+</ol>
+<h3 id="看门狗自动续期机制"><a href="#看门狗自动续期机制" class="headerlink" title="看门狗自动续期机制"></a>看门狗自动续期机制</h3><pre><code class="go">func (l *RedisLock) startWatchdog() &#123;
+    ctx, cancel := context.WithCancel(l.ctx)
+    l.cancelFunc = cancel
+
+    go func() &#123;
+        ticker := time.NewTicker(l.renewPeriod)
+        defer ticker.Stop()
+
+        for &#123;
+            select &#123;
+            case &lt;-ticker.C:
+                // 续期锁
+                err := l.renew()
+                if err != nil &#123;
+                    log.Printf(&quot;看门狗续期失败: key=%s, error=%v&quot;, l.key, err)
+                    return
+                &#125;
+            case &lt;-ctx.Done():
+                log.Printf(&quot;看门狗停止: key=%s&quot;, l.key)
+                return
+            &#125;
+        &#125;
+    &#125;()
+&#125;
+
+func (l *RedisLock) renew() error &#123;
+    // 使用Lua脚本验证并续期锁，确保操作的原子性
+    luaScript := `
+    if redis.call(&quot;GET&quot;, KEYS[1]) == ARGV[1] then
+        return redis.call(&quot;PEXPIRE&quot;, KEYS[1], ARGV[2])
+    else
+        return 0
+    end
+    `
+
+    // 将过期时间转换为毫秒
+    expirationMs := int64(l.expiration / time.Millisecond)
+
+    result, err := l.client.Eval(l.ctx, luaScript, []string&#123;l.key&#125;, l.value, expirationMs).Result()
+    if err != nil &#123;
+        return err
+    &#125;
+
+    if result.(int64) == 0 &#123;
+        return fmt.Errorf(&quot;锁已过期或被其他客户端持有: key=%s&quot;, l.key)
+    &#125;
+
+    return nil
+&#125;
+</code></pre>
+<p>看门狗机制的关键技术点：</p>
+<ol>
+<li><strong>定期续期</strong>：按照<code>renewPeriod</code>设置的时间间隔定期续期锁</li>
+<li><strong>原子操作</strong>：使用 Lua 脚本确保只有锁的持有者才能续期</li>
+<li><strong>异常处理</strong>：续期失败时记录日志并退出协程</li>
+<li><strong>上下文控制</strong>：通过<code>context</code>控制协程的生命周期，确保锁释放后看门狗能停止</li>
+</ol>
+<h3 id="接口兼容性与最佳实践"><a href="#接口兼容性与最佳实践" class="headerlink" title="接口兼容性与最佳实践"></a>接口兼容性与最佳实践</h3><ol>
+<li>实现 sync.Locker 接口</li>
+</ol>
+<pre><code class="go">func (l *RedisLock) Lock() &#123;
+    _, err := l.Acquire(true, 0)
+    if err != nil &#123;
+        log.Printf(&quot;获取锁失败: key=%s, error=%v&quot;, l.key, err)
+    &#125;
+&#125;
+
+func (l *RedisLock) Unlock() &#123;
+    _, err := l.Release()
+    if err != nil &#123;
+        log.Printf(&quot;释放锁失败: key=%s, error=%v&quot;, l.key, err)
+    &#125;
+&#125;
+</code></pre>
+<p>这使得该分布式锁可以无缝集成到使用<code>sync.Locker</code>接口的 Go 代码中，例如：</p>
+<pre><code class="go">lock := NewRedisLock(rdb, &quot;resource_lock&quot;, 30*time.Second)
+lock.Lock()
+defer lock.Unlock()
+// 执行关键业务逻辑
+</code></pre>
+
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        <span class="icon">
+            <i class="fa-solid fa-tags fa-fw"></i>
+        </span>
+        
+        
+        
+        <span class="tag">
+            
+            <a href="/tags/%E7%AE%97%E6%B3%95/" style="color: #00a596">算法</a>
+        </span>
+        
+    </div>
+    <a href="/2025/07/08/%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%E4%B8%8E%E7%9C%8B%E9%97%A8%E7%8B%97%E6%9C%BA%E5%88%B6/" class="go-post">阅读全文</a>
+</div>
+
+<div class="post">
     <a href="/2025/04/09/kitex/">
         <h2 class="post-title">kitex</h2>
     </a>
@@ -422,7 +633,16 @@ func (l *RateLimiter) Allow(ctx context.Context, key string) (bool, error) &#123
     </div>
     <div class="post-tags">
         
+        <span class="icon">
+            <i class="fa-solid fa-tags fa-fw"></i>
+        </span>
         
+        
+        
+        <span class="tag">
+            
+            <a href="/tags/%E7%AE%97%E6%B3%95/" style="color: #00a596">算法</a>
+        </span>
         
     </div>
     <a href="/2025/02/21/%E5%88%86%E5%B8%83%E5%BC%8F%E7%AE%97%E6%B3%95%EF%BC%88%E4%BB%A4%E7%89%8C%E6%A1%B6%EF%BC%89/" class="go-post">阅读全文</a>
@@ -991,47 +1211,6 @@ func main() &#123;
         
     </div>
     <a href="/2025/02/04/chat-room-1/" class="go-post">阅读全文</a>
-</div>
-
-<div class="post">
-    <a href="/2025/02/02/something/">
-        <h2 class="post-title">something</h2>
-    </a>
-    <div class="category-and-date">
-        
-        <span class="date">
-            <span class="icon">
-                <i class="fa-solid fa-calendar fa-fw"></i>
-            </span>
-            2025/2/2
-        </span>
-        
-        
-    </div>
-    <div class="description">
-        <div class="content" v-pre>
-            
-            <ol>
-<li>安装Gin：在项目目录下的终端中运行  go get -u github.com&#x2F;gin-gonic&#x2F;gin 。 -u  标志用于更新到最新版本。</li>
-<li>安装MySQL驱动：执行  go get -u github.com&#x2F;go-sql-driver&#x2F;mysql 。这会下载MySQL驱动到你的本地 $GOPATH 下。</li>
-<li>安装WebSocket库：若使用  gorilla&#x2F;websocket （比  golang.org&#x2F;x&#x2F;net&#x2F;websocket  更常用 ），运行  go get -u github.com&#x2F;gorilla&#x2F;websocket 。</li>
-<li>安装gorm:     执行go get -u gorm.io&#x2F;gorm， go get -u gorm.io&#x2F;driver&#x2F;mysql</li>
-<li>ssh密钥：ssh-keygen -t rsa -b 4096 -C”<a href="mailto:&#x32;&#x36;&#x37;&#x34;&#51;&#48;&#x32;&#x34;&#x33;&#51;&#64;&#113;&#x71;&#46;&#x63;&#x6f;&#109;">&#x32;&#x36;&#x37;&#x34;&#51;&#48;&#x32;&#x34;&#x33;&#51;&#64;&#113;&#x71;&#46;&#x63;&#x6f;&#109;</a>“</li>
-<li>sshkmftymkzpecee</li>
-<li>安装 Go - zero 代码生成工具 goctl：go install github.com&#x2F;zeromicro&#x2F;go-zero&#x2F;tools&#x2F;goctl@latest</li>
-<li>安装redis：go get github.com&#x2F;go-redis&#x2F;redis&#x2F;v8</li>
-<li>进入 Consul 的安装目录，然后执行 <code>consul agent -dev</code> 命令来以开发模式启动 Consul</li>
-</ol>
-
-            
-        </div>
-    </div>
-    <div class="post-tags">
-        
-        
-        
-    </div>
-    <a href="/2025/02/02/something/" class="go-post">阅读全文</a>
 </div>
 
 

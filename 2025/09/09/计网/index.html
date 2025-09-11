@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <title>Kafka | xkiven の 小屋</title>
+    <title>计网 | xkiven の 小屋</title>
     <meta name="author" content="xkiven" />
     <meta name="description" content="" />
     <meta name="keywords" content="" />
@@ -147,14 +147,14 @@
         <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
             <div class="article">
     <div>
-        <h1>Kafka</h1>
+        <h1>计网</h1>
     </div>
     <div class="info">
         <span class="date">
             <span class="icon">
                 <i class="fa-solid fa-calendar fa-fw"></i>
             </span>
-            2025/2/18
+            2025/9/9
         </span>
         
         
@@ -166,8 +166,8 @@
             
             <span class="tag">
                 
-                <a href="/tags/%E5%B7%A5%E5%85%B7/" style="color: #03a9f4">
-                    工具
+                <a href="/tags/%E7%9F%A5%E8%AF%86/" style="color: #ff7d73">
+                    知识
                 </a>
             </span>
             
@@ -176,19 +176,62 @@
     </div>
     
     <div class="content" v-pre>
-        <p>因为Kafka依赖Zookeeper，所以先启动zookeeper</p>
-<span id="more"></span>
+        <h1 id="计算机网络"><a href="#计算机网络" class="headerlink" title="计算机网络"></a>计算机网络</h1><span id="more"></span>
 
-<h2 id="启动zookeeper："><a href="#启动zookeeper：" class="headerlink" title="启动zookeeper："></a>启动zookeeper：</h2><pre><code>bin\windows\zookeeper-server-start.bat config\zookeeper.properties
-</code></pre>
-<p>不要关闭当前窗口，重新打开新的窗口进入文件目录</p>
-<h2 id="启动kafka："><a href="#启动kafka：" class="headerlink" title="启动kafka："></a>启动kafka：</h2><pre><code>bin\windows\kafka-server-start.bat config\server.properties
-</code></pre>
-<h2 id="关闭zookeeper服务器"><a href="#关闭zookeeper服务器" class="headerlink" title="关闭zookeeper服务器"></a>关闭zookeeper服务器</h2><pre><code>zookeeper-server-stop.bat	
-</code></pre>
-<h2 id="关闭kafka服务器"><a href="#关闭kafka服务器" class="headerlink" title="关闭kafka服务器"></a>关闭kafka服务器</h2><pre><code>kafka-server-stop.bat
-</code></pre>
-<h4 id="注意！关闭时不能直接关闭窗口，否则很可能会导致kafka无法完成对日志文件的解锁。届时，再次启动kafka的时候，就会提示日志文件被锁，无法成功启动"><a href="#注意！关闭时不能直接关闭窗口，否则很可能会导致kafka无法完成对日志文件的解锁。届时，再次启动kafka的时候，就会提示日志文件被锁，无法成功启动" class="headerlink" title="注意！关闭时不能直接关闭窗口，否则很可能会导致kafka无法完成对日志文件的解锁。届时，再次启动kafka的时候，就会提示日志文件被锁，无法成功启动"></a>注意！关闭时不能直接关闭窗口，否则很可能会导致kafka无法完成对日志文件的解锁。届时，再次启动kafka的时候，就会提示日志文件被锁，无法成功启动</h4><p>！！！千万不要手动暴力关闭，用下面的命令关闭（如果暴力关闭了，解决方案：方案：将kafka的日志文件全部删除，再次启动即可。）</p>
+<h2 id="HTTP-HTTPS"><a href="#HTTP-HTTPS" class="headerlink" title="HTTP&#x2F;HTTPS"></a>HTTP&#x2F;HTTPS</h2><h3 id="HTTP-是什么？"><a href="#HTTP-是什么？" class="headerlink" title="HTTP 是什么？"></a><em><strong>HTTP 是什么？</strong></em></h3><ul>
+<li><strong>http 是用于两点之间传输文本，图片，视频等超文本的约定和规范</strong></li>
+</ul>
+<p>​	 HTTP 的名字「超文本协议传输」，它可以拆成三个部分：超文本、传输、协议</p>
+<h3 id="GET-和-POST-有什么区别？"><a href="#GET-和-POST-有什么区别？" class="headerlink" title="GET 和 POST 有什么区别？"></a>GET 和 POST 有什么区别？</h3><ul>
+<li><strong>GET 是从指定服务器获取资源，POST 是（根据报文 body）对指定的资源进行管理</strong></li>
+</ul>
+<p>​	GET 请求的参数位置一般是写在 URL 中，URL 规定只能支持 ASCII，所以 GET 请求的参数只允许 ASCII 字符 ，而且浏览器会对 URL 的长度有限制（HTTP 协议本身对 URL 长度并没有做任何规定）。</p>
+<p>​	POST 请求携带数据的位置一般是写在报文 body 中，body 中的数据可以是任意格式的数据，只要客户端与服务端协商好即可，而且浏览器不会对 body 大小做限制。</p>
+<h3 id="HTTP-1-1-的优缺点？"><a href="#HTTP-1-1-的优缺点？" class="headerlink" title="HTTP&#x2F;1.1 的优缺点？"></a>HTTP&#x2F;1.1 的优缺点？</h3><ul>
+<li><p><strong>优点：HTTP&#x2F;1.1 简单，直接使用 header+body，易于理解；性能：实现长连接，不用 TCP 频繁换连接，使用【请求-应答】模式，可以发送多个请求</strong></p>
+</li>
+<li><p><strong>缺点：明文传递不安全，性能：队头堵塞，当一个请求被阻塞时，就会阻塞全部请求</strong></p>
+</li>
+</ul>
+<h3 id="HTTP-与-HTTPS-有哪些区别？"><a href="#HTTP-与-HTTPS-有哪些区别？" class="headerlink" title="HTTP 与 HTTPS 有哪些区别？"></a><em><strong>HTTP 与 HTTPS 有哪些区别？</strong></em></h3><ul>
+<li><ol>
+<li><strong>端口号不同，HTTP 是 80，HTTPS 是 443</strong></li>
+<li><strong>HTTP 连接时只用 TCP 的三次握手，HTTPS 连接时不仅 TCP 要进行三次握手，SSL&#x2F;TLS 还要进行握手才能加密报文传输</strong></li>
+<li><strong>HTTPS 在 HTTP 和 TCL 层中间加入了 SSL&#x2F;TLS 安全协议</strong></li>
+<li><strong>HTTPS 还要向 CA 申请数字证书</strong></li>
+</ol>
+</li>
+</ul>
+<h3 id="HTTPS-解决了-HTTP-的哪些问题？"><a href="#HTTPS-解决了-HTTP-的哪些问题？" class="headerlink" title="HTTPS 解决了 HTTP 的哪些问题？"></a>HTTPS 解决了 HTTP 的哪些问题？</h3><ul>
+<li><strong>HTTP 由于明文传输的原因，会造成篡改风险，窃听风险，冒充风险</strong></li>
+<li><strong>HTTPS 由于加入了 SSL&#x2F;TLS，加入了校验机制，信息加密，身份验证（CA 的数字证书）</strong></li>
+</ul>
+<h3 id="HTTPS-是如何解决上面的三个风险的？"><a href="#HTTPS-是如何解决上面的三个风险的？" class="headerlink" title="HTTPS 是如何解决上面的三个风险的？"></a>HTTPS 是如何解决上面的三个风险的？</h3><ul>
+<li><strong><em>混合加密</em> 能对信息进行加密，实现信息机密性</strong></li>
+<li><strong><em>摘要算法</em> 能校验信息完整性，确保信息不会被篡改</strong></li>
+<li><strong>向 CA 申请 <em>数字证书</em></strong></li>
+</ul>
+<h3 id="解释一下混合加密"><a href="#解释一下混合加密" class="headerlink" title="解释一下混合加密"></a><em><strong>解释一下混合加密</strong></em></h3><ul>
+<li><ol>
+<li><strong>客户端发起握手请求，并携带一个随机数 Client Random</strong></li>
+<li><strong>服务器接受请求，返回证书（包含公钥）还有一个随机数 Server Random</strong></li>
+<li><strong>客户端验证证书，在生成一个随机数 Pre-Master Secret 和前面两个用算法加密为 Session Secret，再用证书里的公钥加密 Pre-Master Secret，再传输给服务器</strong></li>
+<li><strong>服务器拿到后用自己的私钥解密这部分得到 Pre-Master Secret，再根据前面的两个随机数用相同的算法得到 Session Secret</strong></li>
+</ol>
+</li>
+</ul>
+<h3 id="HTTP-1和HTTP-2的优化，HTTP-2和HTTP-3的优化？"><a href="#HTTP-1和HTTP-2的优化，HTTP-2和HTTP-3的优化？" class="headerlink" title="HTTP&#x2F;1和HTTP&#x2F;2的优化，HTTP&#x2F;2和HTTP&#x2F;3的优化？"></a><strong>HTTP&#x2F;1和HTTP&#x2F;2的优化，HTTP&#x2F;2和HTTP&#x2F;3的优化？</strong></h3><ul>
+<li><p><strong>HTTP&#x2F;2相对于HTTP&#x2F;1实现了头部压缩，二进制，并发传输，服务器主动推送资源</strong></p>
+<ol>
+<li>如果你发出多个请求，他们的头相似，那么就会压缩头，消除重复的部分</li>
+<li>HTTP&#x2F;2不像HTTP&#x2F;1采用纯文本格式，全面采用二进制，统称为帧</li>
+<li>针对不同的 HTTP 请求用独一无二的 Stream ID 来区分，接收端可以通过 Stream ID 有序组装成 HTTP 消息，不同 Stream 的帧是可以乱序发送的，因此可以并发不同的 Stream ，也就是 HTTP&#x2F;2 可以并行交错地发送请求和响应。</li>
+<li>服务器不再是被动接受消息了，能主动推送资源</li>
+</ol>
+</li>
+<li><p><strong>HTTP&#x2F;3相对于HTTP&#x2F;2放弃了TCP，因为虽然HTTP&#x2F;2因为并发传输解决了队头阻塞，但是在TCL层有队头阻塞，于是HTTP&#x2F;3使用UDP+QUIC</strong></p>
+</li>
+</ul>
 
     </div>
     

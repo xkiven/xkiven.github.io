@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <title>Tags: 算法 | xkiven の 小屋</title>
+    <title>FalshSale | xkiven の 小屋</title>
     <meta name="author" content="xkiven" />
     <meta name="description" content="" />
     <meta name="keywords" content="" />
@@ -42,6 +42,10 @@
 
 
 <script src="/js/lib/preview.js"></script>
+
+
+
+
 
 
 
@@ -141,174 +145,62 @@
 </transition>
 
         <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
-            <div id="archives">
-    
-    <div class="categories-tags">
-        
-        
-        
-        <span>
-            <a href="/tags/%E9%A1%B9%E7%9B%AE/" style="background: #ff7d73">
-                <span class="icon">
-                    <i class="fa-solid fa-tags fa-fw"></i>
-                </span>
-                项目
-            </a>
+            <div class="article">
+    <div>
+        <h1>FalshSale</h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2025/5/3
         </span>
         
         
-        
-        <span>
-            <a href="/tags/%E5%B7%A5%E5%85%B7/" style="background: #ffa2c4">
-                <span class="icon">
-                    <i class="fa-solid fa-tags fa-fw"></i>
-                </span>
-                工具
-            </a>
+        <span class="tags">
+            <span class="icon">
+                <i class="fa-solid fa-tags fa-fw"></i>
+            </span>
+            
+            
+            <span class="tag">
+                
+                <a href="/tags/%E9%A1%B9%E7%9B%AE/" style="color: #ffa2c4">
+                    项目
+                </a>
+            </span>
+            
         </span>
         
-        
-        
-        <span>
-            <a href="/tags/%E7%AE%97%E6%B3%95/" style="background: linear-gradient(120deg, #9abbf7 0%, #ffbbf4 100%)">
-                <span class="icon">
-                    <i class="fa-solid fa-tags fa-fw"></i>
-                </span>
-                算法
-            </a>
-        </span>
-        
-        
-        
-        
-        
-        <span>
-            <a href="/tags/%E7%9F%A5%E8%AF%86/" style="background: #ffa2c4">
-                <span class="icon">
-                    <i class="fa-solid fa-tags fa-fw"></i>
-                </span>
-                知识
-            </a>
-        </span>
-        
-        
     </div>
     
-    <div class="timeline">
-        <div class="timeline-tail"></div>
-        <div class="timeline-content">
-            <div class="item-time">2025/7/8</div>
-            <a href="/2025/07/08/%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%E4%B8%8E%E7%9C%8B%E9%97%A8%E7%8B%97%E6%9C%BA%E5%88%B6/">
-                <h3>分布式锁与看门狗机制</h3>
-            </a>
-            <div class="info">
-                
-                
-                <span class="tags">
-                    <span class="icon">
-                        <i class="fa-solid fa-tags fa-fw"></i>
-                    </span>
-                    
-                    
-                    <span class="tag">
-                        
-                        <a href="/tags/%E7%AE%97%E6%B3%95/" style="color: #03a9f4">
-                            算法
-                        </a>
-                    </span>
-                    
-                </span>
-                
-            </div>
-        </div>
+    <div class="content" v-pre>
+        <h1 id="FlashSale-秒杀系统"><a href="#FlashSale-秒杀系统" class="headerlink" title="FlashSale 秒杀系统"></a>FlashSale 秒杀系统</h1><p><em>项目地址</em>：<a target="_blank" rel="noopener" href="https://github.com/xkiven/FalshSale">https://github.com/xkiven/FalshSale</a></p>
+<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>本秒杀系统是一个高效、稳定的系统，旨在解决高并发场景下的秒杀问题，确保用户能够公平、流畅地参与秒杀活动。系统采用了多种技术手段，如缓存、消息队列等，来应对高并发流量，避免系统崩溃和数据不一致的问题。</p>
+<span id="more"></span>
+
+<h2 id="高并发问题及解决方法"><a href="#高并发问题及解决方法" class="headerlink" title="高并发问题及解决方法"></a>高并发问题及解决方法</h2><h3 id="限流问题"><a href="#限流问题" class="headerlink" title="限流问题"></a>限流问题</h3><h4 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h4><p>在秒杀活动开始时，大量用户会同时发起请求，可能会导致服务器瞬间压力过大，甚至崩溃。</p>
+<h4 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h4><ul>
+<li><strong>IP 限流</strong>：通过 middleware&#x2F;ip_ratelimit.go 中的 <code>IpRateLimit</code> 中间件，对每个 IP 地址的请求进行限流，每秒最多允许 1 个请求。如果某个 IP 的请求超过限制，会返回 <code>429 Too Many Requests</code> 错误信息。</li>
+<li><strong>漏桶限流</strong>：通过 middleware&#x2F;realize.go 中的 <code>GatewayMiddleware</code> 中间件，使用漏桶算法进行限流。如果请求超过桶的容量，会返回自定义的 <code>429</code> 错误信息。</li>
+</ul>
+<h3 id="库存超卖问题"><a href="#库存超卖问题" class="headerlink" title="库存超卖问题"></a>库存超卖问题</h3><h4 id="问题描述-1"><a href="#问题描述-1" class="headerlink" title="问题描述"></a>问题描述</h4><p>在高并发场景下，多个用户可能同时抢购同一件商品，导致库存数据不一致，出现超卖的情况。</p>
+<h4 id="解决方法-1"><a href="#解决方法-1" class="headerlink" title="解决方法"></a>解决方法</h4><p>使用 Redis 原子操作，在 FlashSale&#x2F;dao&#x2F;redis&#x2F;redis_client.go 中，使用 <code>CheckAndDeductStock</code> 函数通过 Redis 的原子操作 <code>DECR</code> 来扣减库存。如果扣减后库存小于 0，则说明商品已售罄，将库存加回去。</p>
+<h3 id="数据库压力问题"><a href="#数据库压力问题" class="headerlink" title="数据库压力问题"></a>数据库压力问题</h3><h4 id="问题描述-2"><a href="#问题描述-2" class="headerlink" title="问题描述"></a>问题描述</h4><p>大量的订单请求会对数据库造成巨大的压力，可能导致数据库性能下降甚至崩溃。</p>
+<h4 id="解决方法-2"><a href="#解决方法-2" class="headerlink" title="解决方法"></a>解决方法</h4><p>使用 Kafka 消息队列进行异步处理，在 FlashSale&#x2F;logic&#x2F;order_logic.go 中，当用户成功抢购商品后，将订单信息发送到 Kafka 消息队列中，然后从消息队列中消费消息并将订单信息写入数据库。这样可以将数据库的写入操作异步化，减轻数据库的压力。</p>
+<h3 id="服务熔断和降级问题"><a href="#服务熔断和降级问题" class="headerlink" title="服务熔断和降级问题"></a>服务熔断和降级问题</h3><h4 id="问题描述-3"><a href="#问题描述-3" class="headerlink" title="问题描述"></a>问题描述</h4><p>在高并发场景下，某个服务可能会因为过载而出现故障，导致整个系统的性能下降。</p>
+<h4 id="解决方法-3"><a href="#解决方法-3" class="headerlink" title="解决方法"></a>解决方法</h4><p>使用 <code>afex/hystrix-go</code> 库实现熔断降级机制，在 FlashSale&#x2F;rpc&#x2F;order&#x2F;main.go 中，配置了 <code>create_order</code> 命令的熔断参数，当请求超时、并发请求数超过限制或错误率达到阈值时，会触发熔断，执行降级逻辑。在 FlashSale&#x2F;logic&#x2F;order_logic.go 中，使用 <code>hystrix.Do</code> 函数包裹订单创建逻辑，当出现错误时，执行降级逻辑，返回系统繁忙的提示信息。</p>
+<h3 id="并发处理问题"><a href="#并发处理问题" class="headerlink" title="并发处理问题"></a>并发处理问题</h3><h4 id="问题描述-4"><a href="#问题描述-4" class="headerlink" title="问题描述"></a>问题描述</h4><p>在高并发场景下，需要高效地处理多个订单请求，以提高系统的吞吐量。</p>
+<h4 id="解决方法-4"><a href="#解决方法-4" class="headerlink" title="解决方法"></a>解决方法</h4><p>在 FlashSale&#x2F;logic&#x2F;order_logic.go 中，使用 <code>goroutine</code> 和 <code>channel</code> 实现并发处理多个订单请求。通过启动多个工作协程，将订单任务分发到任务通道中，每个工作协程从任务通道中获取任务并处理，最后将处理结果发送到结果通道中。</p>
+
     </div>
     
-    <div class="timeline">
-        <div class="timeline-tail"></div>
-        <div class="timeline-content">
-            <div class="item-time">2025/2/21</div>
-            <a href="/2025/02/21/%E5%88%86%E5%B8%83%E5%BC%8F%E7%AE%97%E6%B3%95%EF%BC%88%E4%BB%A4%E7%89%8C%E6%A1%B6%EF%BC%89/">
-                <h3>分布式算法（令牌桶）</h3>
-            </a>
-            <div class="info">
-                
-                
-                <span class="tags">
-                    <span class="icon">
-                        <i class="fa-solid fa-tags fa-fw"></i>
-                    </span>
-                    
-                    
-                    <span class="tag">
-                        
-                        <a href="/tags/%E7%AE%97%E6%B3%95/" style="color: #00bcd4">
-                            算法
-                        </a>
-                    </span>
-                    
-                </span>
-                
-            </div>
-        </div>
-    </div>
     
-    <div class="timeline">
-        <div class="timeline-tail"></div>
-        <div class="timeline-content">
-            <div class="item-time">2025/2/20</div>
-            <a href="/2025/02/20/P2C/">
-                <h3>P2C</h3>
-            </a>
-            <div class="info">
-                
-                
-                <span class="tags">
-                    <span class="icon">
-                        <i class="fa-solid fa-tags fa-fw"></i>
-                    </span>
-                    
-                    
-                    <span class="tag">
-                        
-                        <a href="/tags/%E7%AE%97%E6%B3%95/" style="color: #00bcd4">
-                            算法
-                        </a>
-                    </span>
-                    
-                </span>
-                
-            </div>
-        </div>
-    </div>
     
-    <div class="timeline">
-        <div class="timeline-tail"></div>
-        <div class="timeline-content">
-            <div class="item-time">2025/2/19</div>
-            <a href="/2025/02/19/%E7%86%94%E6%96%AD%E9%99%8D%E7%BA%A7/">
-                <h3>熔断降级</h3>
-            </a>
-            <div class="info">
-                
-                
-                <span class="tags">
-                    <span class="icon">
-                        <i class="fa-solid fa-tags fa-fw"></i>
-                    </span>
-                    
-                    
-                    <span class="tag">
-                        
-                        <a href="/tags/%E7%AE%97%E6%B3%95/" style="color: #ffa2c4">
-                            算法
-                        </a>
-                    </span>
-                    
-                </span>
-                
-            </div>
-        </div>
-    </div>
+    
+    
+    
     
 </div>
 
@@ -340,6 +232,12 @@
         
     </div>
     <script src="/js/main.js"></script>
+    
+    
+
+
+
+
     
 </body>
 </html>

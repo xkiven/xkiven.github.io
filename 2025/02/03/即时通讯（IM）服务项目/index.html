@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <title>Tags: 算法 | xkiven の 小屋</title>
+    <title>即时通讯（IM）服务项目 | xkiven の 小屋</title>
     <meta name="author" content="xkiven" />
     <meta name="description" content="" />
     <meta name="keywords" content="" />
@@ -42,6 +42,10 @@
 
 
 <script src="/js/lib/preview.js"></script>
+
+
+
+
 
 
 
@@ -141,174 +145,79 @@
 </transition>
 
         <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
-            <div id="archives">
-    
-    <div class="categories-tags">
-        
-        
-        
-        <span>
-            <a href="/tags/%E9%A1%B9%E7%9B%AE/" style="background: #ff7d73">
-                <span class="icon">
-                    <i class="fa-solid fa-tags fa-fw"></i>
-                </span>
-                项目
-            </a>
+            <div class="article">
+    <div>
+        <h1>即时通讯（IM）服务项目</h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2025/2/3
         </span>
         
         
-        
-        <span>
-            <a href="/tags/%E5%B7%A5%E5%85%B7/" style="background: #ffa2c4">
-                <span class="icon">
-                    <i class="fa-solid fa-tags fa-fw"></i>
-                </span>
-                工具
-            </a>
+        <span class="tags">
+            <span class="icon">
+                <i class="fa-solid fa-tags fa-fw"></i>
+            </span>
+            
+            
+            <span class="tag">
+                
+                <a href="/tags/%E9%A1%B9%E7%9B%AE/" style="color: #ff7d73">
+                    项目
+                </a>
+            </span>
+            
         </span>
         
-        
-        
-        <span>
-            <a href="/tags/%E7%AE%97%E6%B3%95/" style="background: linear-gradient(120deg, #9abbf7 0%, #ffbbf4 100%)">
-                <span class="icon">
-                    <i class="fa-solid fa-tags fa-fw"></i>
-                </span>
-                算法
-            </a>
-        </span>
-        
-        
-        
-        
-        
-        <span>
-            <a href="/tags/%E7%9F%A5%E8%AF%86/" style="background: #ffa2c4">
-                <span class="icon">
-                    <i class="fa-solid fa-tags fa-fw"></i>
-                </span>
-                知识
-            </a>
-        </span>
-        
-        
     </div>
     
-    <div class="timeline">
-        <div class="timeline-tail"></div>
-        <div class="timeline-content">
-            <div class="item-time">2025/7/8</div>
-            <a href="/2025/07/08/%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%E4%B8%8E%E7%9C%8B%E9%97%A8%E7%8B%97%E6%9C%BA%E5%88%B6/">
-                <h3>分布式锁与看门狗机制</h3>
-            </a>
-            <div class="info">
-                
-                
-                <span class="tags">
-                    <span class="icon">
-                        <i class="fa-solid fa-tags fa-fw"></i>
-                    </span>
-                    
-                    
-                    <span class="tag">
-                        
-                        <a href="/tags/%E7%AE%97%E6%B3%95/" style="color: #03a9f4">
-                            算法
-                        </a>
-                    </span>
-                    
-                </span>
-                
-            </div>
-        </div>
+    <div class="content" v-pre>
+        <h1 id="IM-服务项目"><a href="#IM-服务项目" class="headerlink" title="IM 服务项目"></a>IM 服务项目</h1><p>这是一个使用go完成的即时通讯（IM）服务项目，整合了 gRPC、MySQL、Redis、MongoDB 和 Kafka 等多种技术，提供用户注册、登录、通讯、添加好友等基础功能。</p>
+<p><em>项目地址</em>：<a target="_blank" rel="noopener" href="https://github.com/xkiven/im/edit/main">https://github.com/xkiven/im/edit/main</a></p>
+<span id="more"></span>
+
+<h2 id="项目结构"><a href="#项目结构" class="headerlink" title="项目结构"></a>项目结构</h2><p>项目主要包含以下几个重要的模块：</p>
+<ul>
+<li><code>internal/mysql</code>：负责与 MySQL 数据库交互，包含用户模型定义及 MySQL 客户端的实现。</li>
+<li><code>internal/redis</code>：实现 Redis 客户端，用于缓存用户信息。</li>
+<li><code>internal/rpc/user</code>：处理用户相关的 RPC 请求，如用户注册和登录。</li>
+<li><code>internal/svc</code>：定义服务上下文结构体，管理项目中各种客户端实例。</li>
+<li><code>internal/config</code>：负责加载项目配置文件。</li>
+</ul>
+<h2 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h2><p>项目使用 YAML 格式的配置文件，主要配置项包括：</p>
+<ul>
+<li><code>Name</code>：服务名称。</li>
+<li><code>Host</code>和 <code>Port</code>：服务监听的地址和端口。</li>
+<li><code>UserRpc</code>，<code>MessageRpc</code>，<code>FriendRpc</code>  ：RPC 客户端配置。</li>
+<li><code>Kafka</code>：Kafka 相关配置，如 Brokers 和 Topic。</li>
+<li><code>MongoDB</code>：MongoDB 的 URI 和 Database 名称。</li>
+<li><code>MySQL</code>：MySQL 数据库的数据源。</li>
+<li><code>Redis</code>：Redis 的主机地址和密码。</li>
+</ul>
+<h2 id="主要功能"><a href="#主要功能" class="headerlink" title="主要功能"></a>主要功能</h2><h3 id="用户注册"><a href="#用户注册" class="headerlink" title="用户注册"></a><strong>用户注册</strong></h3><ul>
+<li>用户注册时，系统会先检查用户名是否已存在，若不存在则将用户信息插入到 MySQL 数据库，并将用户信息写入 Redis 缓存。</li>
+</ul>
+<h3 id="用户登录"><a href="#用户登录" class="headerlink" title="用户登录"></a><strong>用户登录</strong></h3><ul>
+<li>用户登录时，系统会先尝试从 Redis 缓存中获取用户信息进行验证，若验证失败则从 MySQL 数据库中验证。验证通过后，系统会生成 JWT 令牌并返回给用户。</li>
+</ul>
+<h3 id="好友的建立"><a href="#好友的建立" class="headerlink" title="好友的建立"></a><strong>好友的建立</strong></h3><ul>
+<li>系统会使用websocket协议，将好友申请即时传给客户端，并把好友的建立数据储存在MongoDB上</li>
+</ul>
+<h3 id="发送并即时接收消息"><a href="#发送并即时接收消息" class="headerlink" title="发送并即时接收消息"></a><strong>发送并即时接收消息</strong></h3><ul>
+<li>用户发送消息时会先判断是否为好友，再通过Kafka消息队列持久化流程，将消息使用websocket协议即时发送并接收消息</li>
+</ul>
+
     </div>
     
-    <div class="timeline">
-        <div class="timeline-tail"></div>
-        <div class="timeline-content">
-            <div class="item-time">2025/2/21</div>
-            <a href="/2025/02/21/%E5%88%86%E5%B8%83%E5%BC%8F%E7%AE%97%E6%B3%95%EF%BC%88%E4%BB%A4%E7%89%8C%E6%A1%B6%EF%BC%89/">
-                <h3>分布式算法（令牌桶）</h3>
-            </a>
-            <div class="info">
-                
-                
-                <span class="tags">
-                    <span class="icon">
-                        <i class="fa-solid fa-tags fa-fw"></i>
-                    </span>
-                    
-                    
-                    <span class="tag">
-                        
-                        <a href="/tags/%E7%AE%97%E6%B3%95/" style="color: #00bcd4">
-                            算法
-                        </a>
-                    </span>
-                    
-                </span>
-                
-            </div>
-        </div>
-    </div>
     
-    <div class="timeline">
-        <div class="timeline-tail"></div>
-        <div class="timeline-content">
-            <div class="item-time">2025/2/20</div>
-            <a href="/2025/02/20/P2C/">
-                <h3>P2C</h3>
-            </a>
-            <div class="info">
-                
-                
-                <span class="tags">
-                    <span class="icon">
-                        <i class="fa-solid fa-tags fa-fw"></i>
-                    </span>
-                    
-                    
-                    <span class="tag">
-                        
-                        <a href="/tags/%E7%AE%97%E6%B3%95/" style="color: #00bcd4">
-                            算法
-                        </a>
-                    </span>
-                    
-                </span>
-                
-            </div>
-        </div>
-    </div>
     
-    <div class="timeline">
-        <div class="timeline-tail"></div>
-        <div class="timeline-content">
-            <div class="item-time">2025/2/19</div>
-            <a href="/2025/02/19/%E7%86%94%E6%96%AD%E9%99%8D%E7%BA%A7/">
-                <h3>熔断降级</h3>
-            </a>
-            <div class="info">
-                
-                
-                <span class="tags">
-                    <span class="icon">
-                        <i class="fa-solid fa-tags fa-fw"></i>
-                    </span>
-                    
-                    
-                    <span class="tag">
-                        
-                        <a href="/tags/%E7%AE%97%E6%B3%95/" style="color: #ffa2c4">
-                            算法
-                        </a>
-                    </span>
-                    
-                </span>
-                
-            </div>
-        </div>
-    </div>
+    
+    
+    
     
 </div>
 
@@ -340,6 +249,12 @@
         
     </div>
     <script src="/js/main.js"></script>
+    
+    
+
+
+
+
     
 </body>
 </html>

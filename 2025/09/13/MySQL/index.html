@@ -1,0 +1,290 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>MySQL | xkiven の 小屋</title>
+    <meta name="author" content="xkiven" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
+    <link rel="icon" href="/images/ly.jpg" />
+    <link rel="preconnect" href="https://s4.zstatic.net" />
+<script src="https://s4.zstatic.net/ajax/libs/vue/3.3.7/vue.global.prod.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+<link rel="preconnect" href="https://fonts.googleapis.cn" />
+<link rel="preconnect" href="https://fonts.gstatic.cn" crossorigin />
+<link
+    rel="stylesheet"
+    href="https://fonts.googleapis.cn/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap"
+/>
+<script> const mixins = {}; </script>
+
+<script src="https://polyfill.alicdn.com/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
+/>
+<script src="/js/lib/highlight.js"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.css" />
+<script src="/js/lib/math.js"></script>
+
+
+<script src="/js/lib/preview.js"></script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/main.css" />
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+    <div id="layout">
+        <transition name="fade">
+            <div id="loading" v-show="loading">
+                <div id="loading-circle">
+                    <h2>LOADING</h2>
+                    <p>加载过慢请开启缓存 浏览器默认开启</p>
+                    <img src="/images/loading.gif" />
+                </div>
+            </div>
+        </transition>
+        <div id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <nav id="desktop-menu">
+        <a class="title" href="/">
+            <span>XKIVEN の 小屋</span>
+        </a>
+        
+        <a href="/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;Home</span>
+        </a>
+        
+        <a href="/about">
+            <i class="fa-solid fa-id-card fa-fw"></i>
+            <span>&ensp;About</span>
+        </a>
+        
+        <a href="/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;Archives</span>
+        </a>
+        
+        <a href="/tags/%E7%AE%97%E6%B3%95/">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;Tags</span>
+        </a>
+        
+    </nav>
+    <nav id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;XKIVEN の 小屋</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Home</div>
+                    </div>
+                </a>
+                
+                <a href="/about">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-id-card fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
+                    </div>
+                </a>
+                
+                <a href="/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div>
+                    </div>
+                </a>
+                
+                <a href="/tags/%E7%AE%97%E6%B3%95/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </nav>
+</div>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+        <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
+            <div class="article">
+    <div>
+        <h1>MySQL</h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2025/9/13
+        </span>
+        
+        
+        <span class="tags">
+            <span class="icon">
+                <i class="fa-solid fa-tags fa-fw"></i>
+            </span>
+            
+            
+            <span class="tag">
+                
+                <a href="/tags/%E7%9F%A5%E8%AF%86/" style="color: #03a9f4">
+                    知识
+                </a>
+            </span>
+            
+        </span>
+        
+    </div>
+    
+    <div class="content" v-pre>
+        <h1 id="MySQL"><a href="#MySQL" class="headerlink" title="MySQL"></a>MySQL</h1><h2 id="索引"><a href="#索引" class="headerlink" title="索引"></a>索引</h2><h3 id="什么是索引？"><a href="#什么是索引？" class="headerlink" title="什么是索引？"></a>什么是索引？</h3><ul>
+<li><strong>索引是MySQL优化查询速度，帮助搜索引擎快速获取数据的数据结构</strong></li>
+</ul>
+<h3 id="常用的索引类型有哪些？"><a href="#常用的索引类型有哪些？" class="headerlink" title="常用的索引类型有哪些？"></a><strong>常用的索引类型有哪些？</strong></h3><ul>
+<li><strong>主键索引：唯一标识记录，默认自增且非空，一张表只能有一个主键</strong></li>
+<li><strong>唯一索引：索引列值唯一，如用户手机号索引</strong></li>
+<li><strong>普通索引：无唯一性要求，最常用，如商品名称索引</strong></li>
+<li><strong>联合索引：多列组合的索引（如用户名+手机号），需遵循“最左前缀原则”</strong></li>
+</ul>
+<h3 id="什么情况下索引会失效？"><a href="#什么情况下索引会失效？" class="headerlink" title="什么情况下索引会失效？"></a>什么情况下索引会失效？</h3><ul>
+<li><strong>索引列用了函数&#x2F;计算，就会导致索引失效</strong></li>
+<li><strong>索引列用了不等于，（！&#x3D;，&lt;&gt;）</strong></li>
+<li><strong>联合索引不满足“最左前缀”</strong></li>
+<li><strong>对索引使用左或左右模糊匹配</strong></li>
+</ul>
+<h3 id="MySQL实现索引的数据结构是什么？为什么？"><a href="#MySQL实现索引的数据结构是什么？为什么？" class="headerlink" title="MySQL实现索引的数据结构是什么？为什么？"></a><strong>MySQL实现索引的数据结构是什么？为什么？</strong></h3><ul>
+<li><p><strong>InnoDB是MySQL默认的存储引擎，它是采用B+树作为索引的数据结构</strong></p>
+</li>
+<li><p><strong>B+树是一种多叉树，并且非叶子节点不存放实际的记录数据，仅放索引，因此查询底层节点的磁盘I&#x2F;O次数会更少</strong></p>
+</li>
+<li><p><strong>B+树有大量的冗余节点，使得B+树在插入，删除的效率都更高</strong></p>
+</li>
+</ul>
+<h3 id="什么是回表查询？如何避免回表？"><a href="#什么是回表查询？如何避免回表？" class="headerlink" title="什么是回表查询？如何避免回表？"></a>什么是回表查询？如何避免回表？</h3><ul>
+<li><strong>当查询语句依赖了非聚簇索引（如普通索引，唯一索引，联合索引），但所需的字段超过了非聚簇索引叶子节点存储的内容，就会根据查询条件找到索引项，获取主键值，再根据聚簇索引找到对应的叶子节点</strong></li>
+<li><strong>要避免回表就需要让查询的所有字段，都能从非聚簇索引中直接获取，无需查聚簇索引</strong></li>
+</ul>
+<h2 id="事务"><a href="#事务" class="headerlink" title="事务"></a>事务</h2><h3 id="什么是事务？作用是什么？"><a href="#什么是事务？作用是什么？" class="headerlink" title="什么是事务？作用是什么？"></a>什么是事务？作用是什么？</h3><ul>
+<li><strong>事务时数据库种一组不可分割的SQL执行单元，要么全部成功（提交），要么全部失败（回滚）</strong></li>
+<li><strong>核心作用是为了保证多部操作的数据一致性</strong></li>
+</ul>
+<h3 id="事务有哪些特性？（事务的ACID特性是什么？）"><a href="#事务有哪些特性？（事务的ACID特性是什么？）" class="headerlink" title="事务有哪些特性？（事务的ACID特性是什么？）"></a><strong>事务有哪些特性？（事务的ACID特性是什么？）</strong></h3><ul>
+<li><strong>原子性：事务是不可分割的最小单元，操作要么全成，要么全回滚  是通过undo log(回滚日志)实现</strong></li>
+<li><strong>隔离性：多个事务并发执行时，一个事务的操作不会被其他事务干扰，通过MVCC（多版本并发控制）或锁机制来保证</strong></li>
+<li><strong>持久性：事务提交后，修改会永久保存到磁盘，即使数据库崩溃，也不会丢失，通过redo log（重做日志）来保证</strong></li>
+<li><strong>一致性：事务执行前后，数据库保证一致性状态，由原子性+隔离性+持久性共同保证</strong></li>
+</ul>
+<h3 id="并行事务会引发什么问题？"><a href="#并行事务会引发什么问题？" class="headerlink" title="并行事务会引发什么问题？"></a>并行事务会引发什么问题？</h3><ul>
+<li><strong>脏读：一个事务读到了另一个事务未提交的修改（未提交就有随时回滚的风险）</strong></li>
+<li><strong>不可重复读：同一事务内，多次读取同一数据，返回的数据结果不一样（在一个事务两次读取的间隙，另一事务完成提交，修改了这个数据）</strong></li>
+<li><strong>幻读：同一事务内，多次执行相同查询，返回的数据行数不一致（在一个事务两次读取的间隙，另一事务完成提交，增加了一行数据）</strong></li>
+</ul>
+<h3 id="MySQL的四大隔离级别分别是什么？它们对应的并发问题解决能力如何？"><a href="#MySQL的四大隔离级别分别是什么？它们对应的并发问题解决能力如何？" class="headerlink" title="MySQL的四大隔离级别分别是什么？它们对应的并发问题解决能力如何？"></a><strong>MySQL的四大隔离级别分别是什么？它们对应的并发问题解决能力如何？</strong></h3><ul>
+<li><p><strong>读未提交：允许读未提交的数据；无法解决任何并发问题</strong></p>
+</li>
+<li><p><strong>读已提交：允许未提交数据；只能解决‘脏读’，仍有‘不可重复读’‘幻读’</strong></p>
+</li>
+<li><p><strong>可重复的：同一事务内部数据一致；解决‘脏读’‘不可重复读’一定程度上避免了‘幻读’（一般就在这一隔离级别）</strong></p>
+</li>
+<li><p><strong>串行化：事务串行执行，完全不并发；解决所有并发问题</strong></p>
+</li>
+</ul>
+<h3 id="InnoDB-中保证事务ACID特性的核心日志有哪些？分别作用是什么？"><a href="#InnoDB-中保证事务ACID特性的核心日志有哪些？分别作用是什么？" class="headerlink" title="InnoDB 中保证事务ACID特性的核心日志有哪些？分别作用是什么？"></a>InnoDB 中保证事务ACID特性的核心日志有哪些？分别作用是什么？</h3><ul>
+<li><strong>redo log（重做日志）：保证事务持久性，记录事务对数据的修改，事务提交前先写redo log，即使数据库崩溃，重启后可通过redo log恢复已提交的数据</strong></li>
+<li><strong>undo log（回滚日志）：保证事务原子性和隔离性，记录事务修改前的数据，用于数据回滚，也可用于数据快照（MVCC）</strong></li>
+<li><strong>binlog（二进制日志）：记录所有数据修改操作，主要用于主从复制和数据恢复</strong></li>
+</ul>
+<h3 id="InnoDB-的MVCC（多版本并发控制器）和事务隔离级别的关系？"><a href="#InnoDB-的MVCC（多版本并发控制器）和事务隔离级别的关系？" class="headerlink" title="InnoDB 的MVCC（多版本并发控制器）和事务隔离级别的关系？"></a>InnoDB 的MVCC（多版本并发控制器）和事务隔离级别的关系？</h3><ul>
+<li><strong>MVCC是实现隔离性的核心，通过为数据生成“多版本快照”，让不同事务在并发时看到不同版本的数据，避免锁竞争</strong><ol>
+<li>读可提交：每次查询都生成新的快照，只能看到已提交的最新数据</li>
+<li>可重复读：事务一开始，生成一次快照，整个事务用这一个快照</li>
+</ol>
+</li>
+</ul>
+<h2 id="锁"><a href="#锁" class="headerlink" title="锁"></a>锁</h2>
+    </div>
+    
+    
+    
+    
+    
+    
+    
+</div>
+
+            <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy;
+            2022 - 2025 xkiven の 小屋
+            <span id="footer-icon">
+                <i class="fa-solid fa-font-awesome fa-fw"></i>
+            </span>
+            &commat;xkiven
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+        
+        <transition name="fade">
+            <div id="preview" ref="preview" v-show="previewShow">
+                <img id="preview-content" ref="previewContent" />
+            </div>
+        </transition>
+        
+    </div>
+    <script src="/js/main.js"></script>
+    
+    
+
+
+
+
+    
+</body>
+</html>

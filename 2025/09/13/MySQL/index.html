@@ -166,7 +166,7 @@
             
             <span class="tag">
                 
-                <a href="/tags/%E7%9F%A5%E8%AF%86/" style="color: #00a596">
+                <a href="/tags/%E7%9F%A5%E8%AF%86/" style="color: #00bcd4">
                     知识
                 </a>
             </span>
@@ -258,6 +258,28 @@
 </li>
 <li><p><strong>页级锁：粒度介于表锁和行锁之间，MySQL极少使用</strong></p>
 </li>
+</ul>
+<h3 id="InnoDB行锁是基于什么实现的？为什么会出现幻读？"><a href="#InnoDB行锁是基于什么实现的？为什么会出现幻读？" class="headerlink" title="InnoDB行锁是基于什么实现的？为什么会出现幻读？"></a>InnoDB行锁是基于什么实现的？为什么会出现幻读？</h3><ul>
+<li><strong>是基于聚簇索引（主键索引）实现的，若未走主键索引，会升级为表锁</strong></li>
+<li><strong>行锁仅锁定“已存在的行”，无法阻止其他事务“插入新行”</strong></li>
+</ul>
+<h3 id="什么是乐观锁和悲观锁？MySQL如何实现的？"><a href="#什么是乐观锁和悲观锁？MySQL如何实现的？" class="headerlink" title="什么是乐观锁和悲观锁？MySQL如何实现的？"></a>什么是乐观锁和悲观锁？MySQL如何实现的？</h3><ul>
+<li><strong>悲观锁：假设并发冲突会发生，直接加锁阻塞其他事务，行锁，表锁都是悲观锁</strong></li>
+<li><strong>乐观锁：假设并发冲突不会发生，不加锁，仅在提交时校验数据是否被修改，一般实现是在表中加version字段</strong></li>
+</ul>
+<h3 id="隔离级别与锁的关系？"><a href="#隔离级别与锁的关系？" class="headerlink" title="隔离级别与锁的关系？"></a>隔离级别与锁的关系？</h3><ul>
+<li><strong>读未提交：无锁</strong></li>
+<li><strong>读已提交：行锁+MVCC</strong></li>
+<li><strong>可重复读：行锁+MVCC+间隙锁</strong></li>
+<li><strong>串行化：读加S锁，写加X锁，完全串行执行</strong></li>
+</ul>
+<h3 id="什么是间隙锁？作用是什么？"><a href="#什么是间隙锁？作用是什么？" class="headerlink" title="什么是间隙锁？作用是什么？"></a>什么是间隙锁？作用是什么？</h3><ul>
+<li><strong>间隙锁是对范围查询时，除了锁定范围内的行，还会锁定范围内不存在的间隙</strong></li>
+<li><strong>防止其他事务在间隙中插入新行</strong></li>
+</ul>
+<h3 id="MySQL的死锁什么时候会发生？怎么避免？"><a href="#MySQL的死锁什么时候会发生？怎么避免？" class="headerlink" title="MySQL的死锁什么时候会发生？怎么避免？"></a>MySQL的死锁什么时候会发生？怎么避免？</h3><ul>
+<li><strong>满足死锁的四个条件：互斥、占有且等待、不可强占用、循环等待</strong></li>
+<li><strong>设置事务等待锁的超时时间、开启主动死锁检测</strong></li>
 </ul>
 
     </div>

@@ -253,7 +253,26 @@
 </ol>
 </li>
 </ul>
-<h2 id="锁"><a href="#锁" class="headerlink" title="锁"></a>锁</h2>
+<h2 id="锁"><a href="#锁" class="headerlink" title="锁"></a>锁</h2><h3 id="MySQL常见的锁类型？按粒度分"><a href="#MySQL常见的锁类型？按粒度分" class="headerlink" title="MySQL常见的锁类型？按粒度分"></a>MySQL常见的锁类型？按粒度分</h3><ul>
+<li><p><strong>全局锁：锁住整个数据库，使数据库处于只读状态</strong></p>
+</li>
+<li><p><strong>表级锁：锁定整张表，粒度大，开销小，加锁快，并发度低</strong></p>
+<ol>
+<li>表共享读锁：允许其他事务读，禁止写</li>
+<li>表独占写锁：允许其他事务读和写</li>
+<li>意向锁：避免表锁和行锁冲突</li>
+</ol>
+</li>
+<li><p><strong>行级锁：锁定单行数据，粒度小，开销大，加锁慢，并发度高</strong></p>
+<ol>
+<li>共享锁：事务读数据时加锁，其他事务可以加共享锁，不可以加排他锁</li>
+<li>排他锁：事务写数据时加锁，其他事务不可加任何锁</li>
+</ol>
+</li>
+<li><p><strong>页级锁：粒度介于表锁和行锁之间，MySQL极少使用</strong></p>
+</li>
+</ul>
+
             
         </div>
     </div>
@@ -267,7 +286,7 @@
         
         <span class="tag">
             
-            <a href="/tags/%E7%9F%A5%E8%AF%86/" style="color: #00bcd4">知识</a>
+            <a href="/tags/%E7%9F%A5%E8%AF%86/" style="color: #ffa2c4">知识</a>
         </span>
         
     </div>
@@ -306,7 +325,7 @@
         
         <span class="tag">
             
-            <a href="/tags/%E7%9F%A5%E8%AF%86/" style="color: #ff7d73">知识</a>
+            <a href="/tags/%E7%9F%A5%E8%AF%86/" style="color: #ffa2c4">知识</a>
         </span>
         
     </div>
@@ -346,7 +365,7 @@
         
         <span class="tag">
             
-            <a href="/tags/%E9%A1%B9%E7%9B%AE/" style="color: #00a596">项目</a>
+            <a href="/tags/%E9%A1%B9%E7%9B%AE/" style="color: #ffa2c4">项目</a>
         </span>
         
     </div>
@@ -428,7 +447,7 @@
         
         <span class="tag">
             
-            <a href="/tags/%E9%A1%B9%E7%9B%AE/" style="color: #00a596">项目</a>
+            <a href="/tags/%E9%A1%B9%E7%9B%AE/" style="color: #ff7d73">项目</a>
         </span>
         
     </div>
@@ -467,7 +486,7 @@
         
         <span class="tag">
             
-            <a href="/tags/%E5%B7%A5%E5%85%B7/" style="color: #00a596">工具</a>
+            <a href="/tags/%E5%B7%A5%E5%85%B7/" style="color: #ffa2c4">工具</a>
         </span>
         
     </div>
@@ -507,7 +526,7 @@
         
         <span class="tag">
             
-            <a href="/tags/%E7%AE%97%E6%B3%95/" style="color: #00a596">算法</a>
+            <a href="/tags/%E7%AE%97%E6%B3%95/" style="color: #ffa2c4">算法</a>
         </span>
         
     </div>
@@ -546,7 +565,7 @@
         
         <span class="tag">
             
-            <a href="/tags/%E5%B7%A5%E5%85%B7/" style="color: #ffa2c4">工具</a>
+            <a href="/tags/%E5%B7%A5%E5%85%B7/" style="color: #ff7d73">工具</a>
         </span>
         
     </div>
@@ -590,7 +609,7 @@
         
         <span class="tag">
             
-            <a href="/tags/%E7%AE%97%E6%B3%95/" style="color: #ff7d73">算法</a>
+            <a href="/tags/%E7%AE%97%E6%B3%95/" style="color: #03a9f4">算法</a>
         </span>
         
     </div>
@@ -635,7 +654,7 @@
         
         <span class="tag">
             
-            <a href="/tags/%E7%AE%97%E6%B3%95/" style="color: #00bcd4">算法</a>
+            <a href="/tags/%E7%AE%97%E6%B3%95/" style="color: #ff7d73">算法</a>
         </span>
         
     </div>

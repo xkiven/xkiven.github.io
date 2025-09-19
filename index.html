@@ -189,112 +189,7 @@
     <div class="description">
         <div class="content" v-pre>
             
-            <h1 id="MySQL"><a href="#MySQL" class="headerlink" title="MySQL"></a>MySQL</h1><h2 id="索引"><a href="#索引" class="headerlink" title="索引"></a>索引</h2><h3 id="什么是索引？"><a href="#什么是索引？" class="headerlink" title="什么是索引？"></a>什么是索引？</h3><ul>
-<li><strong>索引是MySQL优化查询速度，帮助搜索引擎快速获取数据的数据结构</strong></li>
-</ul>
-<h3 id="常用的索引类型有哪些？"><a href="#常用的索引类型有哪些？" class="headerlink" title="常用的索引类型有哪些？"></a><strong>常用的索引类型有哪些？</strong></h3><ul>
-<li><strong>主键索引：唯一标识记录，默认自增且非空，一张表只能有一个主键</strong></li>
-<li><strong>唯一索引：索引列值唯一，如用户手机号索引</strong></li>
-<li><strong>普通索引：无唯一性要求，最常用，如商品名称索引</strong></li>
-<li><strong>联合索引：多列组合的索引（如用户名+手机号），需遵循“最左前缀原则”</strong></li>
-</ul>
-<h3 id="什么情况下索引会失效？"><a href="#什么情况下索引会失效？" class="headerlink" title="什么情况下索引会失效？"></a>什么情况下索引会失效？</h3><ul>
-<li><strong>索引列用了函数&#x2F;计算，就会导致索引失效</strong></li>
-<li><strong>索引列用了不等于，（！&#x3D;，&lt;&gt;）</strong></li>
-<li><strong>联合索引不满足“最左前缀”</strong></li>
-<li><strong>对索引使用左或左右模糊匹配</strong></li>
-</ul>
-<h3 id="MySQL实现索引的数据结构是什么？为什么？"><a href="#MySQL实现索引的数据结构是什么？为什么？" class="headerlink" title="MySQL实现索引的数据结构是什么？为什么？"></a><strong>MySQL实现索引的数据结构是什么？为什么？</strong></h3><ul>
-<li><p><strong>InnoDB是MySQL默认的存储引擎，它是采用B+树作为索引的数据结构</strong></p>
-</li>
-<li><p><strong>B+树是一种多叉树，并且非叶子节点不存放实际的记录数据，仅放索引，因此查询底层节点的磁盘I&#x2F;O次数会更少</strong></p>
-</li>
-<li><p><strong>B+树有大量的冗余节点，使得B+树在插入，删除的效率都更高</strong></p>
-</li>
-</ul>
-<h3 id="什么是回表查询？如何避免回表？"><a href="#什么是回表查询？如何避免回表？" class="headerlink" title="什么是回表查询？如何避免回表？"></a>什么是回表查询？如何避免回表？</h3><ul>
-<li><strong>当查询语句依赖了非聚簇索引（如普通索引，唯一索引，联合索引），但所需的字段超过了非聚簇索引叶子节点存储的内容，就会根据查询条件找到索引项，获取主键值，再根据聚簇索引找到对应的叶子节点</strong></li>
-<li><strong>要避免回表就需要让查询的所有字段，都能从非聚簇索引中直接获取，无需查聚簇索引</strong></li>
-</ul>
-<h2 id="事务"><a href="#事务" class="headerlink" title="事务"></a>事务</h2><h3 id="什么是事务？作用是什么？"><a href="#什么是事务？作用是什么？" class="headerlink" title="什么是事务？作用是什么？"></a>什么是事务？作用是什么？</h3><ul>
-<li><strong>事务时数据库种一组不可分割的SQL执行单元，要么全部成功（提交），要么全部失败（回滚）</strong></li>
-<li><strong>核心作用是为了保证多部操作的数据一致性</strong></li>
-</ul>
-<h3 id="事务有哪些特性？（事务的ACID特性是什么？）"><a href="#事务有哪些特性？（事务的ACID特性是什么？）" class="headerlink" title="事务有哪些特性？（事务的ACID特性是什么？）"></a><strong>事务有哪些特性？（事务的ACID特性是什么？）</strong></h3><ul>
-<li><strong>原子性：事务是不可分割的最小单元，操作要么全成，要么全回滚  是通过undo log(回滚日志)实现</strong></li>
-<li><strong>隔离性：多个事务并发执行时，一个事务的操作不会被其他事务干扰，通过MVCC（多版本并发控制）或锁机制来保证</strong></li>
-<li><strong>持久性：事务提交后，修改会永久保存到磁盘，即使数据库崩溃，也不会丢失，通过redo log（重做日志）来保证</strong></li>
-<li><strong>一致性：事务执行前后，数据库保证一致性状态，由原子性+隔离性+持久性共同保证</strong></li>
-</ul>
-<h3 id="并行事务会引发什么问题？"><a href="#并行事务会引发什么问题？" class="headerlink" title="并行事务会引发什么问题？"></a>并行事务会引发什么问题？</h3><ul>
-<li><strong>脏读：一个事务读到了另一个事务未提交的修改（未提交就有随时回滚的风险）</strong></li>
-<li><strong>不可重复读：同一事务内，多次读取同一数据，返回的数据结果不一样（在一个事务两次读取的间隙，另一事务完成提交，修改了这个数据）</strong></li>
-<li><strong>幻读：同一事务内，多次执行相同查询，返回的数据行数不一致（在一个事务两次读取的间隙，另一事务完成提交，增加了一行数据）</strong></li>
-</ul>
-<h3 id="MySQL的四大隔离级别分别是什么？它们对应的并发问题解决能力如何？"><a href="#MySQL的四大隔离级别分别是什么？它们对应的并发问题解决能力如何？" class="headerlink" title="MySQL的四大隔离级别分别是什么？它们对应的并发问题解决能力如何？"></a><strong>MySQL的四大隔离级别分别是什么？它们对应的并发问题解决能力如何？</strong></h3><ul>
-<li><p><strong>读未提交：允许读未提交的数据；无法解决任何并发问题</strong></p>
-</li>
-<li><p><strong>读已提交：允许未提交数据；只能解决‘脏读’，仍有‘不可重复读’‘幻读’</strong></p>
-</li>
-<li><p><strong>可重复的：同一事务内部数据一致；解决‘脏读’‘不可重复读’一定程度上避免了‘幻读’（一般就在这一隔离级别）</strong></p>
-</li>
-<li><p><strong>串行化：事务串行执行，完全不并发；解决所有并发问题</strong></p>
-</li>
-</ul>
-<h3 id="InnoDB-中保证事务ACID特性的核心日志有哪些？分别作用是什么？"><a href="#InnoDB-中保证事务ACID特性的核心日志有哪些？分别作用是什么？" class="headerlink" title="InnoDB 中保证事务ACID特性的核心日志有哪些？分别作用是什么？"></a>InnoDB 中保证事务ACID特性的核心日志有哪些？分别作用是什么？</h3><ul>
-<li><strong>redo log（重做日志）：保证事务持久性，记录事务对数据的修改，事务提交前先写redo log，即使数据库崩溃，重启后可通过redo log恢复已提交的数据</strong></li>
-<li><strong>undo log（回滚日志）：保证事务原子性和隔离性，记录事务修改前的数据，用于数据回滚，也可用于数据快照（MVCC）</strong></li>
-<li><strong>binlog（二进制日志）：记录所有数据修改操作，主要用于主从复制和数据恢复</strong></li>
-</ul>
-<h3 id="InnoDB-的MVCC（多版本并发控制器）和事务隔离级别的关系？"><a href="#InnoDB-的MVCC（多版本并发控制器）和事务隔离级别的关系？" class="headerlink" title="InnoDB 的MVCC（多版本并发控制器）和事务隔离级别的关系？"></a>InnoDB 的MVCC（多版本并发控制器）和事务隔离级别的关系？</h3><ul>
-<li><strong>MVCC是实现隔离性的核心，通过为数据生成“多版本快照”，让不同事务在并发时看到不同版本的数据，避免锁竞争</strong><ol>
-<li>读可提交：每次查询都生成新的快照，只能看到已提交的最新数据</li>
-<li>可重复读：事务一开始，生成一次快照，整个事务用这一个快照</li>
-</ol>
-</li>
-</ul>
-<h2 id="锁"><a href="#锁" class="headerlink" title="锁"></a>锁</h2><h3 id="MySQL常见的锁类型？按粒度分"><a href="#MySQL常见的锁类型？按粒度分" class="headerlink" title="MySQL常见的锁类型？按粒度分"></a>MySQL常见的锁类型？按粒度分</h3><ul>
-<li><p><strong>全局锁：锁住整个数据库，使数据库处于只读状态</strong></p>
-</li>
-<li><p><strong>表级锁：锁定整张表，粒度大，开销小，加锁快，并发度低</strong></p>
-<ol>
-<li>表共享读锁：允许其他事务读，禁止写</li>
-<li>表独占写锁：允许其他事务读和写</li>
-<li>意向锁：避免表锁和行锁冲突</li>
-</ol>
-</li>
-<li><p><strong>行级锁：锁定单行数据，粒度小，开销大，加锁慢，并发度高</strong></p>
-<ol>
-<li>共享锁：事务读数据时加锁，其他事务可以加共享锁，不可以加排他锁</li>
-<li>排他锁：事务写数据时加锁，其他事务不可加任何锁</li>
-</ol>
-</li>
-<li><p><strong>页级锁：粒度介于表锁和行锁之间，MySQL极少使用</strong></p>
-</li>
-</ul>
-<h3 id="InnoDB行锁是基于什么实现的？为什么会出现幻读？"><a href="#InnoDB行锁是基于什么实现的？为什么会出现幻读？" class="headerlink" title="InnoDB行锁是基于什么实现的？为什么会出现幻读？"></a>InnoDB行锁是基于什么实现的？为什么会出现幻读？</h3><ul>
-<li><strong>是基于聚簇索引（主键索引）实现的，若未走主键索引，会升级为表锁</strong></li>
-<li><strong>行锁仅锁定“已存在的行”，无法阻止其他事务“插入新行”</strong></li>
-</ul>
-<h3 id="什么是乐观锁和悲观锁？MySQL如何实现的？"><a href="#什么是乐观锁和悲观锁？MySQL如何实现的？" class="headerlink" title="什么是乐观锁和悲观锁？MySQL如何实现的？"></a>什么是乐观锁和悲观锁？MySQL如何实现的？</h3><ul>
-<li><strong>悲观锁：假设并发冲突会发生，直接加锁阻塞其他事务，行锁，表锁都是悲观锁</strong></li>
-<li><strong>乐观锁：假设并发冲突不会发生，不加锁，仅在提交时校验数据是否被修改，一般实现是在表中加version字段</strong></li>
-</ul>
-<h3 id="隔离级别与锁的关系？"><a href="#隔离级别与锁的关系？" class="headerlink" title="隔离级别与锁的关系？"></a>隔离级别与锁的关系？</h3><ul>
-<li><strong>读未提交：无锁</strong></li>
-<li><strong>读已提交：行锁+MVCC</strong></li>
-<li><strong>可重复读：行锁+MVCC+间隙锁</strong></li>
-<li><strong>串行化：读加S锁，写加X锁，完全串行执行</strong></li>
-</ul>
-<h3 id="什么是间隙锁？作用是什么？"><a href="#什么是间隙锁？作用是什么？" class="headerlink" title="什么是间隙锁？作用是什么？"></a>什么是间隙锁？作用是什么？</h3><ul>
-<li><strong>间隙锁是对范围查询时，除了锁定范围内的行，还会锁定范围内不存在的间隙</strong></li>
-<li><strong>防止其他事务在间隙中插入新行</strong></li>
-</ul>
-<h3 id="MySQL的死锁什么时候会发生？怎么避免？"><a href="#MySQL的死锁什么时候会发生？怎么避免？" class="headerlink" title="MySQL的死锁什么时候会发生？怎么避免？"></a>MySQL的死锁什么时候会发生？怎么避免？</h3><ul>
-<li><strong>满足死锁的四个条件：互斥、占有且等待、不可强占用、循环等待</strong></li>
-<li><strong>设置事务等待锁的超时时间、开启主动死锁检测</strong></li>
-</ul>
-
+            <h1 id="MySQL"><a href="#MySQL" class="headerlink" title="MySQL"></a>MySQL</h1>
             
         </div>
     </div>
@@ -308,7 +203,7 @@
         
         <span class="tag">
             
-            <a href="/tags/%E7%9F%A5%E8%AF%86/" style="color: #00a596">知识</a>
+            <a href="/tags/%E7%9F%A5%E8%AF%86/" style="color: #ff7d73">知识</a>
         </span>
         
     </div>
@@ -347,7 +242,7 @@
         
         <span class="tag">
             
-            <a href="/tags/%E7%9F%A5%E8%AF%86/" style="color: #03a9f4">知识</a>
+            <a href="/tags/%E7%9F%A5%E8%AF%86/" style="color: #00a596">知识</a>
         </span>
         
     </div>
@@ -387,7 +282,7 @@
         
         <span class="tag">
             
-            <a href="/tags/%E9%A1%B9%E7%9B%AE/" style="color: #ff7d73">项目</a>
+            <a href="/tags/%E9%A1%B9%E7%9B%AE/" style="color: #00a596">项目</a>
         </span>
         
     </div>
@@ -429,7 +324,7 @@
         
         <span class="tag">
             
-            <a href="/tags/%E7%AE%97%E6%B3%95/" style="color: #03a9f4">算法</a>
+            <a href="/tags/%E7%AE%97%E6%B3%95/" style="color: #ffa2c4">算法</a>
         </span>
         
     </div>
@@ -469,7 +364,7 @@
         
         <span class="tag">
             
-            <a href="/tags/%E9%A1%B9%E7%9B%AE/" style="color: #03a9f4">项目</a>
+            <a href="/tags/%E9%A1%B9%E7%9B%AE/" style="color: #ff7d73">项目</a>
         </span>
         
     </div>
@@ -508,7 +403,7 @@
         
         <span class="tag">
             
-            <a href="/tags/%E5%B7%A5%E5%85%B7/" style="color: #ffa2c4">工具</a>
+            <a href="/tags/%E5%B7%A5%E5%85%B7/" style="color: #00bcd4">工具</a>
         </span>
         
     </div>
@@ -548,7 +443,7 @@
         
         <span class="tag">
             
-            <a href="/tags/%E7%AE%97%E6%B3%95/" style="color: #00bcd4">算法</a>
+            <a href="/tags/%E7%AE%97%E6%B3%95/" style="color: #00a596">算法</a>
         </span>
         
     </div>
@@ -587,7 +482,7 @@
         
         <span class="tag">
             
-            <a href="/tags/%E5%B7%A5%E5%85%B7/" style="color: #03a9f4">工具</a>
+            <a href="/tags/%E5%B7%A5%E5%85%B7/" style="color: #ffa2c4">工具</a>
         </span>
         
     </div>
@@ -676,7 +571,7 @@
         
         <span class="tag">
             
-            <a href="/tags/%E7%AE%97%E6%B3%95/" style="color: #00a596">算法</a>
+            <a href="/tags/%E7%AE%97%E6%B3%95/" style="color: #03a9f4">算法</a>
         </span>
         
     </div>

@@ -1,0 +1,325 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Redis | xkiven の 小屋</title>
+    <meta name="author" content="xkiven" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
+    <link rel="icon" href="/images/ly.jpg" />
+    <link rel="preconnect" href="https://s4.zstatic.net" />
+<script src="https://s4.zstatic.net/ajax/libs/vue/3.3.7/vue.global.prod.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+<link rel="preconnect" href="https://fonts.googleapis.cn" />
+<link rel="preconnect" href="https://fonts.gstatic.cn" crossorigin />
+<link
+    rel="stylesheet"
+    href="https://fonts.googleapis.cn/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap"
+/>
+<script> const mixins = {}; </script>
+
+<script src="https://polyfill.alicdn.com/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
+/>
+<script src="/js/lib/highlight.js"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.css" />
+<script src="/js/lib/math.js"></script>
+
+
+<script src="/js/lib/preview.js"></script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/main.css" />
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+    <div id="layout">
+        <transition name="fade">
+            <div id="loading" v-show="loading">
+                <div id="loading-circle">
+                    <h2>LOADING</h2>
+                    <p>加载过慢请开启缓存 浏览器默认开启</p>
+                    <img src="/images/loading.gif" />
+                </div>
+            </div>
+        </transition>
+        <div id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <nav id="desktop-menu">
+        <a class="title" href="/">
+            <span>XKIVEN の 小屋</span>
+        </a>
+        
+        <a href="/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;Home</span>
+        </a>
+        
+        <a href="/about">
+            <i class="fa-solid fa-id-card fa-fw"></i>
+            <span>&ensp;About</span>
+        </a>
+        
+        <a href="/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;Archives</span>
+        </a>
+        
+        <a href="/tags/%E7%AE%97%E6%B3%95/">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;Tags</span>
+        </a>
+        
+    </nav>
+    <nav id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;XKIVEN の 小屋</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Home</div>
+                    </div>
+                </a>
+                
+                <a href="/about">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-id-card fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
+                    </div>
+                </a>
+                
+                <a href="/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div>
+                    </div>
+                </a>
+                
+                <a href="/tags/%E7%AE%97%E6%B3%95/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </nav>
+</div>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+        <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
+            <div class="article">
+    <div>
+        <h1>Redis</h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2025/9/22
+        </span>
+        
+        
+        <span class="tags">
+            <span class="icon">
+                <i class="fa-solid fa-tags fa-fw"></i>
+            </span>
+            
+            
+            <span class="tag">
+                
+                <a href="/tags/%E7%9F%A5%E8%AF%86/" style="color: #ff7d73">
+                    知识
+                </a>
+            </span>
+            
+        </span>
+        
+    </div>
+    
+    <div class="content" v-pre>
+        <h1 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a>Redis</h1><span id="more"></span>
+
+<h2 id="基础"><a href="#基础" class="headerlink" title="基础"></a>基础</h2><h3 id="Redis常用数据类型是什么？"><a href="#Redis常用数据类型是什么？" class="headerlink" title="Redis常用数据类型是什么？"></a>Redis常用数据类型是什么？</h3><ul>
+<li><strong>String 类型：缓存对象、常规计数、分布式锁、共享 session 信息等。</strong></li>
+<li><strong>List 类型：消息队列（但是有两个问题：1. 生产者需要自行实现全局唯一 ID；2. 不能以消费组形式消费数据）等。</strong></li>
+<li><strong>Hash 类型：缓存对象、购物车等。</strong></li>
+<li><strong>Set 类型：聚合计算（并集、交集、差集）场景，比如点赞、共同关注、抽奖活动等。</strong></li>
+<li><strong>Zset 类型：排序场景，比如排行榜、电话和姓名排序等。</strong></li>
+</ul>
+<h3 id="Redis是单线程吗？"><a href="#Redis是单线程吗？" class="headerlink" title="Redis是单线程吗？"></a>Redis是单线程吗？</h3><ul>
+<li><strong>Redis 单线程指的是「接收客户端请求-&gt;解析请求 -&gt;进行数据读写等操作-&gt;发送数据给客户端」这个过程是由一个线程（主线程）来完成的，这也是我们常说 Redis 是单线程的原因。</strong></li>
+<li><strong>但是，Redis 程序并不是单线程的，Redis 在启动的时候，是会启动后台线程（BIO）的，比如AOF刷盘，处理关闭文件，异步释放redis内存</strong></li>
+</ul>
+<h2 id="缓存"><a href="#缓存" class="headerlink" title="缓存"></a>缓存</h2><h3 id="缓存三剑客"><a href="#缓存三剑客" class="headerlink" title="缓存三剑客"></a><strong>缓存三剑客</strong></h3><h4 id="缓存雪崩"><a href="#缓存雪崩" class="headerlink" title="缓存雪崩"></a>缓存雪崩</h4><ul>
+<li><strong>当大量缓存数据在同一时间过期（失效）或者 Redis 故障宕机时，如果此时有大量的用户请求，都无法在Redis 中处理，于是全部请求都直接访问数据库，从而导致数据库的压力骤增，严重的会造成数据库宕机，从而形成一系列连锁反应，造成整个系统崩溃，这就是缓存雪崩的问题。</strong></li>
+</ul>
+<ol>
+<li><strong>大量缓存数据在同一时间过期</strong><ol>
+<li>均匀设置过期时间</li>
+<li>设置互斥锁</li>
+<li>后台更新缓存</li>
+</ol>
+</li>
+<li><strong>Redis故障宕机</strong><ol>
+<li>服务熔断降级或请求限流机制</li>
+<li>构造Redis高可靠集群</li>
+</ol>
+</li>
+</ol>
+<h4 id="缓存击穿"><a href="#缓存击穿" class="headerlink" title="缓存击穿"></a>缓存击穿</h4><ul>
+<li><strong>如果缓存中的某个热点数据过期了，此时大量的请求访问了该热点数据，就无法从缓存中读取，直接访问数据库，数据库很容易就被高并发的请求冲垮，这就是缓存击穿的问题。</strong></li>
+</ul>
+<ol>
+<li>互斥锁方案，保证同一时间只有一个业务线程更新缓存，未能获取互斥锁的请求，要么等待锁释放后重新读取缓存，要么就返回空值或者默认值。</li>
+<li>不给热点数据设置过期时间，由后台异步更新缓存，或者在热点数据准备要过期前，提前通知后台线程更新缓存以及重新设置过期时间；</li>
+</ol>
+<h4 id="缓存穿透"><a href="#缓存穿透" class="headerlink" title="缓存穿透"></a>缓存穿透</h4><ul>
+<li><strong>当用户访问的数据，既不在缓存中，也不在数据库中，导致请求在访问缓存时，发现缓存缺失，再去访问数据库时，发现数据库中也没有要访问的数据，没办法构建缓存数据，来服务后续的请求。那么当有大量这样的请求到来时，数据库的压力骤增，这就是缓存穿透的问题。</strong></li>
+</ul>
+<ol>
+<li>非法请求的限制；</li>
+<li>缓存空值或者默认值；</li>
+<li>使用布隆过滤器快速判断数据是否存在，避免通过查询数据库来判断数据是否存在；</li>
+</ol>
+<h3 id="缓存一致性"><a href="#缓存一致性" class="headerlink" title="缓存一致性"></a>缓存一致性</h3><ul>
+<li><p><strong>「先更新数据库，再删除缓存」的方案虽然保证了数据库与缓存的数据一致性，但是每次更新数据的时候，缓存的数据都会被删除，这样会对缓存的命中率带来影响。</strong></p>
+</li>
+<li><p><strong>所以，如果我们的业务对缓存命中率有很高的要求，我们可以采用「更新数据库 + 更新缓存」的方案，因为更新缓存并不会出现缓存未命中的情况。</strong></p>
+</li>
+<li><p><strong>当两个线程（更新数据库，更新缓存）并发更新它们的话，就会因为写入顺序的不同造成数据的不一致。所以我们得增加一些手段来解决这个问题：</strong></p>
+<ul>
+<li><p>在更新缓存前先加个<strong>分布式锁</strong>，保证同一时间只运行一个请求更新缓存，就会不会产生并发问题了，当然引入了锁后，对于写入的性能就会带来影响。</p>
+</li>
+<li><p>在更新完缓存时，给缓存加上<strong>较短的过期时间</strong>，这样即时出现缓存不一致的情况，缓存的数据也会很快过期，对业务还是能接受的。</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="持久化"><a href="#持久化" class="headerlink" title="持久化"></a>持久化</h2><h3 id="AOF-持久化"><a href="#AOF-持久化" class="headerlink" title="AOF 持久化"></a>AOF 持久化</h3><ul>
+<li><p><strong>AOF(Append Only File) 持久化功能，注意只会记录写操作命令，读操作命令是不会被记录的</strong></p>
+</li>
+<li><p><strong>AOF 日志是一个文件，随着执行的写操作命令越来越多，文件的大小会越来越大。所以，Redis 为了避免 AOF 文件越写越大，提供了 AOF 重写机制，当 AOF 文件的大小超过所设定的阈值后，Redis 就会启用 AOF 重写机制，来压缩 AOF 文件。</strong></p>
+</li>
+<li><p><strong>Redis 提供了三种将 AOF 日志写回硬盘的策略，分别是 Always、Everysec 和 No，这三种策略在可靠性上是从高到低，而在性能上则是从低到高。</strong></p>
+</li>
+</ul>
+<h3 id="RDB-快照"><a href="#RDB-快照" class="headerlink" title="RDB 快照"></a>RDB 快照</h3><ul>
+<li><p><strong>Redis 的快照是全量快照，也就是说每次执行快照，都是把内存中的「所有数据」都记录到磁盘中</strong></p>
+</li>
+<li><p><strong>混合持久化工作在 AOF 日志重写过程。</strong></p>
+</li>
+<li><p>当开启了混合持久化时，在 AOF 重写日志时，fork 出来的重写子进程会先将与主线程共享的内存数据以 RDB 方式写入到 AOF 文件，然后主线程处理的操作命令会被记录在重写缓冲区里，重写缓冲区里的增量命令会以 AOF 方式写入到 AOF 文件，写入完成后通知主进程将新的含有 RDB 格式和 AOF 格式的 AOF 文件替换旧的的 AOF 文件。也就是说，使用了混合持久化，<strong>AOF 文件的前半部分是 RDB 格式的全量数据，后半部分是 AOF 格式的增量数据</strong></p>
+</li>
+</ul>
+<h2 id="高可用"><a href="#高可用" class="headerlink" title="高可用"></a>高可用</h2><h3 id="主从复制"><a href="#主从复制" class="headerlink" title="主从复制"></a>主从复制</h3><ul>
+<li><strong>主从复制共有三种模式：全量复制、基于长连接的命令传播、增量复制。</strong></li>
+<li><strong>主从服务器第一次同步的时候，就是采用全量复制</strong>，此时主服务器会两个耗时的地方，分别是生成 RDB 文件和传输 RDB 文件。为了避免过多的从服务器和主服务器进行全量复制，可以把一部分从服务器升级为「经理角色」，让它也有自己的从服务器，通过这样可以分摊主服务器的压力。</li>
+<li>第一次同步完成后，主从服务器都会维护着一个<strong>长连接</strong>，主服务器在接收到写操作命令后，就会通过这个连接将写命令传播给从服务器，来保证主从服务器的数据一致性。如果遇到网络断开，增量复制就可以上场了，不过这个还跟 repl_backlog_size 这个大小有关系。</li>
+<li>如果它配置的过小，主从服务器网络恢复时，可能发生「从服务器」想读的数据已经被覆盖了，那么这时就会导致主服务器采用全量复制的方式。所以为了避免这种情况的频繁发生，要调大这个参数的值，以降低主从服务器断开后全量同步的概率。</li>
+</ul>
+<h4 id="怎么判断-Redis-某个节点是否正常工作？"><a href="#怎么判断-Redis-某个节点是否正常工作？" class="headerlink" title="怎么判断 Redis 某个节点是否正常工作？"></a>怎么判断 Redis 某个节点是否正常工作？</h4><ul>
+<li>Redis 判断节点是否正常工作，基本都是通过互相的<strong>ping-pong 心态检测机制</strong>，如果有一半以上的节点去 ping 一个节点的时候没有 pong 回应，集群就会认为这个节点挂掉了，会断开与这个节点的连接。</li>
+</ul>
+<h4 id="主从复制架构中，过期key如何处理？"><a href="#主从复制架构中，过期key如何处理？" class="headerlink" title="主从复制架构中，过期key如何处理？"></a>主从复制架构中，过期key如何处理？</h4><ul>
+<li>主节点处理了一个key或者通过淘汰算法淘汰了一个key，这个时间主节点模拟一条del命令发送给从节点，从节点收到该命令后，就进行删除key的操作。</li>
+</ul>
+<h4 id="主从如何做到故障自动切换？"><a href="#主从如何做到故障自动切换？" class="headerlink" title="主从如何做到故障自动切换？"></a>主从如何做到故障自动切换？</h4><ul>
+<li>主节点挂了 ，从节点是无法自动升级为主节点的，这个过程需要人工处理，在此期间 Redis 无法对外提供写操作。但是存在<strong>Redis 哨兵机制</strong>，哨兵在发现主节点出现故障时，由哨兵自动完成故障发现和故障转移，并通知给应用方，从而实现高可用性。</li>
+</ul>
+<h3 id="哨兵"><a href="#哨兵" class="headerlink" title="哨兵"></a><strong>哨兵</strong></h3><ul>
+<li>哨兵机制，它的作用是实现<strong>主从节点故障转移</strong>。它会监测主节点是否存活，如果发现主节点挂了，它就会选举一个从节点切换为主节点，并且把新主节点的相关信息通知给从节点和客户端。</li>
+<li>哨兵一般是以集群的方式部署，至少需要 3 个哨兵节点，哨兵集群主要负责三件事情：<strong>监控、选主、通知。</strong></li>
+</ul>
+<h4 id="主从故障转移的过程是怎样的"><a href="#主从故障转移的过程是怎样的" class="headerlink" title="主从故障转移的过程是怎样的"></a>主从故障转移的过程是怎样的</h4><ul>
+<li><strong>第一步：在已下线主节点（旧主节点）属下的所有「从节点」里面，挑选出一个从节点，并将其转换为主节点。</strong></li>
+<li><strong>第二步：让已下线主节点属下的所有「从节点」修改复制目标，修改为复制「新主节点」；</strong></li>
+<li><strong>第三步：将新主节点的 IP 地址和信息，通过「发布者&#x2F;订阅者机制」通知给客户端；</strong></li>
+<li><strong>第四步：继续监视旧主节点，当这个旧主节点重新上线时，将它设置为新主节点的从节点；</strong></li>
+</ul>
+
+    </div>
+    
+    
+    
+    
+    
+    
+    
+</div>
+
+            <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy;
+            2022 - 2025 xkiven の 小屋
+            <span id="footer-icon">
+                <i class="fa-solid fa-font-awesome fa-fw"></i>
+            </span>
+            &commat;xkiven
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+        
+        <transition name="fade">
+            <div id="preview" ref="preview" v-show="previewShow">
+                <img id="preview-content" ref="previewContent" />
+            </div>
+        </transition>
+        
+    </div>
+    <script src="/js/main.js"></script>
+    
+    
+
+
+
+
+    
+</body>
+</html>

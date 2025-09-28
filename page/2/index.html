@@ -172,6 +172,51 @@
         
 
 <div class="post">
+    <a href="/2025/02/19/%E7%86%94%E6%96%AD%E9%99%8D%E7%BA%A7/">
+        <h2 class="post-title">熔断降级</h2>
+    </a>
+    <div class="category-and-date">
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2025/2/19
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <p>熔断降级是一种在系统出现故障或异常情况时，为了避免故障蔓延，对系统进行保护的机制。通常当某个服务或操作频繁失败时，会触发熔断，后续的请求会直接走降级逻辑，而不是继续尝试可能失败的操作。</p>
+<h2 id="熔断降级的基本概念"><a href="#熔断降级的基本概念" class="headerlink" title="熔断降级的基本概念"></a>熔断降级的基本概念</h2><ul>
+<li><p><strong>熔断</strong>：当系统检测到某个服务或操作的错误率超过一定阈值，或者在一定时间内出现过多的错误时，会触发熔断。熔断后，对该服务或操作的请求会直接被拦截，不再尝试调用实际的逻辑。</p>
+</li>
+<li><p><strong>降级</strong>：在熔断触发后，会执行一个预先定义好的降级逻辑，返回一个默认值或者执行一些简单的处理，以避免长时间等待或者系统崩溃。</p>
+</li>
+<li><p><strong>恢复</strong>：在熔断一段时间后（通常称为休眠窗口），系统会尝试恢复正常，重新允许部分请求调用实际的逻辑，根据调用结果来判断是否继续熔断。</p>
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        <span class="icon">
+            <i class="fa-solid fa-tags fa-fw"></i>
+        </span>
+        
+        
+        
+        <span class="tag">
+            
+            <a href="/tags/%E7%AE%97%E6%B3%95/" style="color: #ffa2c4">算法</a>
+        </span>
+        
+    </div>
+    <a href="/2025/02/19/%E7%86%94%E6%96%AD%E9%99%8D%E7%BA%A7/" class="go-post">阅读全文</a>
+</div>
+
+<div class="post">
     <a href="/2025/02/18/%E5%90%AF%E5%8A%A8Kafka/">
         <h2 class="post-title">Kafka</h2>
     </a>
@@ -243,7 +288,7 @@
         
         <span class="tag">
             
-            <a href="/tags/%E5%B7%A5%E5%85%B7/" style="color: #00a596">工具</a>
+            <a href="/tags/%E5%B7%A5%E5%85%B7/" style="color: #03a9f4">工具</a>
         </span>
         
     </div>
@@ -285,7 +330,7 @@
         
         <span class="tag">
             
-            <a href="/tags/%E9%A1%B9%E7%9B%AE/" style="color: #00a596">项目</a>
+            <a href="/tags/%E9%A1%B9%E7%9B%AE/" style="color: #03a9f4">项目</a>
         </span>
         
     </div>
@@ -324,7 +369,7 @@
         
         <span class="tag">
             
-            <a href="/tags/%E9%A1%B9%E7%9B%AE/" style="color: #00a596">项目</a>
+            <a href="/tags/%E9%A1%B9%E7%9B%AE/" style="color: #03a9f4">项目</a>
         </span>
         
     </div>
@@ -396,7 +441,7 @@
 <li>安装MySQL驱动：执行  go get -u github.com&#x2F;go-sql-driver&#x2F;mysql 。这会下载MySQL驱动到你的本地 $GOPATH 下。</li>
 <li>安装WebSocket库：若使用  gorilla&#x2F;websocket （比  golang.org&#x2F;x&#x2F;net&#x2F;websocket  更常用 ），运行  go get -u github.com&#x2F;gorilla&#x2F;websocket 。</li>
 <li>安装gorm:     执行go get -u gorm.io&#x2F;gorm， go get -u gorm.io&#x2F;driver&#x2F;mysql</li>
-<li>ssh密钥：ssh-keygen -t rsa -b 4096 -C”<a href="mailto:&#50;&#54;&#x37;&#52;&#x33;&#48;&#50;&#x34;&#x33;&#x33;&#x40;&#113;&#x71;&#x2e;&#99;&#x6f;&#109;">&#50;&#54;&#x37;&#52;&#x33;&#48;&#50;&#x34;&#x33;&#x33;&#x40;&#113;&#x71;&#x2e;&#99;&#x6f;&#109;</a>“</li>
+<li>ssh密钥：ssh-keygen -t rsa -b 4096 -C”<a href="mailto:&#50;&#x36;&#x37;&#52;&#51;&#48;&#x32;&#x34;&#x33;&#51;&#x40;&#x71;&#113;&#x2e;&#x63;&#x6f;&#109;">&#50;&#x36;&#x37;&#52;&#51;&#48;&#x32;&#x34;&#x33;&#51;&#x40;&#x71;&#113;&#x2e;&#x63;&#x6f;&#109;</a>“</li>
 <li>sshkmftymkzpecee</li>
 <li>安装 Go - zero 代码生成工具 goctl：go install github.com&#x2F;zeromicro&#x2F;go-zero&#x2F;tools&#x2F;goctl@latest</li>
 <li>安装redis：go get github.com&#x2F;go-redis&#x2F;redis&#x2F;v8</li>
@@ -416,7 +461,7 @@
         
         <span class="tag">
             
-            <a href="/tags/%E5%B7%A5%E5%85%B7/" style="color: #00a596">工具</a>
+            <a href="/tags/%E5%B7%A5%E5%85%B7/" style="color: #ffa2c4">工具</a>
         </span>
         
     </div>

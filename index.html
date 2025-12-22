@@ -189,209 +189,7 @@
     <div class="description">
         <div class="content" v-pre>
             
-            <span id="more"></span>
-
-<h2 id="讲一讲-GMP-是什么"><a href="#讲一讲-GMP-是什么" class="headerlink" title="讲一讲 GMP 是什么"></a>讲一讲 GMP 是什么</h2><p><strong>GMP 模型</strong></p>
-<p><strong>GMP</strong> 是 Go 语言的调度模型，代表 <strong>Goroutine、Machine、Processor</strong>。它帮助 Go 高效地管理并发任务。</p>
-<ol>
-<li>**Goroutine (G)**：<ul>
-<li>Goroutine 是 Go 中的 <strong>轻量级线程</strong>。你可以通过 <code>go</code> 关键字启动一个 Goroutine，来执行并发任务。每个 Goroutine 占用很少的内存，通常是 2KB。</li>
-</ul>
-</li>
-<li>**Machine (M)**：<ul>
-<li>Machine 是 Go 语言中的 <strong>操作系统线程</strong>。每个 M 负责执行一个或多个 Goroutine。M 直接与操作系统的线程绑定。</li>
-</ul>
-</li>
-<li>**Processor (P)**：<ul>
-<li>Processor 是 <strong>虚拟处理器</strong>，负责调度和管理 Goroutine。P 有一个本地队列，存放着需要执行的 Goroutine。每个 P 会将任务交给 M 执行。</li>
-</ul>
-</li>
-</ol>
-<p><strong>调度原理</strong>：</p>
-<ul>
-<li>每个 P 会选择一个 M 来执行它的任务队列中的 Goroutine。</li>
-<li>当 P 的队列空了，P 会从其他 P 的队列中 <strong>偷取</strong> 一些任务，这叫做 <strong>工作窃取</strong>。</li>
-<li>这样，Go 语言的调度器能够有效地分配任务，让多个 Goroutine 并发执行。</li>
-</ul>
-<h2 id="go一个协程写了一个死循环会一直占有CPU吗？"><a href="#go一个协程写了一个死循环会一直占有CPU吗？" class="headerlink" title="go一个协程写了一个死循环会一直占有CPU吗？"></a>go一个协程写了一个死循环会一直占有CPU吗？</h2><p><strong>情况 1：死循环没有阻塞操作</strong></p>
-<p>如果死循环内的代码没有任何 <strong>阻塞操作</strong>（比如 <code>time.Sleep()</code>，<code>channel</code> 的发送或接收等），那么这个 Goroutine 会 <strong>持续执行</strong>，并且它会一直占用 CPU，导致 <strong>CPU 资源被完全占用</strong>。</p>
-<p><strong>情况 2：死循环有阻塞操作</strong></p>
-<p>如果死循环中的代码包含了 <strong>阻塞操作</strong>，比如 <code>time.Sleep()</code> 或 <code>channel</code> 的操作（发送、接收），那么 Goroutine 会在 <strong>阻塞</strong> 时 <strong>释放 CPU</strong>，让其他 Goroutine 有机会执行。</p>
-<h2 id="kafka-为什么能应对高并发场景"><a href="#kafka-为什么能应对高并发场景" class="headerlink" title="kafka 为什么能应对高并发场景"></a>kafka 为什么能应对高并发场景</h2><p><strong>分布式架构</strong></p>
-<ul>
-<li><strong>分布式设计</strong>：Kafka 设计上就是一个分布式系统，可以水平扩展。它将数据分为多个 <strong>分区（Partition）</strong>，每个分区可以分布在不同的服务器上，分布式的设计让 Kafka 可以横向扩展，处理更高的并发和流量。</li>
-<li><strong>高可用性</strong>：Kafka 的分区可以有多个副本（Replicas），即使某个节点宕机，其他副本可以继续提供服务，确保系统的高可用性。</li>
-</ul>
-<p><strong>分区机制</strong></p>
-<ul>
-<li>Kafka 使用 <strong>分区</strong> 来管理数据，每个 <strong>Topic</strong> 可以有多个 <strong>Partition</strong>，每个 Partition 负责一部分数据的存储和处理。每个分区的数据是有序的，可以并行处理不同分区的数据，极大地提升了 Kafka 的吞吐量和并发处理能力。</li>
-<li>在生产者和消费者之间，Kafka 会根据消息的键（key）或者 <strong>轮询（Round-robin）</strong> 等方式将数据分布到不同的分区，从而支持并行写入和读取。</li>
-</ul>
-<p><strong>顺序写入</strong></p>
-<ul>
-<li>Kafka 在 <strong>磁盘</strong> 上的写入是顺序的，而不是随机的。磁盘的顺序写入性能远高于随机写入，因此 Kafka 能够以极高的速度写入大量数据。顺序写入减少了磁盘的 I&#x2F;O 操作，提高了系统的吞吐量。</li>
-</ul>
-<p><strong>高效的消息消费模型</strong></p>
-<ul>
-<li>Kafka 的消费者是 <strong>分布式的</strong>，并且支持 <strong>异步消费</strong>。消费者可以 <strong>并行</strong> 消费多个分区的数据，每个消费者只负责自己的分区，因此能够在多个消费者之间均衡负载，从而有效应对高并发的消费需求。</li>
-<li>消费者组（Consumer Group）可以将多个消费者组合起来并行处理数据。每个消费者组中的消费者会分配到不同的分区，确保每个消息只能被一个消费者处理。这样多个消费者可以同时处理多个分区，提高了处理的并发能力。</li>
-</ul>
-<p><strong>持久化和消息压缩</strong></p>
-<ul>
-<li>Kafka 的数据是持久化存储的，但 Kafka 会 <strong>将数据追加到文件末尾</strong>，而不是修改文件。这样写操作效率极高。Kafka 还支持 <strong>消息压缩</strong>，能够在传输时压缩数据，减少带宽和存储占用，进而提升性能。</li>
-<li>Kafka 允许根据需要配置 <strong>数据保留策略</strong>，比如基于时间或空间来决定是否删除过期数据，这样也能保持良好的性能。</li>
-</ul>
-<p><strong>异步生产和消费</strong></p>
-<ul>
-<li>Kafka 的生产者和消费者都是 <strong>异步</strong> 的，这意味着生产者将消息异步发送到 Kafka 集群，而消费者则异步地从 Kafka 中消费消息。这种设计减少了请求的等待时间，提升了整体的吞吐量和响应速度。</li>
-</ul>
-<p> <strong>批量处理</strong></p>
-<ul>
-<li>Kafka 在生产者端支持 <strong>批量发送</strong> 消息，多个消息可以一起发送到 Kafka 中。这样减少了网络请求的次数，提高了吞吐量。</li>
-<li>消费者端也支持 <strong>批量消费</strong>，可以一次性从 Kafka 中读取多条消息，进一步提高了并发处理的效率。</li>
-</ul>
-<p><strong>消息顺序保证</strong></p>
-<ul>
-<li>Kafka 保证同一个 <strong>分区内的消息顺序</strong>。这对于需要保序的高并发场景（如日志、交易等）非常重要。消费者在消费消息时，可以保证按照发送的顺序处理，避免数据错乱。</li>
-</ul>
-<h2 id="kafka-如何保证消息的可靠性"><a href="#kafka-如何保证消息的可靠性" class="headerlink" title="kafka 如何保证消息的可靠性"></a>kafka 如何保证消息的可靠性</h2><p><strong>数据复制</strong>：Kafka 会将每个分区的数据复制到多个节点（副本），保证即使某个节点宕机，数据也不会丢失。</p>
-<p><strong>消息持久化</strong>：Kafka 将消息写入磁盘，保证即使系统崩溃，消息不会丢失。</p>
-<p><strong>生产者确认机制（acks）</strong>：通过配置生产者的 <code>acks</code>，可以控制消息写入成功的确认级别：</p>
-<ul>
-<li><code>acks=0</code>：不等待确认，可能丢失消息。</li>
-<li><code>acks=1</code>：等待 Leader 副本确认。</li>
-<li><code>acks=all</code>：等待所有副本确认，最可靠。</li>
-</ul>
-<p><strong>消费确认</strong>：消费者通过 <strong>提交位移</strong>（offset）来确保消息被成功消费，避免重复消费。</p>
-<p><strong>故障恢复</strong>：Kafka 自动选举新的 Leader 保证分区的可用性，并支持自动再平衡。</p>
-<p><strong>幂等性和事务</strong>：生产者支持 <strong>幂等性</strong>，确保消息不重复。支持 <strong>事务</strong>，确保多条消息的原子性。</p>
-<h2 id="WebSocket和HTTP的区别，为什么选用WebSocket"><a href="#WebSocket和HTTP的区别，为什么选用WebSocket" class="headerlink" title="WebSocket和HTTP的区别，为什么选用WebSocket?"></a>WebSocket和HTTP的区别，为什么选用WebSocket?</h2><p><strong>WebSocket 与 HTTP 的区别</strong>：</p>
-<p>HTTP 是请求-响应模式，连接后会关闭，每次请求都需要重新建立连接。</p>
-<p>WebSocket 是全双工通信，客户端和服务器可以保持持久连接，双向实时交换数据。</p>
-<p><strong>为什么选用 WebSocket 在即时通讯服务中？</strong></p>
-<ul>
-<li><strong>实时性</strong>：WebSocket 允许服务器主动推送消息，适合即时通讯服务中实时消息传递的需求。</li>
-<li><strong>低延迟</strong>：WebSocket 在建立连接后，可以持续传输数据，减少了 HTTP 中每次请求的延迟。</li>
-<li><strong>节省资源</strong>：WebSocket 保持长连接，避免了 HTTP 每次请求都需要建立新连接的开销，更高效。</li>
-<li><strong>双向通信</strong>：WebSocket 支持客户端和服务器的双向实时通信，适合多人在线聊天和互动功能。</li>
-</ul>
-<h2 id="知道MySQL的隔离级别吗？有哪些？"><a href="#知道MySQL的隔离级别吗？有哪些？" class="headerlink" title="知道MySQL的隔离级别吗？有哪些？"></a>知道MySQL的隔离级别吗？有哪些？</h2><p><strong>读未提交（Read Uncommitted）</strong>：</p>
-<ul>
-<li><strong>特点</strong>：事务可以读取其他事务未提交的数据，可能会发生 <strong>脏读</strong>（Dirty Read），即读取到尚未提交的更改。</li>
-</ul>
-<p><strong>读已提交（Read Committed）</strong>：</p>
-<ul>
-<li><strong>特点</strong>：事务只能读取已提交的事务的数据，避免了脏读，但仍然可能发生 <strong>不可重复读</strong>（Non-repeatable Read），即一个事务在多次读取相同数据时，其他事务可能已经修改了该数据。</li>
-</ul>
-<p><strong>可重复读（Repeatable Read）</strong>：</p>
-<ul>
-<li><strong>特点</strong>：事务在整个过程中读取的数据是 <strong>一致的</strong>，即使其他事务修改了数据，也无法影响当前事务的读取。这避免了脏读和不可重复读。但在某些情况下，仍然可能发生 <strong>幻读</strong>（Phantom Read），即事务在查询过程中，另一事务插入了新的数据行，使得当前事务查询结果发生变化。</li>
-</ul>
-<p><strong>串行化（Serializable）</strong>：</p>
-<ul>
-<li><strong>特点</strong>：这是最严格的隔离级别，事务执行时会对涉及的数据加锁，完全避免脏读、不可重复读和幻读，确保事务之间 <strong>串行执行</strong>。</li>
-</ul>
-<h2 id="知道什么是聚簇索引和非聚簇索引吗？它们的区别有什么？"><a href="#知道什么是聚簇索引和非聚簇索引吗？它们的区别有什么？" class="headerlink" title="知道什么是聚簇索引和非聚簇索引吗？它们的区别有什么？"></a>知道什么是聚簇索引和非聚簇索引吗？它们的区别有什么？</h2><p><strong>聚簇索引（Clustered Index）</strong>：</p>
-<ul>
-<li><strong>定义</strong>：聚簇索引是 <strong>数据表的物理存储顺序</strong> 与索引的顺序相同。数据行本身就是按聚簇索引的顺序存储的。</li>
-<li><strong>特点</strong>：<ul>
-<li>每个表只能有 <strong>一个聚簇索引</strong>，因为数据表的物理存储只能按一种顺序排序。</li>
-<li>聚簇索引的 <strong>叶节点</strong> 存储的是数据行本身。</li>
-<li><strong>查询效率高</strong>，适用于范围查询。</li>
-</ul>
-</li>
-</ul>
-<p><strong>非聚簇索引（Non-clustered Index）</strong>：</p>
-<ul>
-<li><strong>定义</strong>：非聚簇索引是单独存储的索引结构，它的 <strong>叶节点</strong> 存储的是数据行的 <strong>地址</strong>（指向实际数据的指针），而数据行的物理存储顺序与索引顺序无关。</li>
-<li><strong>特点</strong>：<ul>
-<li>每个表可以有 <strong>多个非聚簇索引</strong>。</li>
-<li>非聚簇索引的 <strong>叶节点</strong> 存储索引键值和对应的数据指针。</li>
-<li><strong>查询效率较低</strong>，但支持更多的索引类型。</li>
-</ul>
-</li>
-</ul>
-<p><strong>区别</strong>：</p>
-<ol>
-<li><strong>存储方式</strong>：<ul>
-<li>聚簇索引：数据表的物理存储顺序与索引顺序一致。</li>
-<li>非聚簇索引：索引结构与数据表的物理存储顺序无关，索引和数据分开存储。</li>
-</ul>
-</li>
-<li><strong>数量</strong>：<ul>
-<li>聚簇索引：每个表只能有 <strong>一个聚簇索引</strong>。</li>
-<li>非聚簇索引：每个表可以有多个非聚簇索引。</li>
-</ul>
-</li>
-<li><strong>性能</strong>：<ul>
-<li>聚簇索引：适合 <strong>范围查询</strong>，因为数据是有序存储的。</li>
-<li>非聚簇索引：查找时需要额外的 <strong>指针跳转</strong>，性能稍差，但支持更多的查询方式。</li>
-</ul>
-</li>
-</ol>
-<h2 id="知道什么是回表吗？能说一下什么时候会发生回表吗？"><a href="#知道什么是回表吗？能说一下什么时候会发生回表吗？" class="headerlink" title="知道什么是回表吗？能说一下什么时候会发生回表吗？"></a>知道什么是回表吗？能说一下什么时候会发生回表吗？</h2><p><strong>回表</strong>（Back To Table）是指在数据库中使用 <strong>非聚簇索引</strong> 查询时，当索引查询到数据的 <strong>索引键值</strong> 后，仍然需要通过索引中的 <strong>指针</strong> 再去 <strong>数据表中查询实际的记录</strong>。</p>
-<p>回表通常发生在以下两种情况：</p>
-<ol>
-<li><strong>使用非聚簇索引查询</strong>：<ul>
-<li>当使用 <strong>非聚簇索引</strong> 进行查询时，如果查询的列不在索引中，数据库就会先通过索引获取到对应的 <strong>行地址</strong> 或 <strong>行标识符</strong>，然后再通过这些信息去实际的数据表中获取完整的数据行，这就叫做回表。</li>
-</ul>
-</li>
-<li><strong>查询列不在索引中</strong>：<ul>
-<li>如果你创建了一个非聚簇索引，但是查询的列 <strong>不包含在索引的字段</strong> 中，那么即使通过索引查找到了对应的数据行的地址，依然需要访问数据表来获取完整的数据内容，导致回表。</li>
-</ul>
-</li>
-</ol>
-<h2 id="知道什么是索引下推吗？"><a href="#知道什么是索引下推吗？" class="headerlink" title="知道什么是索引下推吗？"></a>知道什么是索引下推吗？</h2><p><strong>索引下推（Index Pushdown）</strong> 是一种优化技术，用于将 <strong>过滤条件</strong> 下推到索引扫描阶段，而不是在数据表查询阶段进行过滤。通过这种优化，数据库能够在索引扫描时就过滤掉不符合条件的记录，减少不必要的数据访问，提高查询效率。</p>
-<p><strong>简单说明</strong>：</p>
-<ul>
-<li><strong>传统方式</strong>：在没有索引下推的情况下，数据库首先通过索引找到对应的行，然后将过滤条件应用于数据行，最终返回符合条件的结果。</li>
-<li><strong>索引下推</strong>：在使用索引扫描时，数据库会将过滤条件下推到索引扫描中，只有符合条件的记录会从索引中提取，减少数据表扫描的工作量。</li>
-</ul>
-<p><strong>举个例子</strong>：</p>
-<p>假设有一个表 <code>users</code>，并在 <code>age</code> 和 <code>status</code> 字段上创建了复合索引：</p>
-<pre><code>CREATE INDEX idx_age_status ON users(age, status);
-</code></pre>
-<p>查询如下：</p>
-<pre><code>SELECT * FROM users WHERE age &gt; 30 AND status = &#39;active&#39;;
-</code></pre>
-<p>如果启用了 <strong>索引下推</strong>，数据库会在扫描索引时就应用 <code>age &gt; 30</code> 和 <code>status = &#39;active&#39;</code> 的过滤条件，直接从索引中获取符合条件的记录，避免回表查询整个数据表。</p>
-<h2 id="知道redis的持久化策略有哪些吗？现在Redis用的是哪种？"><a href="#知道redis的持久化策略有哪些吗？现在Redis用的是哪种？" class="headerlink" title="知道redis的持久化策略有哪些吗？现在Redis用的是哪种？"></a>知道redis的持久化策略有哪些吗？现在Redis用的是哪种？</h2><p><strong>RDB快照</strong></p>
-<ul>
-<li><strong>原理</strong>：Redis 会在指定的时间间隔内将内存中的数据快照保存到磁盘，生成一个 <strong>RDB 文件</strong>（通常是 <code>dump.rdb</code>）。</li>
-</ul>
-<p><strong>AOF日志</strong></p>
-<ul>
-<li><strong>原理</strong>：Redis 会记录每个写操作，并将其追加到 <strong>AOF 文件</strong>中。每次启动 Redis 时，会根据 AOF 文件恢复数据。</li>
-</ul>
-<p>Redis 默认使用 <strong>RDB 持久化</strong>，但也支持 <strong>AOF 持久化</strong>，用户可以根据需求在配置文件中选择开启其中一种或两种。</p>
-<h2 id="讲一讲RDB和AOF的优缺点"><a href="#讲一讲RDB和AOF的优缺点" class="headerlink" title="讲一讲RDB和AOF的优缺点"></a>讲一讲RDB和AOF的优缺点</h2><p><strong>RDB（Redis Database）</strong></p>
-<p><strong>优点</strong>：</p>
-<ol>
-<li><strong>性能高</strong>：生成快照时性能较好，不会影响 Redis 的正常操作。</li>
-<li><strong>恢复快</strong>：RDB 文件是整个数据库的快照，加载速度快，适合快速恢复。</li>
-<li><strong>磁盘空间小</strong>：比 AOF 文件小，磁盘 I&#x2F;O 开销较低。</li>
-<li><strong>适合备份</strong>：可以定期生成快照，用于灾难恢复。</li>
-</ol>
-<p><strong>缺点</strong>：</p>
-<ol>
-<li><strong>数据丢失风险</strong>：两次快照之间的数据可能丢失，尤其是 Redis 崩溃时。</li>
-<li><strong>内存消耗大</strong>：生成快照时会占用额外内存。</li>
-<li><strong>恢复间隔不灵活</strong>：只能按配置的间隔进行快照，无法实时保存每次操作。</li>
-</ol>
-<p><strong>AOF（Append Only File）</strong></p>
-<p> <strong>优点</strong>：</p>
-<ol>
-<li><strong>数据持久化精确</strong>：记录每个写操作，数据丢失风险小。</li>
-<li><strong>灵活性高</strong>：可以设置不同的同步策略（如每秒同步、每次操作同步）。</li>
-<li><strong>精确恢复</strong>：可以重放命令恢复到最近的状态。</li>
-</ol>
-<p><strong>缺点</strong>：</p>
-<ol>
-<li><strong>性能开销大</strong>：每次写操作都要追加到文件，增加了磁盘 I&#x2F;O 和 CPU 开销。</li>
-<li><strong>磁盘空间大</strong>：AOF 文件通常较大，写入频繁时文件膨胀较快。</li>
-<li><strong>恢复慢</strong>：恢复时需要重放所有写命令，速度相对较慢。</li>
-</ol>
-
+            <p>2025.12.22</p>
             
         </div>
     </div>
@@ -405,7 +203,7 @@
         
         <span class="tag">
             
-            <a href="/tags/%E7%9F%A5%E8%AF%86/" style="color: #00a596">知识</a>
+            <a href="/tags/%E7%9F%A5%E8%AF%86/" style="color: #00bcd4">知识</a>
         </span>
         
     </div>
@@ -483,7 +281,7 @@
         
         <span class="tag">
             
-            <a href="/tags/%E7%9F%A5%E8%AF%86/" style="color: #ffa2c4">知识</a>
+            <a href="/tags/%E7%9F%A5%E8%AF%86/" style="color: #ff7d73">知识</a>
         </span>
         
     </div>
@@ -522,7 +320,7 @@
         
         <span class="tag">
             
-            <a href="/tags/%E7%9F%A5%E8%AF%86/" style="color: #ff7d73">知识</a>
+            <a href="/tags/%E7%9F%A5%E8%AF%86/" style="color: #ffa2c4">知识</a>
         </span>
         
     </div>
@@ -604,7 +402,7 @@
         
         <span class="tag">
             
-            <a href="/tags/%E7%AE%97%E6%B3%95/" style="color: #ff7d73">算法</a>
+            <a href="/tags/%E7%AE%97%E6%B3%95/" style="color: #00bcd4">算法</a>
         </span>
         
     </div>
@@ -644,7 +442,7 @@
         
         <span class="tag">
             
-            <a href="/tags/%E9%A1%B9%E7%9B%AE/" style="color: #00bcd4">项目</a>
+            <a href="/tags/%E9%A1%B9%E7%9B%AE/" style="color: #ff7d73">项目</a>
         </span>
         
     </div>
@@ -683,7 +481,7 @@
         
         <span class="tag">
             
-            <a href="/tags/%E5%B7%A5%E5%85%B7/" style="color: #00bcd4">工具</a>
+            <a href="/tags/%E5%B7%A5%E5%85%B7/" style="color: #ffa2c4">工具</a>
         </span>
         
     </div>
@@ -762,7 +560,7 @@
         
         <span class="tag">
             
-            <a href="/tags/%E5%B7%A5%E5%85%B7/" style="color: #00bcd4">工具</a>
+            <a href="/tags/%E5%B7%A5%E5%85%B7/" style="color: #00a596">工具</a>
         </span>
         
     </div>

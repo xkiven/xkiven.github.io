@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <title>Kafka | xkiven の 小屋</title>
+    <title>xkiven の 小屋</title>
     <meta name="author" content="xkiven" />
     <meta name="description" content="" />
     <meta name="keywords" content="" />
@@ -47,9 +47,7 @@
 
 
 
-
-
-
+<script src="/js/lib/home.js"></script>
 
 <link rel="stylesheet" href="/css/main.css" />
 
@@ -145,58 +143,102 @@
 </transition>
 
         <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
-            <div class="article">
-    <div>
-        <h1>Kafka</h1>
+            <div id="home-head">
+    <div
+        id="home-background"
+        ref="homeBackground"
+        data-images="/images/background2.jpg"
+    ></div>
+    <div id="home-info" @click="homeClick">
+        <span class="loop"></span>
+        <span class="loop"></span>
+        <span class="loop"></span>
+        <span class="loop"></span>
+        <span class="info">
+            <div class="wrap">
+                <h1>xkiven の 小屋</h1>
+                <h3>here is xkiven...</h3>
+                <h5></h5>
+            </div>
+        </span>
     </div>
-    <div class="info">
+</div>
+<div
+    id="home-posts-wrap"
+    ref="homePostsWrap"
+    true
+>
+    <div id="home-posts">
+        
+
+<div class="post">
+    <a href="/2025/01/22/my%20first%20blog/">
+        <h2 class="post-title">my first blog</h2>
+    </a>
+    <div class="category-and-date">
+        
         <span class="date">
             <span class="icon">
                 <i class="fa-solid fa-calendar fa-fw"></i>
             </span>
-            2025/2/18
+            2025/1/22
         </span>
         
         
-        <span class="tags">
-            <span class="icon">
-                <i class="fa-solid fa-tags fa-fw"></i>
-            </span>
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
             
+            <span id="more"></span>
+
+<p>😊😊😊<br>搞了一整天，终于搭好了，本来打算搭在gitee上，结果那边的一个服务突然停了，只有付费的，没办法只能用GitHub了。<br>写这个东西现在还有点麻烦，Markdown还一点都不会，总之才刚刚建好，慢慢找个好一点的markdown编辑器，我还在用记事本，这东西还是不行。</p>
+
             
-            <span class="tag">
-                
-                <a href="/tags/%E5%B7%A5%E5%85%B7/" style="color: #03a9f4">
-                    工具
-                </a>
-            </span>
-            
-        </span>
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        
         
     </div>
-    
-    <div class="content" v-pre>
-        <p>因为Kafka依赖Zookeeper，所以先启动zookeeper</p>
-<span id="more"></span>
+    <a href="/2025/01/22/my%20first%20blog/" class="go-post">阅读全文</a>
+</div>
 
-<h2 id="启动zookeeper："><a href="#启动zookeeper：" class="headerlink" title="启动zookeeper："></a>启动zookeeper：</h2><pre><code>bin\windows\zookeeper-server-start.bat config\zookeeper.properties
-</code></pre>
-<p>不要关闭当前窗口，重新打开新的窗口进入文件目录</p>
-<h2 id="启动kafka："><a href="#启动kafka：" class="headerlink" title="启动kafka："></a>启动kafka：</h2><pre><code>bin\windows\kafka-server-start.bat config\server.properties
-</code></pre>
-<h2 id="关闭zookeeper服务器"><a href="#关闭zookeeper服务器" class="headerlink" title="关闭zookeeper服务器"></a>关闭zookeeper服务器</h2><pre><code>zookeeper-server-stop.bat	
-</code></pre>
-<h2 id="关闭kafka服务器"><a href="#关闭kafka服务器" class="headerlink" title="关闭kafka服务器"></a>关闭kafka服务器</h2><pre><code>kafka-server-stop.bat
-</code></pre>
-<h4 id="注意！关闭时不能直接关闭窗口，否则很可能会导致kafka无法完成对日志文件的解锁。届时，再次启动kafka的时候，就会提示日志文件被锁，无法成功启动"><a href="#注意！关闭时不能直接关闭窗口，否则很可能会导致kafka无法完成对日志文件的解锁。届时，再次启动kafka的时候，就会提示日志文件被锁，无法成功启动" class="headerlink" title="注意！关闭时不能直接关闭窗口，否则很可能会导致kafka无法完成对日志文件的解锁。届时，再次启动kafka的时候，就会提示日志文件被锁，无法成功启动"></a>注意！关闭时不能直接关闭窗口，否则很可能会导致kafka无法完成对日志文件的解锁。届时，再次启动kafka的时候，就会提示日志文件被锁，无法成功启动</h4><p>！！！千万不要手动暴力关闭，用下面的命令关闭（如果暴力关闭了，解决方案：方案：将kafka的日志文件全部删除，再次启动即可。）</p>
+
+        <div class="page-current">
+    
+    <a class="page-num" href="/page/2/">
+        <i class="fa-solid fa-caret-left fa-fw"></i>
+    </a>
+    <a class="page-num" href="/">1</a>
+    <span class="page-omit">...</span>
+    
+    <span class="current">3</span>
+    
+    
+    
+    
+</div>
 
     </div>
     
-    
-    
-    
-    
-    
+    <div id="home-card">
+        <div id="card-style">
+    <div id="card-div">
+        <div class="avatar">
+            <img src="/images/ly.jpg" alt="avatar" />
+        </div>
+        <div class="name">xkiven</div>
+        <div class="description">
+            <p>here is kiven…<br>…</p>
+
+        </div>
+        
+        
+    </div>
+</div>
+
+    </div>
     
 </div>
 
@@ -228,12 +270,6 @@
         
     </div>
     <script src="/js/main.js"></script>
-    
-    
-
-
-
-
     
 </body>
 </html>

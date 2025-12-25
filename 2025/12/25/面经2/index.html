@@ -1,0 +1,460 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>面经2 | xkiven の 小屋</title>
+    <meta name="author" content="xkiven" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
+    <link rel="icon" href="/images/ly.jpg" />
+    <link rel="preconnect" href="https://s4.zstatic.net" />
+<script src="https://s4.zstatic.net/ajax/libs/vue/3.3.7/vue.global.prod.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+<link rel="preconnect" href="https://fonts.googleapis.cn" />
+<link rel="preconnect" href="https://fonts.gstatic.cn" crossorigin />
+<link
+    rel="stylesheet"
+    href="https://fonts.googleapis.cn/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap"
+/>
+<script> const mixins = {}; </script>
+
+<script src="https://polyfill.alicdn.com/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
+/>
+<script src="/js/lib/highlight.js"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.css" />
+<script src="/js/lib/math.js"></script>
+
+
+<script src="/js/lib/preview.js"></script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/main.css" />
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+    <div id="layout">
+        <transition name="fade">
+            <div id="loading" v-show="loading">
+                <div id="loading-circle">
+                    <h2>LOADING</h2>
+                    <p>加载过慢请开启缓存 浏览器默认开启</p>
+                    <img src="/images/loading.gif" />
+                </div>
+            </div>
+        </transition>
+        <div id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <nav id="desktop-menu">
+        <a class="title" href="/">
+            <span>XKIVEN の 小屋</span>
+        </a>
+        
+        <a href="/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;Home</span>
+        </a>
+        
+        <a href="/about">
+            <i class="fa-solid fa-id-card fa-fw"></i>
+            <span>&ensp;About</span>
+        </a>
+        
+        <a href="/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;Archives</span>
+        </a>
+        
+        <a href="/tags/%E7%AE%97%E6%B3%95/">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;Tags</span>
+        </a>
+        
+    </nav>
+    <nav id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;XKIVEN の 小屋</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Home</div>
+                    </div>
+                </a>
+                
+                <a href="/about">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-id-card fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
+                    </div>
+                </a>
+                
+                <a href="/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div>
+                    </div>
+                </a>
+                
+                <a href="/tags/%E7%AE%97%E6%B3%95/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </nav>
+</div>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+        <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
+            <div class="article">
+    <div>
+        <h1>面经2</h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2025/12/25
+        </span>
+        
+        
+        <span class="tags">
+            <span class="icon">
+                <i class="fa-solid fa-tags fa-fw"></i>
+            </span>
+            
+            
+            <span class="tag">
+                
+                <a href="/tags/%E9%9D%A2%E7%BB%8F/" style="color: #00a596">
+                    面经
+                </a>
+            </span>
+            
+        </span>
+        
+    </div>
+    
+    <div class="content" v-pre>
+        <p>2025.12.25</p>
+<span id="more"></span>
+
+<h2 id="微服务场景下相较于HTTP为什么选用gRPC？"><a href="#微服务场景下相较于HTTP为什么选用gRPC？" class="headerlink" title="微服务场景下相较于HTTP为什么选用gRPC？"></a>微服务场景下相较于HTTP为什么选用gRPC？</h2><p>在微服务架构中，选择 <strong>gRPC</strong> 而不是传统 <strong>HTTP</strong> 的主要原因通常集中在 <strong>性能</strong> 和 <strong>效率</strong> 上，特别是当涉及到大规模、高并发的服务间通信时。以下是几个主要因素：</p>
+<p><strong>性能与效率：</strong></p>
+<ul>
+<li><strong>更高的吞吐量和更低的延迟</strong>：gRPC 使用 <strong>Protocol Buffers (Protobuf)</strong> 作为序列化协议，Protobuf 是二进制格式，相比于 JSON 格式（常用于 HTTP），它更紧凑、更高效，序列化和反序列化速度更快。这对于性能要求高的微服务系统尤其重要，能够减少通信延迟和带宽消耗。</li>
+<li><strong>基于 HTTP&#x2F;2 协议</strong>：gRPC 基于 HTTP&#x2F;2 协议，支持 <strong>多路复用</strong>、<strong>流控制</strong>、<strong>头压缩</strong> 等特性，这些都能显著提高性能，减少网络延迟。而 HTTP&#x2F;1.x 协议的性能在这些方面有限，特别是在高并发情况下。</li>
+</ul>
+<p><strong>双向流支持：</strong></p>
+<ul>
+<li><strong>实时双向通信</strong>：gRPC 内建支持 <strong>双向流</strong>，这使得客户端和服务器能够实现实时、双向的数据交换。例如，客户端可以在不等待响应的情况下发送多个请求，同时服务器可以返回多个响应。这对于实时通信、流式数据传输（如 WebSocket、视频流等）非常适用，而传统的 HTTP 通常只能进行单向的请求响应。</li>
+</ul>
+<p><strong>严格的接口定义：</strong></p>
+<ul>
+<li><strong>强类型接口</strong>：gRPC 使用 <strong>Protobuf</strong> 文件来定义服务的接口，这意味着接口在编译阶段就会进行类型检查，确保客户端和服务端的一致性。这减少了运行时的错误，提升了接口的可靠性。而传统的 HTTP API（尤其是 RESTful API）则依赖于 JSON 或 XML，通常没有强类型检查，容易出现类型不匹配或接口不一致的情况。</li>
+</ul>
+<p><strong>代码自动生成：</strong></p>
+<ul>
+<li><strong>自动生成代码</strong>：通过 gRPC 的 <strong>Protobuf</strong> 文件，可以自动生成客户端和服务端的代码，减少了大量手动编写的工作。这保证了接口的一致性，并减少了错误。HTTP API 通常需要手动编写请求和响应处理逻辑。</li>
+</ul>
+<p><strong>内建负载均衡和故障转移：</strong></p>
+<ul>
+<li><strong>服务治理的支持</strong>：gRPC 内建支持负载均衡、重试、故障转移等功能，这在微服务架构中尤为重要，因为微服务通常运行在多个实例上，如何高效地调度请求是一个关键问题。HTTP 需要通过额外的中间件（如 Nginx、API 网关）来处理这些功能。</li>
+</ul>
+<h2 id="邮箱验证怎么防止验证码被暴力破解？"><a href="#邮箱验证怎么防止验证码被暴力破解？" class="headerlink" title="邮箱验证怎么防止验证码被暴力破解？"></a>邮箱验证怎么防止验证码被暴力破解？</h2><p><strong>验证码有效期限制</strong>：</p>
+<ul>
+<li><strong>短时间有效期</strong>：将验证码设置为短时间有效（例如，5-10分钟）。这样，即使攻击者在一段时间内获取到验证码，也无法长时间进行暴力破解。</li>
+<li><strong>一次性使用</strong>：确保验证码只能使用一次，防止攻击者重复利用相同的验证码。</li>
+</ul>
+<p><strong>限制验证码请求次数</strong>：</p>
+<ul>
+<li><strong>请求次数限制</strong>：对同一个邮箱或者同一个 IP 地址的验证码请求次数进行限制。比如，可以限制每个邮箱每分钟最多请求一次验证码，避免攻击者通过频繁请求验证码进行暴力破解。</li>
+<li><strong>动态限制</strong>：例如，如果检测到某个邮箱或 IP 地址请求验证码的频率异常（比如短时间内发送大量请求），则可以临时封禁或增加验证码请求的间隔。</li>
+</ul>
+<p><strong>IP 限制与设备指纹</strong>：</p>
+<ul>
+<li><strong>IP 黑名单</strong>：在多次请求验证码失败后，可以将该 IP 地址加入黑名单，防止暴力破解者通过同一 IP 发起大量请求。</li>
+<li><strong>设备指纹</strong>：结合设备信息（如浏览器、操作系统等），建立设备指纹，当多个设备同时请求验证码时可以触发警报，增强防护。</li>
+</ul>
+<h2 id="go的GMP有了解过吗？"><a href="#go的GMP有了解过吗？" class="headerlink" title="go的GMP有了解过吗？"></a>go的GMP有了解过吗？</h2><p><strong>GMP 模型</strong></p>
+<p><strong>GMP</strong> 是 Go 语言的调度模型，代表 <strong>Goroutine、Machine、Processor</strong>。它帮助 Go 高效地管理并发任务。</p>
+<p>**Goroutine (G)**：</p>
+<ul>
+<li>Goroutine 是 Go 中的 <strong>轻量级线程</strong>。你可以通过 <code>go</code> 关键字启动一个 Goroutine，来执行并发任务。每个 Goroutine 占用很少的内存，通常是 2KB。</li>
+</ul>
+<p>**Machine (M)**：</p>
+<ul>
+<li>Machine 是 Go 语言中的 <strong>操作系统线程</strong>。每个 M 负责执行一个或多个 Goroutine。M 直接与操作系统的线程绑定。</li>
+</ul>
+<p>**Processor (P)**：</p>
+<ul>
+<li>Processor 是 <strong>虚拟处理器</strong>，负责调度和管理 Goroutine。P 有一个本地队列，存放着需要执行的 Goroutine。每个 P 会将任务交给 M 执行。</li>
+</ul>
+<p><strong>调度原理</strong>：</p>
+<ul>
+<li>每个 P 会选择一个 M 来执行它的任务队列中的 Goroutine。</li>
+<li>当 P 的队列空了，P 会从其他 P 的队列中 <strong>偷取</strong> 一些任务，这叫做 <strong>工作窃取</strong>。</li>
+<li>这样，Go 语言的调度器能够有效地分配任务，让多个 Goroutine 并发执行。</li>
+</ul>
+<h2 id="go的反射有了解过吗？"><a href="#go的反射有了解过吗？" class="headerlink" title="go的反射有了解过吗？"></a>go的反射有了解过吗？</h2><p><strong>Go 反射的基本概念</strong></p>
+<ul>
+<li><strong>反射类型：</strong> Go 的反射通过 <code>reflect</code> 包实现，反射可以查看对象的类型、值等信息。反射对象有两种类型：<ul>
+<li><code>reflect.Type</code>：表示类型信息。</li>
+<li><code>reflect.Value</code>：表示值信息。</li>
+</ul>
+</li>
+</ul>
+<p><strong>常用的反射操作</strong></p>
+<ul>
+<li><strong>获取类型和值：</strong><ul>
+<li>使用 <code>reflect.TypeOf()</code> 获取对象的类型。</li>
+<li>使用 <code>reflect.ValueOf()</code> 获取对象的值。</li>
+</ul>
+</li>
+<li><strong>修改值：</strong><ul>
+<li>使用 <code>reflect.Value</code> 的 <code>Set()</code> 方法可以修改对象的值，但要求传入的是一个可以被修改的地址（如指针）。</li>
+</ul>
+</li>
+<li><strong>获取字段和方法：</strong><ul>
+<li>通过 <code>reflect.Value</code> 可以获取结构体的字段或方法。</li>
+<li><code>Elem()</code> 方法用于获取指针指向的值。</li>
+</ul>
+</li>
+</ul>
+<p><strong>反射的应用场景</strong></p>
+<ul>
+<li><strong>动态类型检查：</strong> 反射使得可以在运行时检查接口的动态类型，特别是在与动态内容交互时（如解析 JSON 或处理动态字段）非常有用。</li>
+<li><strong>通用代码：</strong> 比如编写通用的 <code>DeepEqual</code> 比较函数，或者根据对象的类型动态实现序列化功能。</li>
+<li><strong>插件机制：</strong> 反射可以帮助实现插件系统，在运行时动态加载和执行插件。</li>
+</ul>
+<p><strong>反射的局限性和性能</strong></p>
+<ul>
+<li><strong>性能开销：</strong> 反射相较于直接操作类型，会有一定的性能损耗。特别是当反射操作频繁时，可能影响性能。</li>
+<li><strong>类型安全：</strong> 反射通常会绕过类型安全检查，容易导致错误。</li>
+<li><strong>复杂性：</strong> 使用反射可能导致代码难以理解和维护，建议只在必要时使用。</li>
+</ul>
+<h2 id="go-什么时候会抛panic，能举例吗"><a href="#go-什么时候会抛panic，能举例吗" class="headerlink" title="go 什么时候会抛panic，能举例吗"></a>go 什么时候会抛panic，能举例吗</h2><p><strong>主动触发</strong>：手动调用 <code>panic()</code> 函数</p>
+<p>开发者可主动调用 <code>panic()</code> 函数抛出异常，<code>panic()</code> 接收一个任意类型的参数（通常为字符串或 <code>error</code>，用于描述异常信息）。</p>
+<p><strong>被动触发</strong>：Go 运行时自动抛出</p>
+<p>当程序出现违反 Go 语言语法规则或运行时约束的操作时，运行时会自动触发 <code>panic</code>，常见场景如下：</p>
+<table>
+<thead>
+<tr>
+<th>被动触发场景</th>
+<th>代码示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>数组 &#x2F; 切片索引越界</td>
+<td><code>arr := []int&#123;1,2,3&#125;; fmt.Println(arr[10])</code></td>
+</tr>
+<tr>
+<td>空指针解引用（nil 指针调用方法 &#x2F; 访问字段）</td>
+<td><code>var str *string; fmt.Println(*str)</code></td>
+</tr>
+<tr>
+<td>非 <code>ok</code> 模式类型断言失败</td>
+<td><code>var i interface&#123;&#125; = &quot;hello&quot;; num := i.(int)</code>（用 <code>num, ok := i.(int)</code> 不会 panic）</td>
+</tr>
+<tr>
+<td>整数除以 0</td>
+<td><code>fmt.Println(10 / 0)</code></td>
+</tr>
+<tr>
+<td>关闭已关闭的通道（<code>chan</code>）</td>
+<td><code>ch := make(chan int); close(ch); close(ch)</code></td>
+</tr>
+<tr>
+<td>向已关闭的只读通道发送数据</td>
+<td><code>ch := make(chan int); close(ch); ch &lt;- 10</code></td>
+</tr>
+</tbody></table>
+<h2 id="go的map了解吗，map是并发安全的吗，map的底层是什么"><a href="#go的map了解吗，map是并发安全的吗，map的底层是什么" class="headerlink" title="go的map了解吗，map是并发安全的吗，map的底层是什么"></a>go的map了解吗，map是并发安全的吗，map的底层是什么</h2><ul>
+<li><strong>默认情况下，<code>map</code> 是并发不安全的</strong>：如果多个 goroutine 同时读写同一个 <code>map</code>，程序会引发竞态条件（race condition），可能会导致程序崩溃或数据不一致。</li>
+<li><strong>读写同时进行</strong>：如果一个 goroutine 正在写一个 <code>map</code>，另一个 goroutine 试图读取或写入该 <code>map</code>，就会触发 <code>fatal error: concurrent map writes</code> 或 <code>fatal error: concurrent map read and map write</code> 错误。</li>
+<li><strong>读取是安全的，写入不是</strong>：在并发环境下，如果仅是多个 goroutine 读取同一个 <code>map</code>，那么这是安全的。但是如果同时有写操作，就会出现问题。</li>
+<li><strong>如何保证并发安全：</strong> 为了使 <code>map</code> 在并发环境中安全，可以通过 <code>sync.Mutex</code> 或 <code>sync.RWMutex</code> 来保护 <code>map</code>，或者使用 Go 1.9 之后的 <code>sync.Map</code>，它是并发安全的，专为并发设计。</li>
+</ul>
+<p> <code>map</code> 的底层实现</p>
+<ul>
+<li><strong>桶（Buckets）</strong>：Go 的 <code>map</code> 底层使用的是哈希表（hash table）。哈希表将键通过哈希函数转换为一个索引，值存储在哈希表的桶中。Go 的 <code>map</code> 采用开放定址法（open addressing）来处理哈希冲突。</li>
+<li><strong>哈希桶的管理：</strong><ul>
+<li>每个桶是一个包含多个键值对的结构，Go 的 <code>map</code> 会根据桶的负载因子来动态扩展哈希表。当 <code>map</code> 中元素的数量超过负载因子的限制时，哈希表会进行重新哈希，扩展桶的数量。</li>
+</ul>
+</li>
+<li><strong>扩容</strong>：当哈希表的负载因子达到一定阈值时，<code>map</code> 会进行扩容，并将所有元素重新哈希到新的桶中。这个过程是通过重新分配内存来实现的。</li>
+<li><strong>优化</strong>：Go 的 <code>map</code> 实现还做了一些性能优化，比如懒加载（lazy deletion），即删除元素时不会立即回收内存，而是标记为删除，直到某个时刻才会进行垃圾回收。</li>
+</ul>
+<p> <code>map</code> 的特点</p>
+<ul>
+<li><strong>无序</strong>：Go 的 <code>map</code> 是无序的，插入的顺序和遍历的顺序不一定相同。每次遍历 <code>map</code> 时，元素的顺序是随机的。</li>
+<li><strong>键的唯一性</strong>：<code>map</code> 中的每个键是唯一的。如果插入的键已经存在，新的值会覆盖原有的值。</li>
+<li><strong>动态大小</strong>：Go 的 <code>map</code> 会根据实际的存储量动态调整大小，使用哈希表来提高查询效率。</li>
+</ul>
+<h2 id="哈希冲突的解决？"><a href="#哈希冲突的解决？" class="headerlink" title="哈希冲突的解决？"></a>哈希冲突的解决？</h2><p>在 Go 中，<code>map</code> 的底层实现使用哈希表（hash table）来存储键值对。当发生哈希冲突时，Go 采用 <strong>开放定址法</strong>（open addressing）来解决冲突。具体来说，Go 的 <code>map</code> 使用桶（buckets）来存储数据，并通过以下方法处理冲突：</p>
+<p><strong>哈希表的桶（Buckets）</strong></p>
+<p>Go 的 <code>map</code> 底层实现基于哈希表，每个桶可以存储多个键值对。当我们将一个键值对插入 <code>map</code> 时，首先会使用哈希函数计算该键的哈希值，然后根据该哈希值决定将键值对插入哪个桶。如果多个键映射到同一个桶，就发生了哈希冲突。</p>
+<p><strong>开放定址法（Open Addressing）</strong></p>
+<p>当哈希冲突发生时，Go 使用开放定址法来寻找空的槽位存储冲突的键值对。具体来说，Go 的 <code>map</code> 通过 <strong>线性探查</strong> 来解决冲突。</p>
+<p><em>线性探查（Linear Probing）</em></p>
+<ul>
+<li>如果一个桶已经有元素，那么 <code>map</code> 会顺序检查下一个桶的位置，直到找到一个空槽位或者找到了匹配的键。</li>
+<li>比如，如果插入的位置为桶 <code>i</code>，如果 <code>i</code> 位置已经有元素，<code>map</code> 会检查 <code>i+1</code> 位置，如果那里也有元素，再检查 <code>i+2</code>，依此类推。</li>
+</ul>
+<h2 id="了解go的垃圾回收吗？"><a href="#了解go的垃圾回收吗？" class="headerlink" title="了解go的垃圾回收吗？"></a>了解go的垃圾回收吗？</h2><p><strong>Go 垃圾回收的基本原理</strong></p>
+<p>Go 的垃圾回收机制采用了 <strong>三色标记法</strong>，分为 <strong>标记</strong> 和 <strong>清除</strong> 两个阶段：</p>
+<ul>
+<li><strong>标记阶段（Mark Phase）：</strong><br> 在这个阶段，GC 会从根对象（通常是栈上的变量、全局变量等）开始，遍历整个程序中可达的对象，并将这些对象标记为存活对象（reachable）。</li>
+<li><strong>清除阶段（Sweep Phase）：</strong><br> 在标记完成后，GC 会遍历堆上的所有对象，回收那些没有被标记为存活的对象的内存。</li>
+<li><strong>压缩阶段（Compact Phase）：</strong><br> Go 在 1.5 版本后引入了压缩阶段，以减少内存碎片。在清除后，它会将存活的对象按顺序排列，使得堆内存空间更紧凑，减少了空闲内存的浪费。</li>
+</ul>
+<p><strong>Go 垃圾回收的特点</strong></p>
+<ul>
+<li><strong>并发垃圾回收：</strong><br> Go 的 GC 是 <strong>并发的</strong>，这意味着 GC 可以在程序运行的同时进行。通过并发执行标记阶段，减少了 GC 阻塞程序执行的时间。</li>
+<li><strong>增量垃圾回收：</strong><br> Go 的垃圾回收采用 <strong>增量式回收</strong>，即将垃圾回收过程分为多个小的步骤执行，而不是一次性完成，这样可以减少对程序的暂停时间（Stop-the-World 时间）。</li>
+<li><strong>Stop-the-World：</strong><br> 虽然 Go 的 GC 是并发的，但在标记阶段的某些操作需要停止应用程序的执行，这时称为 <strong>Stop-the-World</strong>。在 Go 语言的 GC 实现中，Stop-the-World 时间尽可能短。</li>
+<li><strong>GC 调优：</strong><br> Go 的 GC 可以通过 <code>GOGC</code> 环境变量进行调优。<code>GOGC</code> 控制着触发垃圾回收的条件，它的值表示回收触发的 <strong>百分比</strong>（即堆大小增长的百分比）。默认情况下，<code>GOGC</code> 为 100，意味着当堆大小增长到当前堆的两倍时，垃圾回收会被触发。可以通过调整 <code>GOGC</code> 来控制垃圾回收的频率。</li>
+</ul>
+<p><strong>Go GC 的实现细节</strong></p>
+<ul>
+<li><p><strong>三色标记法：</strong><br> Go 使用 <strong>三色标记法</strong>来标记对象的状态。对象可以处于以下三种状态：</p>
+<ul>
+<li><strong>白色（White）</strong>：对象未被访问，垃圾回收将会回收它。</li>
+<li><strong>灰色（Gray）</strong>：对象已经被访问，但它的子对象尚未被访问。</li>
+<li><strong>黑色（Black）</strong>：对象已经被访问，且它的所有子对象也都已经被访问。</li>
+</ul>
+<p>在标记阶段，Go 会使用这三种颜色来表示对象的遍历状态，灰色对象会被继续遍历，直到所有可达对象都被标记为黑色。</p>
+</li>
+<li><p><strong>分代回收（Generational GC）：</strong><br> Go 的 GC 并没有明确采用分代回收的策略（与 JVM 等语言的 GC 不同），但是它通过其他优化来提高回收效率。比如，它会优先回收年轻对象（对象创建时间较短的对象），因为这些对象更可能是短生命周期的。</p>
+</li>
+</ul>
+<h2 id="你的普罗米修斯设置了哪些指标？如何监控的？"><a href="#你的普罗米修斯设置了哪些指标？如何监控的？" class="headerlink" title="你的普罗米修斯设置了哪些指标？如何监控的？"></a>你的普罗米修斯设置了哪些指标？如何监控的？</h2><p><strong>暴露指标</strong>：首先，在你的 IM 服务中使用 Prometheus 的 Go 客户端库（<code>github.com/prometheus/client_golang</code>）来暴露一些自定义的监控指标。例如，监控当前在线用户数、消息发送量、API 响应时间等。可以在你的应用中定义计数器、直方图等类型的指标。</p>
+<p><strong>暴露 <code>/metrics</code> 端点</strong>：在应用中添加一个 HTTP 服务器，用于暴露 <code>/metrics</code> 端点，让 Prometheus 可以访问到这些指标数据。例如，使用 Go 语言的话，可以通过 <code>promhttp.Handler()</code> 来暴露该端点。</p>
+<p><strong>设置告警规则</strong>：根据你的需求设置告警规则。例如，消息量过大、API 响应时间过长时触发告警。这些告警可以通过 <strong>Alertmanager</strong> 转发到邮件、Slack 或其他通知渠道。</p>
+<p><strong>可视化数据</strong>：你还可以将 Prometheus 与 <strong>Grafana</strong> 配合使用，实现实时的监控数据可视化。通过 Grafana 的 Prometheus 数据源插件，你可以创建丰富的仪表板，展示你的 IM 服务的健康状况、消息流量等关键信息。”</p>
+<h2 id="Token的过期机制的是怎么实现的？"><a href="#Token的过期机制的是怎么实现的？" class="headerlink" title="Token的过期机制的是怎么实现的？"></a>Token的过期机制的是怎么实现的？</h2><p><strong>用户登录时，生成两个 Token</strong>：</p>
+<ul>
+<li>访问 Token（JWT）：有效期较短，通常为 15 分钟到 1 小时。</li>
+<li>刷新 Token：有效期较长，通常为 7 天或更长。</li>
+</ul>
+<p><strong>用户请求时</strong>：</p>
+<ul>
+<li>客户端将访问 Token 放在请求头中发送给服务器。</li>
+<li>如果访问 Token 过期，服务器会根据客户端提供的刷新 Token 来生成新的访问 Token。</li>
+</ul>
+<p><strong>实现流程</strong>：</p>
+<ul>
+<li><strong>刷新 Token</strong>：在访问 Token 过期时，客户端可以通过发送刷新 Token 请求到服务器，服务器验证刷新 Token 的有效性后，重新颁发一个新的访问 Token 和刷新 Token。</li>
+<li><strong>刷新 Token 的过期与失效</strong>：当刷新 Token 也过期时，用户必须重新登录。</li>
+</ul>
+<h2 id="kafka如何确保消费者消费正确"><a href="#kafka如何确保消费者消费正确" class="headerlink" title="kafka如何确保消费者消费正确"></a>kafka如何确保消费者消费正确</h2><ul>
+<li><p>Kafka 的消费者是 <strong>分布式的</strong>，并且支持 <strong>异步消费</strong>。消费者可以 <strong>并行</strong> 消费多个分区的数据，每个消费者只负责自己的分区，因此能够在多个消费者之间均衡负载，从而有效应对高并发的消费需求。</p>
+</li>
+<li><p>消费者组（Consumer Group）可以将多个消费者组合起来并行处理数据。每个消费者组中的消费者会分配到不同的分区，确保每个消息只能被一个消费者处理。这样多个消费者可以同时处理多个分区，提高了处理的并发能力。</p>
+</li>
+<li><p>Kafka 使用 <strong>分区</strong> 来管理数据，每个 <strong>Topic</strong> 可以有多个 <strong>Partition</strong>，每个 Partition 负责一部分数据的存储和处理。每个分区的数据是有序的，可以并行处理不同分区的数据，极大地提升了 Kafka 的吞吐量和并发处理能力。</p>
+</li>
+<li><p>在生产者和消费者之间，Kafka 会根据消息的键（key）或者 <strong>轮询（Round-robin）</strong> 等方式将数据分布到不同的分区，从而支持并行写入和读取。</p>
+</li>
+</ul>
+<h2 id="你的im项目kafka有哪些topic"><a href="#你的im项目kafka有哪些topic" class="headerlink" title="你的im项目kafka有哪些topic?"></a>你的im项目kafka有哪些topic?</h2><p>“在我们的 IM 项目中，Kafka 作为消息队列用于高效处理消息传递和状态更新。我们设置了多个 Topic 来实现不同功能的消息传输，包括：</p>
+<ol>
+<li>**<code>user-message</code>**：用于用户之间的消息传输，每当用户发送消息时，消息会被推送到这个 Topic。</li>
+<li>**<code>message-status</code>**：用于记录消息的状态变化，如消息的送达状态、已读状态等。当消息状态改变时，会将状态更新推送到此 Topic。</li>
+<li>**<code>user-typing</code>**：这个 Topic 用于实时监控用户的输入状态，例如当某个用户正在输入时，会将该状态更新到该 Topic，其他用户可以实时看到。</li>
+<li>**<code>user-presence</code>**：用于跟踪用户的在线和离线状态，确保每个用户的状态是最新的，所有相关服务都能及时获取到这些信息。</li>
+<li>**<code>chat-room</code>**：用于处理群聊中的消息。当群聊中的任何用户发送消息时，消息会被广播到这个 Topic，所有成员都会收到。</li>
+<li>**<code>notification</code>**：用于系统通知，处理如系统消息、公告、警告等类型的通知。</li>
+<li>**<code>media-message</code>**：用于处理多媒体消息，如图片、视频、语音等。多媒体消息通过这个 Topic 传输。</li>
+</ol>
+<h2 id="如果说一个Replicas宕机了怎么办？"><a href="#如果说一个Replicas宕机了怎么办？" class="headerlink" title="如果说一个Replicas宕机了怎么办？"></a>如果说一个Replicas宕机了怎么办？</h2><ul>
+<li>Kafka 的分区可以有多个副本（Replicas），即使某个节点宕机，其他副本可以继续提供服务，确保系统的高可用性。</li>
+</ul>
+
+    </div>
+    
+    
+    
+    
+    
+    
+    
+</div>
+
+            <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy;
+            2022 - 2025 xkiven の 小屋
+            <span id="footer-icon">
+                <i class="fa-solid fa-font-awesome fa-fw"></i>
+            </span>
+            &commat;xkiven
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+        
+        <transition name="fade">
+            <div id="preview" ref="preview" v-show="previewShow">
+                <img id="preview-content" ref="previewContent" />
+            </div>
+        </transition>
+        
+    </div>
+    <script src="/js/main.js"></script>
+    
+    
+
+
+
+
+    
+</body>
+</html>

@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <title>kitex | xkiven の 小屋</title>
+    <title>面经3（agent） | xkiven の 小屋</title>
     <meta name="author" content="xkiven" />
     <meta name="description" content="" />
     <meta name="keywords" content="" />
@@ -147,14 +147,14 @@
         <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
             <div class="article">
     <div>
-        <h1>kitex</h1>
+        <h1>面经3（agent）</h1>
     </div>
     <div class="info">
         <span class="date">
             <span class="icon">
                 <i class="fa-solid fa-calendar fa-fw"></i>
             </span>
-            2025/4/9
+            2026/3/4
         </span>
         
         
@@ -166,8 +166,8 @@
             
             <span class="tag">
                 
-                <a href="/tags/%E5%B7%A5%E5%85%B7/" style="color: #00bcd4">
-                    工具
+                <a href="/tags/%E9%9D%A2%E7%BB%8F/" style="color: #ff7d73">
+                    面经
                 </a>
             </span>
             
@@ -176,59 +176,53 @@
     </div>
     
     <div class="content" v-pre>
-        <h1 id="kitex的使用方法"><a href="#kitex的使用方法" class="headerlink" title="kitex的使用方法"></a>kitex的使用方法</h1><span id="more"></span>
+        <p>2026.3.4</p>
+<span id="more"></span>
 
-<h2 id="环境配置"><a href="#环境配置" class="headerlink" title="环境配置"></a>环境配置</h2><p>执行以下命令：</p>
-<pre><code class="bash">go install github.com/cloudwego/kitex/tool/cmd/kitex@latest
-</code></pre>
-<p>安装成功后，执行 <code>kitex --version</code> 可以看到具体版本号的输出（版本号有差异，以 x.x.x 示例）：</p>
-<pre><code class="bash">$ kitex --version
-vx.x.x
-</code></pre>
-<h2 id="编写-IDL"><a href="#编写-IDL" class="headerlink" title="编写 IDL"></a>编写 IDL</h2><p>按照开发流程，我们首先需要编写 IDL，这里以 thrift IDL 为例子。</p>
-<p>创建 <code>idl</code> 目录用于存放项目 <code>idl</code> 文件</p>
-<p>一般不同的服务都会使用不同的 IDL</p>
-<p>item.thrift</p>
-<pre><code class="thrift">namespace go example.shop.item
-
-include &quot;base.thrift&quot;
-
-struct Item &#123;
-    1: i64 id
-    2: string title
-    3: string description
-    4: i64 stock
-&#125;
-
-struct GetItemReq &#123;
-    1: required i64 id
-&#125;
-
-struct GetItemResp &#123;
-    1: Item item
-
-    255: base.BaseResp baseResp
-&#125;
-
-service ItemService&#123;
-    GetItemResp GetItem(1: GetItemReq req)
-&#125;
-</code></pre>
-<h2 id="代码生成"><a href="#代码生成" class="headerlink" title="代码生成"></a>代码生成</h2><p>有了 IDL 以后我们便可以通过 kitex 工具生成项目代码了</p>
-<pre><code class="shell">kitex -module example_shop idl/item.thrift
-</code></pre>
-<p>生成的代码分两部分，一部分是结构体的编解码序列化代码，由 IDL 编译器生成；另一部分由 kitex 工具在前者产物上叠加，生成用于创建和发起 RPC 调用的桩代码。它们默认都在 <code>kitex_gen</code> 目录下。</p>
-<p>kitex 命令行工具提供了 <code>-service</code> 参数能直接生成带有脚手架的代码，接下来让我们为商品服务和库存服务分别生成脚手架。</p>
-<p>首先为两个 RPC 服务分别单独创建目录。</p>
-<pre><code class="shell">mkdir -p rpc/item rpc/stock
-</code></pre>
-<p>再分别进入各自的目录中，执行如下命令生成代码：</p>
-<pre><code class="shell">// item 目录下执行
-kitex -module example_shop -service example.shop.item -use example_shop/kitex_gen ../../idl/item.
-</code></pre>
-<h2 id="拉取依赖"><a href="#拉取依赖" class="headerlink" title="拉取依赖"></a>拉取依赖</h2><p>完成代码生成后，我们回到项目根目录，使用<code> go mod tidy</code> 命令拉取项目依赖</p>
-<h2 id="编写商品服务逻辑"><a href="#编写商品服务逻辑" class="headerlink" title="编写商品服务逻辑"></a>编写商品服务逻辑</h2><p>我们需要编写的服务端逻辑都在 <code>handler.go</code> 这个文件中</p>
-
+<h2 id="在与ai机器人对话中，语音交互时，如果用户重新又说一句话，比如一开始让ai自我介绍，ai正在生成，这时用户又提出其他要求，ai怎么办"><a href="#在与ai机器人对话中，语音交互时，如果用户重新又说一句话，比如一开始让ai自我介绍，ai正在生成，这时用户又提出其他要求，ai怎么办" class="headerlink" title="在与ai机器人对话中，语音交互时，如果用户重新又说一句话，比如一开始让ai自我介绍，ai正在生成，这时用户又提出其他要求，ai怎么办"></a>在与ai机器人对话中，语音交互时，如果用户重新又说一句话，比如一开始让ai自我介绍，ai正在生成，这时用户又提出其他要求，ai怎么办</h2><ul>
+<li><p>我会把语音对话做成一个可打断状态机。核心原则是：先停再判，最新意图优先，低置信度确认。<br>  具体流程是：</p>
+<ol>
+<li>用户说话事件触发（VAD检测到新语音）后，150ms内立即执行 cancel(TTS) 和 cancel(LLM)。</li>
+<li>并行做ASR和快速意图分类，分类成两类：补充当前任务 或 切换新任务。</li>
+<li>置信度阈值我会设两档：&gt;0.75直接执行，0.45~0.75做一句确认，&lt;0.45默认按新任务但先确认。</li>
+<li>若识别为补充，就复用当前上下文重生成；若是新任务，就创建新turn并降权旧上下文。</li>
+<li>全程保证可恢复：被中断的回答保留摘要，用户说‘继续刚才的’时可秒恢复。</li>
+</ol>
+<p>  这样体验上不抢话，工程上可控，错误切换也有兜底。</p>
+</li>
+</ul>
+<h2 id="如果我有10000个ai机器人同时在被执行使用，怎么解决延迟问题"><a href="#如果我有10000个ai机器人同时在被执行使用，怎么解决延迟问题" class="headerlink" title="如果我有10000个ai机器人同时在被执行使用，怎么解决延迟问题"></a>如果我有10000个ai机器人同时在被执行使用，怎么解决延迟问题</h2><ul>
+<li><p>全链路流式：ASR 增量、LLM streaming、TTS 分片，避免“全量返回再播报”。</p>
+</li>
+<li><p>推理引擎优化：continuous batching、paged KV cache、prompt cache。</p>
+</li>
+<li><p>模型路由：简单问答走小模型，复杂任务走大模型。</p>
+</li>
+<li><p>会话状态外置：Redis 存热上下文，减少数据库读写。</p>
+</li>
+<li><p>弹性扩缩容：按队列深度、P95、GPU 利用率自动扩容。</p>
+</li>
+<li><p>背压与限流：超过阈值立即排队或降级，防止雪崩。</p>
+</li>
+</ul>
+<h2 id="怎么在与ai交流中减少token消耗"><a href="#怎么在与ai交流中减少token消耗" class="headerlink" title="怎么在与ai交流中减少token消耗"></a>怎么在与ai交流中减少token消耗</h2><ol>
+<li>模型路由：小模型处理 60%-80% 简单请求，复杂问题再进大模型。</li>
+<li>上下文瘦身：最近几轮原文 + 滚动摘要，避免每次带全量历史。</li>
+<li>RAG压缩：只喂 Top-K 片段（常见 3-5 段）+ 去重，不塞整篇文档。</li>
+<li>短答优先：先给结论，用户点“展开”再生成长文。</li>
+<li>多级缓存：相似问答缓存、检索结果缓存、工具结果缓存。</li>
+<li>A&#x2F;B + SLO 守门：上线前后盯 首包延迟&#x2F;满意度&#x2F;二次追问率，体验变差就回滚。</li>
+</ol>
+<h2 id="怎么用国外的模型，减少延迟，解决频繁被墙的问题"><a href="#怎么用国外的模型，减少延迟，解决频繁被墙的问题" class="headerlink" title="怎么用国外的模型，减少延迟，解决频繁被墙的问题"></a>怎么用国外的模型，减少延迟，解决频繁被墙的问题</h2><ol>
+<li><p>做多供应商和多区域<br>同时接 2-3 家模型服务、2 个以上区域，按健康度和延迟自动路由；单点抖动时秒级切换。</p>
+<ol start="4">
+<li>做网络层抗抖<br>  连接池、HTTP&#x2F;2 或 gRPC 长连接、超时分层、指数退避重试、熔断、hedged request（尾延迟请求副本）来压 P95&#x2F;P99。</li>
+<li>做模型层降级<br>  高峰或跨境抖动时：先降 max_tokens，再切小模型；核心流程准备一个国内可用模型兜底，保证服务不断。</li>
+<li>做无感提速<br>  流式输出（先回首字）、Prompt&#x2F;RAG 压缩、语义缓存，优先优化 TTFT（首字延迟），用户体感提升最大。</li>
+</ol>
+</li>
+</ol>
+<h2 id="忘记了"><a href="#忘记了" class="headerlink" title="忘记了"></a>忘记了</h2>
     </div>
     
     

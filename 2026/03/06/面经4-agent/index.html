@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <title>something | xkiven の 小屋</title>
+    <title>面经4(agent) | xkiven の 小屋</title>
     <meta name="author" content="xkiven" />
     <meta name="description" content="" />
     <meta name="keywords" content="" />
@@ -147,14 +147,14 @@
         <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
             <div class="article">
     <div>
-        <h1>something</h1>
+        <h1>面经4(agent)</h1>
     </div>
     <div class="info">
         <span class="date">
             <span class="icon">
                 <i class="fa-solid fa-calendar fa-fw"></i>
             </span>
-            2025/2/2
+            2026/3/6
         </span>
         
         
@@ -166,8 +166,8 @@
             
             <span class="tag">
                 
-                <a href="/tags/%E5%B7%A5%E5%85%B7/" style="color: #ffa2c4">
-                    工具
+                <a href="/tags/%E9%9D%A2%E7%BB%8F/" style="color: #00a596">
+                    面经
                 </a>
             </span>
             
@@ -176,19 +176,33 @@
     </div>
     
     <div class="content" v-pre>
-        <span id="more"></span>
-
-<ol>
-<li>安装Gin：在项目目录下的终端中运行  go get -u github.com&#x2F;gin-gonic&#x2F;gin 。 -u  标志用于更新到最新版本。</li>
-<li>安装MySQL驱动：执行  go get -u github.com&#x2F;go-sql-driver&#x2F;mysql 。这会下载MySQL驱动到你的本地 $GOPATH 下。</li>
-<li>安装WebSocket库：若使用  gorilla&#x2F;websocket （比  golang.org&#x2F;x&#x2F;net&#x2F;websocket  更常用 ），运行  go get -u github.com&#x2F;gorilla&#x2F;websocket 。</li>
-<li>安装gorm:     执行go get -u gorm.io&#x2F;gorm， go get -u gorm.io&#x2F;driver&#x2F;mysql</li>
-<li>ssh密钥：ssh-keygen -t rsa -b 4096 -C”<a href="mailto:&#50;&#x36;&#x37;&#52;&#51;&#48;&#x32;&#x34;&#x33;&#51;&#x40;&#x71;&#113;&#x2e;&#x63;&#x6f;&#109;">&#50;&#x36;&#x37;&#52;&#51;&#48;&#x32;&#x34;&#x33;&#51;&#x40;&#x71;&#113;&#x2e;&#x63;&#x6f;&#109;</a>“</li>
-<li>sshkmftymkzpecee</li>
-<li>安装 Go - zero 代码生成工具 goctl：go install github.com&#x2F;zeromicro&#x2F;go-zero&#x2F;tools&#x2F;goctl@latest</li>
-<li>安装redis：go get github.com&#x2F;go-redis&#x2F;redis&#x2F;v8</li>
-<li>进入 Consul 的安装目录，然后执行 <code>consul agent -dev</code> 命令来以开发模式启动 Consul</li>
+        <h2 id="讲一下召回重排策略"><a href="#讲一下召回重排策略" class="headerlink" title="讲一下召回重排策略"></a>讲一下召回重排策略</h2><ul>
+<li>召回重排是推荐系统和搜索系统中常见的一种两阶段排序架构。</li>
+</ul>
+<p>第一阶段是 <strong>召回（Recall）</strong>，主要是从海量数据中快速筛选出一批可能相关的候选集合，比如从上百万条数据中召回 Top100。召回更关注的是 <strong>速度和覆盖率</strong>，常用的方法包括 <strong>向量召回M25关键词召回、以及混合召回</strong>。</p>
+<p>第二阶段是 <strong>重排（Rerank）</strong>，会对召回得到的候选集合进行更精细的排序。因为候选数量已经比较少，所以可以使用更复杂的模型，比如 <strong>Cross-Encoder 或深度排序模型</strong>，计算 query 和 document 的相关度，然后重新排序，选出最终的 TopK 结果。</p>
+<p>这种架构的好处是 <strong>既保证检索速度，又提高结果的准确性</strong>，在推荐系统、搜索引擎以及 RAG 检索增强生成中都非常常见。</p>
+<h2 id="怎么增加召回率"><a href="#怎么增加召回率" class="headerlink" title="怎么增加召回率"></a>怎么增加召回率</h2><ol>
+<li><p><strong>多路召回</strong>，比如同时使用 <strong>向量召回和关键词召回（BM25）</strong>，然后合并结果，这样可以提升覆盖率。</p>
+</li>
+<li><p><strong>增加召回数量</strong>，例如把 Top20 提高到 Top50 或 Top100，再通过后续的重排模型筛选。</p>
+</li>
+<li><p><strong>优化查询和数据处理</strong>，比如进行 <strong>Query Rewrite、同义词扩展、分词优化</strong>，提高匹配概率。</p>
+</li>
+<li><p><strong>优化向量模型和向量库参数</strong>，例如使用更好的 embedding 模型或调整向量检索参数。</p>
+</li>
+<li><p><strong>文档切分（chunking）优化</strong>，让知识粒度更细，提高匹配概率。</p>
+</li>
 </ol>
+<h2 id="知识库切片方式有哪些方式，你是用的什么切片方式，为什么"><a href="#知识库切片方式有哪些方式，你是用的什么切片方式，为什么" class="headerlink" title="知识库切片方式有哪些方式，你是用的什么切片方式，为什么"></a>知识库切片方式有哪些方式，你是用的什么切片方式，为什么</h2><p>常见的知识库切片方式包括 <strong>固定长度切片、滑动窗口切片、语义切片和层级切片</strong>。在我的项目中主要采用 <strong>固定长度加滑动窗口的方式</strong>，但是 FAQ 类型知识库，可以直接Q + A 作为一个 chunk，因为这种方式实现简单，同时可以避免上下文被截断，提高检索召回率。</p>
+<h2 id="chunk切太小或太大会有什么问题？"><a href="#chunk切太小或太大会有什么问题？" class="headerlink" title="chunk切太小或太大会有什么问题？"></a>chunk切太小或太大会有什么问题？</h2><ul>
+<li>保证语义完整，如果 chunk 太小可能会破坏句子或段落语义。</li>
+<li>提高检索精度，如果 chunk 太大可能包含多个主题，导致向量表示不够聚焦。</li>
+<li>控制 LLM 的上下文长度，因为 RAG 会把多个 chunk 拼接到 prompt 中，chunk 过大会导致 token 消耗过高。</li>
+</ul>
+<h2 id="项目之间是怎么通信的"><a href="#项目之间是怎么通信的" class="headerlink" title="项目之间是怎么通信的"></a>项目之间是怎么通信的</h2><p>在我的项目中，主要采用 <strong>HTTP API 的方式进行服务之间通信</strong>。</p>
+<p>比如在 AI Agent 架构中，Go 主要负责业务逻辑和接口层，而 Python 服务主要负责 AI 相关能力，例如意图识别和 RAG 检索。Go 服务会通过 <strong>HTTP 请求调用 Python AI 服务</strong>，获取识别结果或者生成内容。</p>
+<p>这样做的好处是 <strong>实现简单、语言无关、方便部署和调试</strong>。同时如果后期系统规模扩大，也可以逐步升级为 <strong>gRPC 或通过消息队列实现异步处理</strong>。</p>
 
     </div>
     

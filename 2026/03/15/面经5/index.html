@@ -1,0 +1,288 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>面经5 | xkiven の 小屋</title>
+    <meta name="author" content="xkiven" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
+    <link rel="icon" href="/images/ly.jpg" />
+    <link rel="preconnect" href="https://s4.zstatic.net" />
+<script src="https://s4.zstatic.net/ajax/libs/vue/3.3.7/vue.global.prod.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+<link rel="preconnect" href="https://fonts.googleapis.cn" />
+<link rel="preconnect" href="https://fonts.gstatic.cn" crossorigin />
+<link
+    rel="stylesheet"
+    href="https://fonts.googleapis.cn/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap"
+/>
+<script> const mixins = {}; </script>
+
+<script src="https://polyfill.alicdn.com/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
+/>
+<script src="/js/lib/highlight.js"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.css" />
+<script src="/js/lib/math.js"></script>
+
+
+<script src="/js/lib/preview.js"></script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/main.css" />
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+    <div id="layout">
+        <transition name="fade">
+            <div id="loading" v-show="loading">
+                <div id="loading-circle">
+                    <h2>LOADING</h2>
+                    <p>加载过慢请开启缓存 浏览器默认开启</p>
+                    <img src="/images/loading.gif" />
+                </div>
+            </div>
+        </transition>
+        <div id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <nav id="desktop-menu">
+        <a class="title" href="/">
+            <span>XKIVEN の 小屋</span>
+        </a>
+        
+        <a href="/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;Home</span>
+        </a>
+        
+        <a href="/about">
+            <i class="fa-solid fa-id-card fa-fw"></i>
+            <span>&ensp;About</span>
+        </a>
+        
+        <a href="/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;Archives</span>
+        </a>
+        
+        <a href="/tags/%E7%AE%97%E6%B3%95/">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;Tags</span>
+        </a>
+        
+    </nav>
+    <nav id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;XKIVEN の 小屋</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Home</div>
+                    </div>
+                </a>
+                
+                <a href="/about">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-id-card fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
+                    </div>
+                </a>
+                
+                <a href="/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div>
+                    </div>
+                </a>
+                
+                <a href="/tags/%E7%AE%97%E6%B3%95/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </nav>
+</div>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+        <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
+            <div class="article">
+    <div>
+        <h1>面经5</h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2026/3/15
+        </span>
+        
+        
+        <span class="tags">
+            <span class="icon">
+                <i class="fa-solid fa-tags fa-fw"></i>
+            </span>
+            
+            
+            <span class="tag">
+                
+                <a href="/tags/%E9%9D%A2%E7%BB%8F/" style="color: #ff7d73">
+                    面经
+                </a>
+            </span>
+            
+        </span>
+        
+    </div>
+    
+    <div class="content" v-pre>
+        <p>2026.3.15</p>
+<span id="more"></span>
+
+<h2 id="了解go的协程吗，为什么协程更快"><a href="#了解go的协程吗，为什么协程更快" class="headerlink" title="了解go的协程吗，为什么协程更快"></a>了解go的协程吗，为什么协程更快</h2><p>Go 里的协程一般指 goroutine，它本质上是 Go 运行时管理的轻量级并发单位，不是直接对应一个操作系统线程。Go<br>  通过 GMP 调度模型，把大量 goroutine 复用到少量线程上执行。</p>
+<p>  协程看起来更快，其实更准确地说是‘并发成本更低’，不是单个任务执行速度天然更快。它比线程更高效，主要有几个原因：</p>
+<ol>
+<li>创建开销小<br>goroutine 初始栈很小，而且栈可以动态扩缩；线程通常是 MB 级固定栈，创建成本更高。</li>
+<li>切换成本低<br>线程切换要经过内核态参与，开销大；goroutine 的调度主要在用户态完成，切换更轻。</li>
+<li>复用线程<br>Go 是 M:N 调度，不是一个协程绑一个线程，所以能用更少的线程支撑更多并发任务。</li>
+<li>更适合 I&#x2F;O 密集场景<br>像网络请求、RPC、数据库访问这类场景，goroutine 在阻塞时，运行时可以把线程让给别的 goroutine 继续跑，所以吞吐<br>会更好。</li>
+</ol>
+<h2 id="了解用户态和内核态吗"><a href="#了解用户态和内核态吗" class="headerlink" title="了解用户态和内核态吗"></a>了解用户态和内核态吗</h2><p>用户态和内核态，主要是 CPU 对权限的两种运行级别。<br>用户态权限低，普通应用程序运行在这里，不能直接操作硬件，也不能直接做线程调度、内存管理这类敏感操作；<br>内核态权限高，操作系统内核运行在这里，可以访问硬件、处理中断、调度线程、执行系统调用。</p>
+<p>为什么线程切换更重，和这个有关系。因为线程是操作系统调度的，线程切换往往需要内核参与，也就是从用户态切到内核态，再切回来，这个过程开销比较大。<br>而 goroutine 的调度很多时候是在 Go 运行时里完成的，属于用户态调度，不需要每次都让内核介入，所以切换成本更低。</p>
+<h2 id="什么情况下会从用户态切到内核态"><a href="#什么情况下会从用户态切到内核态" class="headerlink" title="什么情况下会从用户态切到内核态"></a>什么情况下会从用户态切到内核态</h2><p>常见有三种：</p>
+<pre><code>1. 系统调用，比如文件读写、网络通信。
+2. 中断，比如硬件设备触发中断。
+3. 异常，比如缺页异常。
+</code></pre>
+<p>这时候 CPU 会切到内核态，让操作系统来处理。</p>
+<h2 id="看你用了MongoDB-是存消息了吗，那用户是怎么查询历史消息的，包括一些二进制，比如图片之类的？"><a href="#看你用了MongoDB-是存消息了吗，那用户是怎么查询历史消息的，包括一些二进制，比如图片之类的？" class="headerlink" title="看你用了MongoDB,是存消息了吗，那用户是怎么查询历史消息的，包括一些二进制，比如图片之类的？"></a>看你用了MongoDB,是存消息了吗，那用户是怎么查询历史消息的，包括一些二进制，比如图片之类的？</h2><ul>
+<li><p>MongoDB 主要用于存储聊天消息记录，而不是直接存储大体积二进制文件本身。消息查询通常以“会话”为核心维度，而不是以“用户”做全表扫描。原因是 IM 场景下最常见的查询行为是：某个用户进入某个会话后，拉取该会话的历史消息。</p>
+</li>
+<li><p>历史消息查询时，后端通常先根据 conversation_id 确认会话，再结合 seq 或 created_at 做范围查询。例如：</p>
+<p>1.首次进入会话：查询该会话最近 N 条消息</p>
+<p>2.上拉历史：查询 seq &lt; 当前最早消息seq 的下一批数据</p>
+</li>
+<li><p>对于图片、语音、视频、文件等二进制内容，通常不会直接嵌入普通消息文档中。更常见的做法是：</p>
+</li>
+</ul>
+<p>  1.二进制文件存储在对象存储系统中，如 MinIO、OSS、S3</p>
+<p>  2.MongoDB 中仅保存文件元数据</p>
+<h2 id="GWP优缺点"><a href="#GWP优缺点" class="headerlink" title="GWP优缺点"></a>GWP优缺点</h2><p>优点：</p>
+<ul>
+<li>能控制并发量，避免 goroutine 开太多把 CPU 和内存打爆。</li>
+<li>能复用 worker，减少频繁创建和销毁 goroutine 的开销。</li>
+<li>适合批量任务、异步任务、爬虫、消息消费这类场景。</li>
+<li>容易做限流、超时、重试和统一监控。</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>实现比直接开 goroutine 更复杂，要处理任务队列、关闭、异常恢复这些问题。</li>
+<li>worker 数量不好配，太少吞吐不够，太多又会争抢资源。</li>
+<li>如果任务执行时间差异很大，可能出现部分 worker 很忙、部分 worker 很闲，负载不均。</li>
+<li>队列堆积时会增加延迟，严重时还可能造成内存压力。</li>
+<li>不适合那种任务量小、逻辑简单的场景，用了反而过度设计。</li>
+</ul>
+<h2 id="知道TCP的粘包吗，能讲讲吗？"><a href="#知道TCP的粘包吗，能讲讲吗？" class="headerlink" title="知道TCP的粘包吗，能讲讲吗？"></a>知道TCP的粘包吗，能讲讲吗？</h2><p>TCP 是面向字节流的协议，没有消息边界，所以发送方连续写入的多段数据，接收方读取时可能出现两种情况：</p>
+<ul>
+<li>多个消息被一次读出来，这通常叫粘包</li>
+<li>一个完整消息被拆成多次读出来，这通常叫拆包</li>
+</ul>
+<p>本质原因不是 TCP “出错”，而是 TCP 只保证可靠、有序地传输字节，不负责告诉应用层“一条消息从哪里开始、到哪里结束”。</p>
+<h2 id="讲讲RAG"><a href="#讲讲RAG" class="headerlink" title="讲讲RAG"></a>讲讲RAG</h2><ul>
+<li>RAG 就是检索增强生成。先从外部知识库里检索和问题相关的内容，再把这些内容和用户问题一起交给大模型生成答案。<br>这样做的目的，是减少模型脱离业务知识瞎回答的问题，让回答更贴近真实资料，而不是只靠模型参数里的‘记忆’。</li>
+<li>把文档做清洗、切片，然后转成向量，存到向量库或者检索库里。用户提问后，先对问题做向量化，再去知识库里召回相关片段；必要的话可以再做重排；最后把检索到的上下文连同用户问题一起放进 prompt，让模型基于这些内容生成答案。所以它本质上是 检索 + 生成 两步，不是让模型完全自己想，减少幻觉产生</li>
+</ul>
+<h2 id="微服务用的什么服务注册与发现"><a href="#微服务用的什么服务注册与发现" class="headerlink" title="微服务用的什么服务注册与发现"></a>微服务用的什么服务注册与发现</h2><p>  在微服务架构中，服务注册与发现基于 etcd 实现。etcd 本质上是一个基于 Raft 协议的分布式键值存储，具备强一致<br>  性、高可用和动态监听能力，因此适合作为注册中心使用。</p>
+<p>  具体做法通常是：服务实例启动后，将自己的实例信息，例如服务名、IP、端口和版本号，注册到 etcd 的某个键路径下，例<br>  如 &#x2F;services&#x2F;user-service&#x2F;instance-1，并绑定一个 lease。服务运行期间通过 keepalive 维持租约存活；如果实例异常宕<br>  机或主动下线，租约失效后，etcd 会自动删除该实例对应的注册信息。</p>
+<p>  服务消费者在调用时，会先根据服务名从 etcd 查询可用实例列表，并结合负载均衡策略选择一个实例发起请求。与此同时，<br>  消费者还可以通过 watch 机制订阅实例变化，当某个服务扩容、缩容或故障摘除时，本地实例列表可以实时更新，从而实现动<br>  态服务发现。</p>
+<p>  选择 etcd 的原因主要有几点：第一，强一致性较好，适合管理服务实例状态；第二，支持租约和监听，天然适合做健康检查<br>  和动态变更通知；第三，在 Go 和 gRPC 生态中集成比较常见，工程落地成本较低。</p>
+<p>  因此，基于 etcd 的服务注册与发现，本质上就是通过 key-value + lease + watch 这套机制，完成服务实例的注册、保活、<br>  摘除和动态发现。</p>
+<h2 id="有过性能测试吗"><a href="#有过性能测试吗" class="headerlink" title="有过性能测试吗"></a>有过性能测试吗</h2><p>个人项目，没有进行过压测</p>
+
+    </div>
+    
+    
+    
+    
+    
+    
+    
+</div>
+
+            <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy;
+            2022 - 2026 xkiven の 小屋
+            <span id="footer-icon">
+                <i class="fa-solid fa-font-awesome fa-fw"></i>
+            </span>
+            &commat;xkiven
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+        
+        <transition name="fade">
+            <div id="preview" ref="preview" v-show="previewShow">
+                <img id="preview-content" ref="previewContent" />
+            </div>
+        </transition>
+        
+    </div>
+    <script src="/js/main.js"></script>
+    
+    
+
+
+
+
+    
+</body>
+</html>

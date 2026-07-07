@@ -172,6 +172,45 @@
         
 
 <div class="post">
+    <a href="/2026/07/04/%E9%9D%A2%E7%BB%8F7/">
+        <h2 class="post-title">面经7</h2>
+    </a>
+    <div class="category-and-date">
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2026/7/4
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <p>2026.7.4</p>
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        <span class="icon">
+            <i class="fa-solid fa-tags fa-fw"></i>
+        </span>
+        
+        
+        
+        <span class="tag">
+            
+            <a href="/tags/%E9%9D%A2%E7%BB%8F/" style="color: #00bcd4">面经</a>
+        </span>
+        
+    </div>
+    <a href="/2026/07/04/%E9%9D%A2%E7%BB%8F7/" class="go-post">阅读全文</a>
+</div>
+
+<div class="post">
     <a href="/2026/03/15/%E9%9D%A2%E7%BB%8F5/">
         <h2 class="post-title">面经5</h2>
     </a>
@@ -203,7 +242,7 @@
         
         <span class="tag">
             
-            <a href="/tags/%E9%9D%A2%E7%BB%8F/" style="color: #ff7d73">面经</a>
+            <a href="/tags/%E9%9D%A2%E7%BB%8F/" style="color: #ffa2c4">面经</a>
         </span>
         
     </div>
@@ -242,7 +281,7 @@
         
         <span class="tag">
             
-            <a href="/tags/%E9%9D%A2%E7%BB%8F/" style="color: #ffa2c4">面经</a>
+            <a href="/tags/%E9%9D%A2%E7%BB%8F/" style="color: #00a596">面经</a>
         </span>
         
     </div>
@@ -281,7 +320,7 @@
         
         <span class="tag">
             
-            <a href="/tags/%E9%9D%A2%E7%BB%8F/" style="color: #00a596">面经</a>
+            <a href="/tags/%E9%9D%A2%E7%BB%8F/" style="color: #ff7d73">面经</a>
         </span>
         
     </div>
@@ -320,7 +359,7 @@
         
         <span class="tag">
             
-            <a href="/tags/%E9%9D%A2%E7%BB%8F/" style="color: #00a596">面经</a>
+            <a href="/tags/%E9%9D%A2%E7%BB%8F/" style="color: #ffa2c4">面经</a>
         </span>
         
     </div>
@@ -398,7 +437,7 @@
         
         <span class="tag">
             
-            <a href="/tags/%E7%9F%A5%E8%AF%86/" style="color: #03a9f4">知识</a>
+            <a href="/tags/%E7%9F%A5%E8%AF%86/" style="color: #ffa2c4">知识</a>
         </span>
         
     </div>
@@ -437,7 +476,7 @@
         
         <span class="tag">
             
-            <a href="/tags/%E7%9F%A5%E8%AF%86/" style="color: #ff7d73">知识</a>
+            <a href="/tags/%E7%9F%A5%E8%AF%86/" style="color: #ffa2c4">知识</a>
         </span>
         
     </div>
@@ -476,7 +515,7 @@
         
         <span class="tag">
             
-            <a href="/tags/%E7%9F%A5%E8%AF%86/" style="color: #03a9f4">知识</a>
+            <a href="/tags/%E7%9F%A5%E8%AF%86/" style="color: #ff7d73">知识</a>
         </span>
         
     </div>
@@ -516,53 +555,11 @@
         
         <span class="tag">
             
-            <a href="/tags/%E9%A1%B9%E7%9B%AE/" style="color: #00a596">项目</a>
+            <a href="/tags/%E9%A1%B9%E7%9B%AE/" style="color: #03a9f4">项目</a>
         </span>
         
     </div>
     <a href="/2025/09/03/%E6%9C%AC%E5%9C%B0%E5%89%AA%E5%88%87%E6%9D%BF%E5%8E%86%E5%8F%B2%E7%AE%A1%E7%90%86%E5%99%A8/" class="go-post">阅读全文</a>
-</div>
-
-<div class="post">
-    <a href="/2025/07/08/%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%E4%B8%8E%E7%9C%8B%E9%97%A8%E7%8B%97%E6%9C%BA%E5%88%B6/">
-        <h2 class="post-title">分布式锁与看门狗机制</h2>
-    </a>
-    <div class="category-and-date">
-        
-        <span class="date">
-            <span class="icon">
-                <i class="fa-solid fa-calendar fa-fw"></i>
-            </span>
-            2025/7/8
-        </span>
-        
-        
-    </div>
-    <div class="description">
-        <div class="content" v-pre>
-            
-            <h2 id="分布式锁与看门狗机制"><a href="#分布式锁与看门狗机制" class="headerlink" title="分布式锁与看门狗机制"></a><strong>分布式锁与看门狗机制</strong></h2><ul>
-<li><p>分布式锁是一种在分布式环境下协调多个节点共享资源访问的机制。它的目的是在分布式系统中实现对共享资源的互斥访问，确保在任何时候只有一个节点能够获得锁并对资源进行操作。</p>
-</li>
-<li><p>在分布式系统中，看门狗机制通常用于检测和恢复系统的异常状态。对于分布式锁而言，它可以用于监控持有锁的线程或进程是否正常工作。例如，如果持有锁的线程在一段时间内没有响应或未能释放锁，看门狗会认为该线程可能已经失效，这时会强制释放锁以避免死锁。</p>
-            
-        </div>
-    </div>
-    <div class="post-tags">
-        
-        <span class="icon">
-            <i class="fa-solid fa-tags fa-fw"></i>
-        </span>
-        
-        
-        
-        <span class="tag">
-            
-            <a href="/tags/%E7%AE%97%E6%B3%95/" style="color: #ffa2c4">算法</a>
-        </span>
-        
-    </div>
-    <a href="/2025/07/08/%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%E4%B8%8E%E7%9C%8B%E9%97%A8%E7%8B%97%E6%9C%BA%E5%88%B6/" class="go-post">阅读全文</a>
 </div>
 
 

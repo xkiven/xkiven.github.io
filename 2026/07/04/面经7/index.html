@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <title>kitex | xkiven の 小屋</title>
+    <title>面经7 | xkiven の 小屋</title>
     <meta name="author" content="xkiven" />
     <meta name="description" content="" />
     <meta name="keywords" content="" />
@@ -147,14 +147,14 @@
         <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
             <div class="article">
     <div>
-        <h1>kitex</h1>
+        <h1>面经7</h1>
     </div>
     <div class="info">
         <span class="date">
             <span class="icon">
                 <i class="fa-solid fa-calendar fa-fw"></i>
             </span>
-            2025/4/9
+            2026/7/4
         </span>
         
         
@@ -166,8 +166,8 @@
             
             <span class="tag">
                 
-                <a href="/tags/%E5%B7%A5%E5%85%B7/" style="color: #00a596">
-                    工具
+                <a href="/tags/%E9%9D%A2%E7%BB%8F/" style="color: #03a9f4">
+                    面经
                 </a>
             </span>
             
@@ -176,58 +176,23 @@
     </div>
     
     <div class="content" v-pre>
-        <h1 id="kitex的使用方法"><a href="#kitex的使用方法" class="headerlink" title="kitex的使用方法"></a>kitex的使用方法</h1><span id="more"></span>
+        <p>2026.7.4</p>
+<span id="more"></span>
 
-<h2 id="环境配置"><a href="#环境配置" class="headerlink" title="环境配置"></a>环境配置</h2><p>执行以下命令：</p>
-<pre><code class="bash">go install github.com/cloudwego/kitex/tool/cmd/kitex@latest
-</code></pre>
-<p>安装成功后，执行 <code>kitex --version</code> 可以看到具体版本号的输出（版本号有差异，以 x.x.x 示例）：</p>
-<pre><code class="bash">$ kitex --version
-vx.x.x
-</code></pre>
-<h2 id="编写-IDL"><a href="#编写-IDL" class="headerlink" title="编写 IDL"></a>编写 IDL</h2><p>按照开发流程，我们首先需要编写 IDL，这里以 thrift IDL 为例子。</p>
-<p>创建 <code>idl</code> 目录用于存放项目 <code>idl</code> 文件</p>
-<p>一般不同的服务都会使用不同的 IDL</p>
-<p>item.thrift</p>
-<pre><code class="thrift">namespace go example.shop.item
-
-include &quot;base.thrift&quot;
-
-struct Item &#123;
-    1: i64 id
-    2: string title
-    3: string description
-    4: i64 stock
-&#125;
-
-struct GetItemReq &#123;
-    1: required i64 id
-&#125;
-
-struct GetItemResp &#123;
-    1: Item item
-
-    255: base.BaseResp baseResp
-&#125;
-
-service ItemService&#123;
-    GetItemResp GetItem(1: GetItemReq req)
-&#125;
-</code></pre>
-<h2 id="代码生成"><a href="#代码生成" class="headerlink" title="代码生成"></a>代码生成</h2><p>有了 IDL 以后我们便可以通过 kitex 工具生成项目代码了</p>
-<pre><code class="shell">kitex -module example_shop idl/item.thrift
-</code></pre>
-<p>生成的代码分两部分，一部分是结构体的编解码序列化代码，由 IDL 编译器生成；另一部分由 kitex 工具在前者产物上叠加，生成用于创建和发起 RPC 调用的桩代码。它们默认都在 <code>kitex_gen</code> 目录下。</p>
-<p>kitex 命令行工具提供了 <code>-service</code> 参数能直接生成带有脚手架的代码，接下来让我们为商品服务和库存服务分别生成脚手架。</p>
-<p>首先为两个 RPC 服务分别单独创建目录。</p>
-<pre><code class="shell">mkdir -p rpc/item rpc/stock
-</code></pre>
-<p>再分别进入各自的目录中，执行如下命令生成代码：</p>
-<pre><code class="shell">// item 目录下执行
-kitex -module example_shop -service example.shop.item -use example_shop/kitex_gen ../../idl/item.
-</code></pre>
-<h2 id="拉取依赖"><a href="#拉取依赖" class="headerlink" title="拉取依赖"></a>拉取依赖</h2><p>完成代码生成后，我们回到项目根目录，使用<code> go mod tidy</code> 命令拉取项目依赖</p>
-<h2 id="编写商品服务逻辑"><a href="#编写商品服务逻辑" class="headerlink" title="编写商品服务逻辑"></a>编写商品服务逻辑</h2><p>我们需要编写的服务端逻辑都在 <code>handler.go</code> 这个文件中</p>
+<h2 id="灵宇智能"><a href="#灵宇智能" class="headerlink" title="灵宇智能"></a>灵宇智能</h2><ul>
+<li>自我介绍</li>
+<li>先来做几道简单的题（代码块输出，5道左右，考了数组，defer，json序列化，闭包，go routine）</li>
+<li>介绍一下项目，其中最大的问题是什么，为什么做这个项目</li>
+<li>讲讲SSE，你为什么要用这个</li>
+<li>结合GMP讲讲线程和goroutine的区别</li>
+<li>讲讲笔试做的系统，你是怎么和ai一起完成的</li>
+<li>怎么实现热加载，热卸载</li>
+<li>插件有依赖和版本的约束怎么办</li>
+<li>如果有一个插件，它的加载时间比较长，你该如何去判定它是因为阻塞超时，还是说它真的是在加载数据很慢</li>
+<li>平时会用vibe coding吗</li>
+<li>怎么用呢</li>
+<li>平时用ai会不会出现问题，怎么解决的</li>
+</ul>
 
     </div>
     
